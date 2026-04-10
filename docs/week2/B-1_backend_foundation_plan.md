@@ -1,5 +1,50 @@
 # 2주차 백엔드 계획서 - B-1
 
+## 0. 시작 전에 공부할 것
+### 이 문서를 읽는 사람이 꼭 알아야 하는 개념
+- `HTTP 요청/응답`
+  - `GET` 요청이 무엇인지
+  - 상태 코드 `200`, `401`, `404`, `500`의 의미
+  - JSON 응답 구조를 읽는 법
+- `REST API 기초`
+  - `GET /api/rankings`처럼 URL과 메서드로 기능을 구분하는 방식
+  - 쿼리스트링 `?scope=national&schoolId=...` 읽는 법
+- `Supabase 기초`
+  - 프로젝트 생성
+  - SQL Editor 사용법
+  - Table Editor에서 데이터 확인하는 법
+  - Auth와 Database가 어떻게 연결되는지
+- `PostgreSQL 기초`
+  - 테이블, 컬럼, primary key, foreign key, unique, index 의미
+  - `select`, `where`, `order by`, `limit` 기본 문법
+- `OAuth / Google 로그인 개념`
+  - 사용자가 Google로 로그인하면 왜 `auth.users`에 기록되는지
+  - 로그인된 사용자를 앱의 `app_user`와 왜 다시 연결해야 하는지
+- `Next.js 백엔드 기초`
+  - Route Handler 또는 서버 함수가 무엇인지
+  - API 파일 하나가 엔드포인트 하나와 연결된다는 개념
+- `디버깅 기초`
+  - 요청이 실패했을 때 로그를 어디서 보고 무엇을 확인해야 하는지
+  - 브라우저 Network 탭에서 응답 JSON 확인하는 법
+
+### B-1이 먼저 공부해야 하는 이유
+- B-1은 다른 사람이 쓸 기반을 먼저 만든다.
+- 인증 흐름과 조회 API가 흔들리면 B-2와 프론트가 동시에 막힌다.
+- 따라서 `로그인`, `DB 연결`, `조회 쿼리`, `응답 JSON`을 우선 이해해야 한다.
+
+### 우선순위
+1. HTTP 요청/응답과 JSON
+2. Supabase Auth + Database 기본 구조
+3. PostgreSQL `select` 쿼리
+4. OAuth 로그인 흐름
+5. Next.js API 처리 방식
+
+### 공부 후 스스로 설명할 수 있어야 하는 질문
+- 로그인한 사용자를 왜 `app_user`에 한 번 더 저장해야 하나?
+- `school_id`는 왜 foreign key인가?
+- `GET /api/rankings`는 어떤 값을 반환해야 하나?
+- `UNAUTHORIZED`와 `SCHOOL_NOT_SELECTED`는 언제 다른가?
+
 ## 1. 이번 주 목표
 - B-1은 2주차에 백엔드의 기반을 고정한다.
 - Supabase 스키마, Google OAuth, 사용자 프로필 저장, 조회 API 3종을 완료해 B-2와 프론트가 바로 붙을 수 있게 한다.
@@ -102,3 +147,10 @@
 - 인증 흐름 완료
 - 조회 API 3종 완료
 - 프론트/B-2 연동용 응답 예시 JSON 정리
+
+## 10. 공부 체크리스트
+- [ ] Postman 또는 브라우저에서 GET 요청 결과 JSON을 읽을 수 있다
+- [ ] Supabase SQL Editor에서 `select * from school limit 5;`를 실행할 수 있다
+- [ ] `primary key`, `foreign key`, `unique index` 차이를 설명할 수 있다
+- [ ] Google 로그인 후 사용자 정보가 어디에 저장되는지 설명할 수 있다
+- [ ] 랭킹 API 응답 필드를 문서 없이 말할 수 있다
