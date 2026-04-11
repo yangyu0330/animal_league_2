@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     console.error(exchangeError)
     return NextResponse.redirect(`${origin}/login`)
   }
-
+  
   const {
     data: { user },
     error: userError,
