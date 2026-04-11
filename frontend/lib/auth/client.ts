@@ -15,6 +15,8 @@ export async function signInWithGoogle(): Promise<User> {
       name: '학과 압박러',
       selectedSchoolId: null,
       selectedSchoolName: null,
+      selectedDepartmentId: null,
+      selectedDepartmentName: null,
     }
 
   state.setUser(user)
@@ -45,6 +47,36 @@ export async function selectUserSchool(schoolId: string): Promise<User> {
   }
 
   state.setUserSchool(schoolId, school.name)
+  const user = useAppStore.getState().user
+  if (!user) {
+    throw new Error('UNAUTHORIZED')
+  }
+  return user
+}
+
+export async function selectUserDepartment(
+  departmentId: string,
+  departmentName?: string,
+): Promise<User> {
+  const state = useAppStore.getState()
+  if (!state.user) {
+    throw new Error('UNAUTHORIZED')
+  }
+  if (!state.user.selectedSchoolId) {
+    throw new Error('SCHOOL_NOT_SELECTED')
+  }
+
+  const department = state.departments.find((item) => item.id === departmentId)
+  if (department && department.schoolId !== state.user.selectedSchoolId) {
+    throw new Error('SCHOOL_MISMATCH')
+  }
+
+  const resolvedName = department?.name ?? departmentName
+  if (!resolvedName) {
+    throw new Error('DEPARTMENT_NOT_FOUND')
+  }
+
+  state.setUserDepartment(departmentId, resolvedName)
   const user = useAppStore.getState().user
   if (!user) {
     throw new Error('UNAUTHORIZED')

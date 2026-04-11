@@ -67,7 +67,15 @@ export default function ActivityPage() {
         <header className="mb-5 flex items-start justify-between">
           <div>
             <h1 className="text-xl font-bold text-foreground">내 최근 클릭</h1>
-            <p className="mt-1 text-sm text-muted-foreground">{user?.selectedSchoolName}</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {user?.selectedSchoolName} · {user?.selectedDepartmentName}
+            </p>
+            <Link
+              href="/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+              className="mt-2 inline-block text-xs font-semibold text-primary hover:underline"
+            >
+              학교/학과 수정
+            </Link>
           </div>
           <Button variant="outline" size="sm" onClick={handleSignOut} className="rounded-xl border-border bg-transparent">
             로그아웃

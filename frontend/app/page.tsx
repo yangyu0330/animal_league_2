@@ -39,7 +39,7 @@ export default function LandingPage() {
     try {
       const user = await signInWithGoogle()
       const nextPath = new URLSearchParams(window.location.search).get('next')
-      if (user.selectedSchoolId) {
+      if (user.selectedSchoolId && user.selectedDepartmentId) {
         router.push(nextPath ?? '/home')
       } else {
         router.push(nextPath ? `/onboarding/school?next=${encodeURIComponent(nextPath)}` : '/onboarding/school')

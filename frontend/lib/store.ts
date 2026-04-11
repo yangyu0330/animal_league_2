@@ -12,6 +12,7 @@ interface AppState {
   activities: ClickActivity[]
   setUser: (user: User | null) => void
   setUserSchool: (schoolId: string, schoolName: string) => void
+  setUserDepartment: (departmentId: string, departmentName: string) => void
   clearSession: () => void
   setDepartments: (departments: Department[]) => void
   addDepartment: (department: Department) => void
@@ -21,7 +22,7 @@ interface AppState {
 
 function resolveUserState(user: User | null): UserState {
   if (!user) return 'GUEST'
-  return user.selectedSchoolId ? 'ACTIVE_USER' : 'AUTH_NO_SCHOOL'
+  return user.selectedSchoolId && user.selectedDepartmentId ? 'ACTIVE_USER' : 'AUTH_NO_SCHOOL'
 }
 
 export const useAppStore = create<AppState>()(
@@ -37,14 +38,31 @@ export const useAppStore = create<AppState>()(
       setUserSchool: (schoolId, schoolName) => {
         set((state) => {
           if (!state.user) return state
+          const schoolChanged = state.user.selectedSchoolId !== schoolId
           const updatedUser: User = {
             ...state.user,
             selectedSchoolId: schoolId,
             selectedSchoolName: schoolName,
+            selectedDepartmentId: schoolChanged ? null : state.user.selectedDepartmentId,
+            selectedDepartmentName: schoolChanged ? null : state.user.selectedDepartmentName,
           }
           return {
             user: updatedUser,
-            userState: 'ACTIVE_USER',
+            userState: resolveUserState(updatedUser),
+          }
+        })
+      },
+      setUserDepartment: (departmentId, departmentName) => {
+        set((state) => {
+          if (!state.user) return state
+          const updatedUser: User = {
+            ...state.user,
+            selectedDepartmentId: departmentId,
+            selectedDepartmentName: departmentName,
+          }
+          return {
+            user: updatedUser,
+            userState: resolveUserState(updatedUser),
           }
         })
       },
@@ -76,6 +94,24 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: 'department-pressure-state-v1',
+      version: 2,
+      migrate: (persistedState) => {
+        const state = persistedState as AppState
+        const user = state?.user
+        const normalizedUser: User | null = user
+          ? {
+              ...user,
+              selectedDepartmentId: user.selectedDepartmentId ?? null,
+              selectedDepartmentName: user.selectedDepartmentName ?? null,
+            }
+          : null
+
+        return {
+          ...state,
+          user: normalizedUser,
+          userState: resolveUserState(normalizedUser),
+        }
+      },
       partialize: (state) => ({
         user: state.user,
         userState: state.userState,

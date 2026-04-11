@@ -78,6 +78,8 @@ export interface User {
   name: string
   selectedSchoolId: string | null
   selectedSchoolName: string | null
+  selectedDepartmentId: string | null
+  selectedDepartmentName: string | null
 }
 
 export interface SearchDepartmentsParams {
