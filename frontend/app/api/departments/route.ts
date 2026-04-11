@@ -10,7 +10,8 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           code: 'VALIDATION_ERROR',
-          message: 'schoolId, name, category 값을 확인해주세요.',
+          error: 'VALIDATION_ERROR',
+          message: 'Invalid request. Check schoolId, name, and category.',
         },
         { status: 400 },
       )
@@ -21,7 +22,10 @@ export async function POST(req: Request) {
     console.error('[POST /api/departments]', error)
 
     return NextResponse.json(
-      { error: 'INTERNAL_ERROR' },
+      {
+        code: 'INTERNAL_ERROR',
+        error: 'INTERNAL_ERROR',
+      },
       { status: 500 },
     )
   }

@@ -88,11 +88,13 @@ function isClickDepartmentRequest(body: unknown): body is ClickDepartmentRequest
 export function validateCreateDepartmentPayload(body: unknown): CreateDepartmentRequest | null {
   if (!isCreateDepartmentRequest(body)) return null
 
+  const schoolId = body.schoolId.trim()
   const name = body.name.trim()
-  if (!name) return null
+  if (!schoolId || !name) return null
+  if (!getSchoolById(schoolId)) return null
 
   return {
-    schoolId: body.schoolId,
+    schoolId,
     name,
     category: body.category,
     templateId: body.templateId?.trim() || undefined,
