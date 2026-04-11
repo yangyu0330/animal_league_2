@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { categories, getTemplateByCategory } from '@/lib/catalog'
 import { ApiError } from '@/lib/api/client'
 import { createDepartment } from '@/lib/api/departments'
+import { selectUserDepartment } from '@/lib/auth/client'
 import { getTemplateIdByCategory, normalizeDepartmentName } from '@/lib/domain'
 import { useAppStore } from '@/lib/store'
 import type { DepartmentCategory } from '@/lib/types'
@@ -30,12 +31,12 @@ export default function NewDepartmentPage() {
       router.replace('/')
       return
     }
-    if (userState === 'AUTH_NO_SCHOOL') {
+    if (!user?.selectedSchoolId) {
       router.replace('/onboarding/school')
     }
-  }, [router, userState])
+  }, [router, user?.selectedSchoolId, userState])
 
-  if (userState !== 'ACTIVE_USER') return null
+  if (!user?.selectedSchoolId) return null
 
   async function handleSubmit() {
     if (!name.trim() || !user?.selectedSchoolId || isSubmitting) return
@@ -50,7 +51,9 @@ export default function NewDepartmentPage() {
       })
 
       if (response.created) {
-        router.push(`/departments/${response.departmentId}`)
+        await selectUserDepartment(response.departmentId, name.trim())
+        const nextPath = new URLSearchParams(window.location.search).get('next')
+        router.push(nextPath ?? `/departments/${response.departmentId}`)
         return
       }
 

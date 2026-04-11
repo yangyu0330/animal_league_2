@@ -17,7 +17,7 @@ export default function DepartmentDetailPage() {
   const params = useParams<{ id: string }>()
   const id = params.id
   const router = useRouter()
-  const { userState } = useAppStore()
+  const { userState, user } = useAppStore()
   const [department, setDepartment] = useState<Department | null>(null)
   const [isClicking, setIsClicking] = useState(false)
   const [isCountBumping, setIsCountBumping] = useState(false)
@@ -59,8 +59,10 @@ export default function DepartmentDetailPage() {
     }
   }, [id, isShareRef, router, userState])
 
+  const canBoost = user?.selectedDepartmentId === department?.id
+
   const handleBoost = useCallback(async () => {
-    if (!department || isClicking) return
+    if (!department || isClicking || !canBoost) return
     setIsClicking(true)
     setStatusMessage(null)
     try {
@@ -100,7 +102,7 @@ export default function DepartmentDetailPage() {
     } finally {
       setIsClicking(false)
     }
-  }, [department, isClicking, isShareRef, router])
+  }, [canBoost, department, isClicking, isShareRef, router])
 
   const handleShare = useCallback(async () => {
     const shareUrl = `${window.location.origin}/departments/${id}?ref=share`
@@ -131,7 +133,7 @@ export default function DepartmentDetailPage() {
       router.push('/')
       return
     }
-    if (user.selectedSchoolId) {
+    if (user.selectedSchoolId && user.selectedDepartmentId) {
       router.push(`/departments/${id}`)
       return
     }
@@ -228,18 +230,22 @@ export default function DepartmentDetailPage() {
       </main>
 
       <div className="fixed bottom-0 left-1/2 w-full max-w-[390px] -translate-x-1/2 border-t border-border bg-background p-4 safe-bottom">
-        <Button
-          onClick={handleBoost}
-          disabled={isClicking}
-          className="h-14 w-full rounded-[14px] bg-primary text-base font-semibold text-primary-foreground hover:bg-primary/90"
-        >
-          <Zap className="mr-2 h-5 w-5" />
-          {isClicking ? '반영 중...' : '압박 올리기'}
-        </Button>
+        {canBoost ? (
+          <Button
+            onClick={handleBoost}
+            disabled={isClicking}
+            className="h-14 w-full rounded-[14px] bg-primary text-base font-semibold text-primary-foreground hover:bg-primary/90"
+          >
+            <Zap className="mr-2 h-5 w-5" />
+            {isClicking ? '반영 중...' : '압박 올리기'}
+          </Button>
+        ) : (
+          <p className="text-center text-xs text-muted-foreground">본인 학과에서만 압박 올리기를 사용할 수 있어요.</p>
+        )}
         <Button
           variant="outline"
           onClick={handleShare}
-          className="mt-2 h-11 w-full rounded-[14px] border-border bg-transparent text-sm font-semibold text-foreground hover:bg-card"
+          className={`${canBoost ? 'mt-2' : 'mt-3'} h-11 w-full rounded-[14px] border-border bg-transparent text-sm font-semibold text-foreground hover:bg-card`}
         >
           공유하기
         </Button>
