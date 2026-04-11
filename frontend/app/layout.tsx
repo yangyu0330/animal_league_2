@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from 'sonner'
+import { AuthHydrator } from '@/components/auth-hydrator'
 import './globals.css'
 
 const spaceGrotesk = Space_Grotesk({ 
@@ -56,6 +57,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${spaceGrotesk.variable} font-sans antialiased`}>
+        <AuthHydrator />
         {children}
         <Toaster position="top-center" richColors />
         {process.env.NODE_ENV === 'production' && <Analytics />}

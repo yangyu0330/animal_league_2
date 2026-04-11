@@ -16,12 +16,13 @@ import type { SearchDepartmentsResponse } from '@/lib/types'
 
 export default function DepartmentSearchPage() {
   const router = useRouter()
-  const { userState, user } = useAppStore()
+  const { userState, user, authLoaded } = useAppStore()
   const [query, setQuery] = useState('')
   const [schoolFilter, setSchoolFilter] = useState<string | null>(null)
   const [results, setResults] = useState<SearchDepartmentsResponse['items']>([])
 
   useEffect(() => {
+    if (!authLoaded) return
     if (userState === 'GUEST') {
       router.replace('/')
       return
@@ -29,7 +30,7 @@ export default function DepartmentSearchPage() {
     if (userState === 'AUTH_NO_SCHOOL') {
       router.replace('/onboarding/school')
     }
-  }, [router, userState])
+  }, [authLoaded, router, userState])
 
   useEffect(() => {
     if (!user?.selectedSchoolId) return
@@ -57,7 +58,7 @@ export default function DepartmentSearchPage() {
     void load()
   }, [query, router, schoolFilter])
 
-  if (userState !== 'ACTIVE_USER') return null
+  if (!authLoaded || userState !== 'ACTIVE_USER') return null
 
   return (
     <AppShell>

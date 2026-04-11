@@ -14,11 +14,12 @@ import type { ClickActivity } from '@/lib/types'
 
 export default function ActivityPage() {
   const router = useRouter()
-  const { userState, user, activities } = useAppStore()
+  const { userState, user, activities, authLoaded } = useAppStore()
   const [todayCount, setTodayCount] = useState(0)
   const [items, setItems] = useState<ClickActivity[]>([])
 
   useEffect(() => {
+    if (!authLoaded) return
     if (userState === 'GUEST') {
       router.replace('/')
       return
@@ -26,7 +27,7 @@ export default function ActivityPage() {
     if (userState === 'AUTH_NO_SCHOOL') {
       router.replace('/onboarding/school')
     }
-  }, [router, userState])
+  }, [authLoaded, router, userState])
 
   useEffect(() => {
     async function loadActivity() {
@@ -51,7 +52,7 @@ export default function ActivityPage() {
     router.replace('/')
   }
 
-  if (userState !== 'ACTIVE_USER') return null
+  if (!authLoaded || userState !== 'ACTIVE_USER') return null
 
   function formatActivityTime(createdAt: string): string {
     return new Date(createdAt).toLocaleTimeString('ko-KR', {

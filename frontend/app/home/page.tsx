@@ -16,7 +16,7 @@ import type { RankingItem, TrendingItem } from '@/lib/types'
 
 export default function HomePage() {
   const router = useRouter()
-  const { userState, user } = useAppStore()
+  const { userState, user, authLoaded } = useAppStore()
   const [schoolFilter, setSchoolFilter] = useState<string | null>(null)
   const [schoolName, setSchoolName] = useState<string | null>(null)
   const [nationalRankings, setNationalRankings] = useState<RankingItem[]>([])
@@ -24,6 +24,7 @@ export default function HomePage() {
   const [trending, setTrending] = useState<TrendingItem[]>([])
 
   useEffect(() => {
+    if (!authLoaded) return
     if (userState === 'GUEST') {
       router.replace('/')
       return
@@ -31,7 +32,7 @@ export default function HomePage() {
     if (userState === 'AUTH_NO_SCHOOL') {
       router.replace('/onboarding/school')
     }
-  }, [router, userState])
+  }, [authLoaded, router, userState])
 
   useEffect(() => {
     if (!user?.selectedSchoolId) return
@@ -65,7 +66,7 @@ export default function HomePage() {
     setSchoolName(nextName)
   }
 
-  if (userState !== 'ACTIVE_USER') return null
+  if (!authLoaded || userState !== 'ACTIVE_USER') return null
 
   return (
     <AppShell>

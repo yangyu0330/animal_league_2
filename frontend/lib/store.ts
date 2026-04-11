@@ -8,9 +8,11 @@ import type { ClickActivity, Department, User, UserState } from '@/lib/types'
 interface AppState {
   user: User | null
   userState: UserState
+  authLoaded: boolean
   departments: Department[]
   activities: ClickActivity[]
   setUser: (user: User | null) => void
+  setAuthLoaded: (loaded: boolean) => void
   setUserSchool: (schoolId: string, schoolName: string) => void
   setUserDepartment: (departmentId: string, departmentName: string) => void
   clearSession: () => void
@@ -22,7 +24,7 @@ interface AppState {
 
 function resolveUserState(user: User | null): UserState {
   if (!user) return 'GUEST'
-  return user.selectedSchoolId && user.selectedDepartmentId ? 'ACTIVE_USER' : 'AUTH_NO_SCHOOL'
+  return user.selectedSchoolId ? 'ACTIVE_USER' : 'AUTH_NO_SCHOOL'
 }
 
 export const useAppStore = create<AppState>()(
@@ -30,10 +32,14 @@ export const useAppStore = create<AppState>()(
     (set) => ({
       user: null,
       userState: 'GUEST',
+      authLoaded: false,
       departments: seedDepartments,
       activities: [],
       setUser: (user) => {
         set({ user, userState: resolveUserState(user) })
+      },
+      setAuthLoaded: (authLoaded) => {
+        set({ authLoaded })
       },
       setUserSchool: (schoolId, schoolName) => {
         set((state) => {
@@ -70,6 +76,7 @@ export const useAppStore = create<AppState>()(
         set({
           user: null,
           userState: 'GUEST',
+          authLoaded: true,
           activities: [],
         })
       },
@@ -110,6 +117,7 @@ export const useAppStore = create<AppState>()(
           ...state,
           user: normalizedUser,
           userState: resolveUserState(normalizedUser),
+          authLoaded: false,
         }
       },
       partialize: (state) => ({

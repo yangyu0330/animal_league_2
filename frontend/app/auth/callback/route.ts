@@ -14,16 +14,17 @@ export async function GET(request: Request) {
 
   const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
   if (exchangeError) {
-    console.error(exchangeError)
+    console.error('[auth/callback] exchangeCodeForSession failed', exchangeError)
     return NextResponse.redirect(`${origin}/login`)
   }
-  
+
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser()
 
   if (userError || !user) {
+    console.error('[auth/callback] getUser failed', userError)
     return NextResponse.redirect(`${origin}/login`)
   }
 
@@ -31,7 +32,7 @@ export async function GET(request: Request) {
     user.user_metadata?.name ||
     user.user_metadata?.full_name ||
     user.email?.split('@')[0] ||
-    '사용자'
+    'user'
 
   const { data: appUser, error: upsertError } = await supabase
     .from('app_user')
@@ -42,13 +43,13 @@ export async function GET(request: Request) {
         nickname,
         updated_at: new Date().toISOString(),
       },
-      { onConflict: 'id' }
+      { onConflict: 'id' },
     )
     .select('selected_school_id')
     .single()
 
   if (upsertError) {
-    console.error(upsertError)
+    console.error('[auth/callback] app_user upsert failed', upsertError)
     return NextResponse.redirect(`${origin}/login`)
   }
 

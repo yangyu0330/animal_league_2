@@ -1,5 +1,6 @@
 import { getSchoolById } from '@/lib/catalog'
 import { useAppStore } from '@/lib/store'
+import { createClient } from '@/lib/supabase/client'
 import type { User, UserState } from '@/lib/types'
 
 const MOCK_USER_ID = 'user_mock_001'
@@ -12,7 +13,7 @@ export async function signInWithGoogle(): Promise<User> {
     existingUser ?? {
       id: MOCK_USER_ID,
       email: 'student@example.com',
-      name: '학과 압박러',
+      name: 'Student',
       selectedSchoolId: null,
       selectedSchoolName: null,
       selectedDepartmentId: null,
@@ -20,10 +21,13 @@ export async function signInWithGoogle(): Promise<User> {
     }
 
   state.setUser(user)
+  state.setAuthLoaded(true)
   return user
 }
 
 export async function signOut(): Promise<void> {
+  const supabase = createClient()
+  await supabase.auth.signOut()
   useAppStore.getState().clearSession()
 }
 

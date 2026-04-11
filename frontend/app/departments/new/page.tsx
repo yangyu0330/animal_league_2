@@ -17,7 +17,7 @@ import type { DepartmentCategory } from '@/lib/types'
 
 export default function NewDepartmentPage() {
   const router = useRouter()
-  const { userState, user } = useAppStore()
+  const { userState, user, authLoaded } = useAppStore()
   const [name, setName] = useState('')
   const [category, setCategory] = useState<DepartmentCategory>('공학')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -27,6 +27,7 @@ export default function NewDepartmentPage() {
   const normalizedPreview = useMemo(() => normalizeDepartmentName(name), [name])
 
   useEffect(() => {
+    if (!authLoaded) return
     if (userState === 'GUEST') {
       router.replace('/')
       return
@@ -34,9 +35,9 @@ export default function NewDepartmentPage() {
     if (!user?.selectedSchoolId) {
       router.replace('/onboarding/school')
     }
-  }, [router, user?.selectedSchoolId, userState])
+  }, [authLoaded, router, user?.selectedSchoolId, userState])
 
-  if (!user?.selectedSchoolId) return null
+  if (!authLoaded || !user?.selectedSchoolId) return null
 
   async function handleSubmit() {
     if (!name.trim() || !user?.selectedSchoolId || isSubmitting) return

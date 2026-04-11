@@ -9,10 +9,11 @@ import type { RankingItem } from '@/lib/types'
 
 export default function LandingPage() {
   const router = useRouter()
-  const { userState } = useAppStore()
+  const { userState, authLoaded } = useAppStore()
   const [previewItems, setPreviewItems] = useState<RankingItem[]>([])
 
   useEffect(() => {
+    if (!authLoaded) return
     if (userState === 'ACTIVE_USER') {
       router.replace('/home')
       return
@@ -20,16 +21,19 @@ export default function LandingPage() {
     if (userState === 'AUTH_NO_SCHOOL') {
       router.replace('/onboarding/school')
     }
-  }, [router, userState])
+  }, [authLoaded, router, userState])
 
   useEffect(() => {
+    if (!authLoaded) return
     async function loadPreview() {
       const response = await getRankings({ scope: 'national' })
       setPreviewItems(response.items.slice(0, 5))
     }
 
     void loadPreview()
-  }, [])
+  }, [authLoaded])
+
+  if (!authLoaded) return null
 
   function handleSignIn() {
     const nextPath = new URLSearchParams(window.location.search).get('next')

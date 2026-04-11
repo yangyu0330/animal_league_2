@@ -17,7 +17,7 @@ export default function DepartmentDetailPage() {
   const params = useParams<{ id: string }>()
   const id = params.id
   const router = useRouter()
-  const { userState, user } = useAppStore()
+  const { userState, user, authLoaded } = useAppStore()
   const [department, setDepartment] = useState<Department | null>(null)
   const [isClicking, setIsClicking] = useState(false)
   const [isCountBumping, setIsCountBumping] = useState(false)
@@ -49,6 +49,7 @@ export default function DepartmentDetailPage() {
   }, [id, router])
 
   useEffect(() => {
+    if (!authLoaded) return
     if (!id) return
     if (userState === 'GUEST' && !isShareRef) {
       router.replace('/')
@@ -57,7 +58,7 @@ export default function DepartmentDetailPage() {
     if (userState === 'AUTH_NO_SCHOOL') {
       router.replace(`/onboarding/school?next=${encodeURIComponent(`/departments/${id}`)}`)
     }
-  }, [id, isShareRef, router, userState])
+  }, [authLoaded, id, isShareRef, router, userState])
 
   const canBoost = user?.selectedDepartmentId === department?.id
 

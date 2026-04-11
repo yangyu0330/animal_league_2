@@ -20,7 +20,7 @@ interface SelectedDepartment {
 
 export default function SchoolOnboardingPage() {
   const router = useRouter()
-  const { userState, user } = useAppStore()
+  const { userState, user, authLoaded } = useAppStore()
   const [schoolQuery, setSchoolQuery] = useState('')
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null)
   const [departmentQuery, setDepartmentQuery] = useState('')
@@ -41,6 +41,7 @@ export default function SchoolOnboardingPage() {
   }, [])
 
   useEffect(() => {
+    if (!authLoaded) return
     if (!isQueryReady) return
     if (userState === 'GUEST') {
       router.replace('/')
@@ -49,7 +50,7 @@ export default function SchoolOnboardingPage() {
     if (userState === 'ACTIVE_USER' && !isEditMode) {
       router.replace('/home')
     }
-  }, [isEditMode, isQueryReady, router, userState])
+  }, [authLoaded, isEditMode, isQueryReady, router, userState])
 
   useEffect(() => {
     if (!user) return
@@ -157,7 +158,7 @@ export default function SchoolOnboardingPage() {
     }
   }
 
-  if (userState === 'GUEST') return null
+  if (!authLoaded || userState === 'GUEST') return null
 
   return (
     <div className="mobile-canvas min-h-screen bg-background">
