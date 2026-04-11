@@ -25,6 +25,7 @@ export async function POST(req: Request) {
       {
         code: 'INTERNAL_ERROR',
         error: 'INTERNAL_ERROR',
+        message: 'An unexpected server error occurred.',
       },
       { status: 500 },
     )

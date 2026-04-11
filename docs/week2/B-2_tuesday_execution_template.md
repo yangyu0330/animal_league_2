@@ -61,3 +61,13 @@
 2. 계약 정렬(응답 코드/필드) 수정
 3. 수동 검증 6케이스 실행
 4. 체크리스트 갱신 후 커밋
+
+## 8) Progress Snapshot (2026-04-12)
+- Done: API error contract alignment (`code`, `error`, `message`) across departments routes.
+- Done: Create validation hardening (`schoolId`/`name` trim, school existence check).
+- Done: Reason policy finalized for Tuesday (`OK`, `WARN_BURST`, `BURST_OVER_60`).
+- Done: Minimal 6-scenario verification executed and logged.
+- Done: Wednesday-ready refactor (policy evaluator function extracted).
+- Pending: Rule C implementation (`REPEATED_PATTERN`) actual logic.
+- Pending: Rule D implementation (`CLUSTER_PATTERN`) actual logic.
+- Pending: SAFE_FALLBACK path integration test case.

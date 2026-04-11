@@ -11,7 +11,11 @@ export async function GET(
 
     if (!department) {
       return NextResponse.json(
-        { error: 'NOT_FOUND' },
+        {
+          code: 'NOT_FOUND',
+          error: 'NOT_FOUND',
+          message: 'Department not found.',
+        },
         { status: 404 },
       )
     }
@@ -21,7 +25,11 @@ export async function GET(
     console.error('[GET /api/departments/:id]', error)
 
     return NextResponse.json(
-      { error: 'INTERNAL_ERROR' },
+      {
+        code: 'INTERNAL_ERROR',
+        error: 'INTERNAL_ERROR',
+        message: 'An unexpected server error occurred.',
+      },
       { status: 500 },
     )
   }
