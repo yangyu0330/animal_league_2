@@ -1,0 +1,170 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Brand colors */
+  --brand: #c45012;
+  --brand-foreground: #ffffff;
+  
+  /* Backgrounds */
+  --background: #f7f4ed;
+  --foreground: #1a1a1a;
+  --card: #fffaf0;
+  --card-foreground: #1a1a1a;
+  --popover: #fffaf0;
+  --popover-foreground: #1a1a1a;
+  
+  /* Primary - using brand */
+  --primary: #c45012;
+  --primary-foreground: #ffffff;
+  
+  /* Secondary */
+  --secondary: #f5f0e6;
+  --secondary-foreground: #1a1a1a;
+  
+  /* Muted */
+  --muted: #e8e3d9;
+  --muted-foreground: #6b6b6b;
+  
+  /* Accent */
+  --accent: #f5f0e6;
+  --accent-foreground: #1a1a1a;
+  
+  /* Destructive */
+  --destructive: #e03131;
+  --destructive-foreground: #ffffff;
+  
+  /* Border and input */
+  --border: #e0dcd3;
+  --input: #e0dcd3;
+  --ring: #c45012;
+  
+  /* Pressure levels */
+  --pressure-0: #d8f3dc;
+  --pressure-1: #ffe8a3;
+  --pressure-2: #ffc078;
+  --pressure-3: #ff922b;
+  --pressure-4: #e03131;
+  
+  /* Radius */
+  --radius: 1rem;
+  --radius-card: 1rem;
+  --radius-button: 0.875rem;
+  
+  /* Charts */
+  --chart-1: #c45012;
+  --chart-2: #ff922b;
+  --chart-3: #ffc078;
+  --chart-4: #ffe8a3;
+  --chart-5: #d8f3dc;
+  
+  /* Sidebar (unused but keeping for compatibility) */
+  --sidebar: #fffaf0;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #c45012;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f5f0e6;
+  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-border: #e0dcd3;
+  --sidebar-ring: #c45012;
+}
+
+@theme inline {
+  --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  --font-mono: 'Space Grotesk', 'Geist Mono', monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-pressure-0: var(--pressure-0);
+  --color-pressure-1: var(--pressure-1);
+  --color-pressure-2: var(--pressure-2);
+  --color-pressure-3: var(--pressure-3);
+  --color-pressure-4: var(--pressure-4);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-mono);
+    letter-spacing: 0;
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  
+  .mobile-canvas {
+    @apply mx-auto w-full max-w-[390px] min-h-screen;
+  }
+  
+  .number-display {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .count-bump {
+    animation: count-bump 300ms ease-out;
+  }
+}
+
+@keyframes count-bump {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  45% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

@@ -24,6 +24,7 @@
 - [06_risks.md](./06_risks.md)
 - [07_kickoff_pack.md](./07_kickoff_pack.md)
 - [07_week2_tasks.md](./07_week2_tasks.md)
+- [08_stitch_prompt_package.md](./08_stitch_prompt_package.md)
 
 ## 운영 규칙
 - 결정 사항은 당일 문서에 먼저 반영한다.
@@ -31,7 +32,8 @@
 - 미정 항목은 Day 6 전까지 모두 닫는다.
 
 ## 주간 결과 요약
-- Day 1~Day 7 산출물 문서 14개 작성 완료
+- Day 1~Day 7 산출물 문서 15개 작성 완료
 - MVP 고정 의사결정 12건 확정 완료
 - 2주차 착수용 프론트/백엔드/데이터 태스크 분해 완료
+- Stitch 초기 생성/화면별 리파인 프롬프트 패키지 작성 완료
 - 미정 의사결정 0건으로 마감
