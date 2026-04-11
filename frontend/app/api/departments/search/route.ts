@@ -14,7 +14,11 @@ export async function GET(request: Request) {
     console.error('[GET /api/departments/search]', error)
 
     return NextResponse.json(
-      { error: 'INTERNAL_ERROR' },
+      {
+        code: 'INTERNAL_ERROR',
+        error: 'INTERNAL_ERROR',
+        message: 'An unexpected server error occurred.',
+      },
       { status: 500 },
     )
   }

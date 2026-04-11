@@ -14,7 +14,8 @@ export async function POST(
       return NextResponse.json(
         {
           code: 'VALIDATION_ERROR',
-          message: 'deviceHash와 refSource 값을 확인해주세요.',
+          error: 'VALIDATION_ERROR',
+          message: 'Invalid request. Check deviceHash and refSource.',
         },
         { status: 400 },
       )
@@ -23,7 +24,11 @@ export async function POST(
     const response = clickDepartmentRecord(id, payload)
     if (!response) {
       return NextResponse.json(
-        { error: 'NOT_FOUND' },
+        {
+          code: 'NOT_FOUND',
+          error: 'NOT_FOUND',
+          message: 'Department not found.',
+        },
         { status: 404 },
       )
     }
@@ -33,7 +38,11 @@ export async function POST(
     console.error('[POST /api/departments/:id/click]', error)
 
     return NextResponse.json(
-      { error: 'INTERNAL_ERROR' },
+      {
+        code: 'INTERNAL_ERROR',
+        error: 'INTERNAL_ERROR',
+        message: 'An unexpected server error occurred.',
+      },
       { status: 500 },
     )
   }

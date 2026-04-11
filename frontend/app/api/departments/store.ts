@@ -24,6 +24,19 @@ interface DepartmentApiState {
   activities: ClickActivity[]
 }
 
+type ClickReason =
+  | 'OK'
+  | 'WARN_BURST'
+  | 'BURST_OVER_60'
+  | 'REPEATED_PATTERN'
+  | 'CLUSTER_PATTERN'
+  | 'SAFE_FALLBACK'
+
+interface ClickPolicyDecision {
+  accepted: boolean
+  reason: ClickReason
+}
+
 declare global {
   var __animalLeagueDepartmentApiState: DepartmentApiState | undefined
 }
@@ -88,11 +101,13 @@ function isClickDepartmentRequest(body: unknown): body is ClickDepartmentRequest
 export function validateCreateDepartmentPayload(body: unknown): CreateDepartmentRequest | null {
   if (!isCreateDepartmentRequest(body)) return null
 
+  const schoolId = body.schoolId.trim()
   const name = body.name.trim()
-  if (!name) return null
+  if (!schoolId || !name) return null
+  if (!getSchoolById(schoolId)) return null
 
   return {
-    schoolId: body.schoolId,
+    schoolId,
     name,
     category: body.category,
     templateId: body.templateId?.trim() || undefined,
@@ -208,9 +223,9 @@ export function clickDepartmentRecord(
       activity.departmentId === departmentId &&
       now - new Date(activity.createdAt).getTime() <= TEN_SECONDS_MS,
   ).length
-
-  const accepted = recentCount < 60
-  const reason = accepted ? (recentCount > 25 ? 'WARN_BURST' : undefined) : 'BURST_OVER_60'
+  const decision = evaluateClickPolicy(recentCount)
+  const accepted = decision.accepted
+  const reason = decision.reason
 
   let department = state.departments[departmentIndex]
 
@@ -244,6 +259,39 @@ export function clickDepartmentRecord(
     stackCount: department.stackCount,
     pressureLevel: department.pressureLevel,
     reason,
+  }
+}
+
+function evaluateClickPolicy(recentCount: number): ClickPolicyDecision {
+  try {
+    // Rule B: deny when clicks are over 60 in 10 seconds.
+    if (recentCount >= 60) {
+      return {
+        accepted: false,
+        reason: 'BURST_OVER_60',
+      }
+    }
+
+    // Rule A: allow but warn over 25 clicks in 10 seconds.
+    if (recentCount > 25) {
+      return {
+        accepted: true,
+        reason: 'WARN_BURST',
+      }
+    }
+
+    // TODO(B2-Wed): implement Rule C -> REPEATED_PATTERN.
+    // TODO(B2-Wed): implement Rule D -> CLUSTER_PATTERN.
+    // TODO(B2-Wed): add SAFE_FALLBACK handling for policy integration path.
+    return {
+      accepted: true,
+      reason: 'OK',
+    }
+  } catch {
+    return {
+      accepted: true,
+      reason: 'SAFE_FALLBACK',
+    }
   }
 }
 
