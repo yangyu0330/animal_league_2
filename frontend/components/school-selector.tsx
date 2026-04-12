@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { Check, ChevronDown } from 'lucide-react'
-import { schools } from '@/lib/catalog'
-import { useMockApi } from '@/lib/api/client'
 import { searchSchools } from '@/lib/api/schools'
 import { Button } from '@/components/ui/button'
 import {
@@ -27,12 +25,10 @@ export function SchoolSelector({
   onChange,
   showAllOption = true,
 }: SchoolSelectorProps) {
-  const isMockApi = useMockApi()
-  const [options, setOptions] = useState<School[]>(() => (isMockApi ? schools : []))
+  const [options, setOptions] = useState<School[]>([])
   const selectedSchool = value ? options.find((school) => school.id === value) : null
 
   useEffect(() => {
-    if (isMockApi) return
     let cancelled = false
 
     async function loadSchools() {
@@ -52,7 +48,7 @@ export function SchoolSelector({
     return () => {
       cancelled = true
     }
-  }, [isMockApi])
+  }, [])
 
   return (
     <DropdownMenu>

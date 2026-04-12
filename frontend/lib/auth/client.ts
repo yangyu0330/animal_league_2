@@ -104,16 +104,6 @@ export async function selectUserDepartment(
     throw new Error('SCHOOL_NOT_SELECTED')
   }
 
-  const department = state.departments.find((item) => item.id === departmentId)
-  if (department && department.schoolId !== state.user.selectedSchoolId) {
-    throw new Error('SCHOOL_MISMATCH')
-  }
-
-  const resolvedName = department?.name ?? departmentName
-  if (!resolvedName) {
-    throw new Error('DEPARTMENT_NOT_FOUND')
-  }
-
   const response = await patchProfile({
     schoolId: state.user.selectedSchoolId,
     departmentId,
@@ -121,8 +111,8 @@ export async function selectUserDepartment(
 
   if (response.user) {
     state.setUser(response.user)
-  } else {
-    state.setUserDepartment(departmentId, resolvedName)
+  } else if (departmentName) {
+    state.setUserDepartment(departmentId, departmentName)
   }
 
   const user = useAppStore.getState().user

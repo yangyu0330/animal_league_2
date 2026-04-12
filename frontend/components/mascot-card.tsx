@@ -7,7 +7,7 @@ interface MascotCardProps {
   stackCount: number
 }
 
-const categoryIcons: Record<DepartmentCategory, string> = {
+const categoryIcons: Partial<Record<DepartmentCategory, string>> = {
   공학: '기어',
   자연과학: '실험',
   인문: '서가',
@@ -16,6 +16,10 @@ const categoryIcons: Record<DepartmentCategory, string> = {
   '예술/체육': '무대',
   교육: '클래스',
   '보건/의학': '모니터',
+}
+
+function getCategoryIcon(category: DepartmentCategory): string {
+  return categoryIcons[category] ?? 'stack'
 }
 
 const pressureBackgrounds: Record<PressureLevel, string> = {
@@ -58,7 +62,7 @@ export function MascotCard({ category, pressureLevel, totalClicks, stackCount }:
       className={`relative min-h-[220px] rounded-2xl border border-border bg-gradient-to-b ${pressureBackgrounds[pressureLevel]} p-4`}
     >
       <div className="absolute right-4 top-4 rounded-full bg-card/70 px-2 py-1 text-[11px] font-semibold text-muted-foreground">
-        {categoryIcons[category]}
+        {getCategoryIcon(category)}
       </div>
       <div className="flex h-full flex-col justify-between">
         <div>

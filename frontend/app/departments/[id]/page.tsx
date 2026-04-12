@@ -10,6 +10,7 @@ import { PressureBadge } from '@/components/pressure-badge'
 import { ApiError } from '@/lib/api/client'
 import { clickDepartment, getDepartmentById } from '@/lib/api/departments'
 import { signInWithGoogle } from '@/lib/auth/client'
+import { getOrCreateDeviceId } from '@/lib/device'
 import { useAppStore } from '@/lib/store'
 import type { Department } from '@/lib/types'
 
@@ -67,8 +68,9 @@ export default function DepartmentDetailPage() {
     setIsClicking(true)
     setStatusMessage(null)
     try {
+      const deviceId = getOrCreateDeviceId()
       const response = await clickDepartment(department.id, {
-        deviceHash: 'device_mock_web',
+        deviceHash: deviceId,
         refSource: isShareRef ? 'share' : 'direct',
       })
 

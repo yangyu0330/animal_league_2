@@ -25,10 +25,6 @@ function getErrorCode(payload: unknown, fallback = 'INTERNAL_ERROR'): string {
   return fallback
 }
 
-export function useMockApi(): boolean {
-  return process.env.NEXT_PUBLIC_USE_MOCK_API !== 'false'
-}
-
 export async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {
     ...init,

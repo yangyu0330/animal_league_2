@@ -14,7 +14,7 @@ import type { ClickActivity } from '@/lib/types'
 
 export default function ActivityPage() {
   const router = useRouter()
-  const { userState, user, activities, authLoaded } = useAppStore()
+  const { userState, user, authLoaded } = useAppStore()
   const [todayCount, setTodayCount] = useState(0)
   const [items, setItems] = useState<ClickActivity[]>([])
 
@@ -30,6 +30,8 @@ export default function ActivityPage() {
   }, [authLoaded, router, userState])
 
   useEffect(() => {
+    if (!authLoaded || userState !== 'ACTIVE_USER') return
+
     async function loadActivity() {
       try {
         const response = await getMyActivity(20)
@@ -45,7 +47,7 @@ export default function ActivityPage() {
     }
 
     void loadActivity()
-  }, [activities, router])
+  }, [authLoaded, router, user?.id, userState])
 
   async function handleSignOut() {
     await signOut()

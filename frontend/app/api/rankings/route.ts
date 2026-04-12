@@ -7,10 +7,9 @@ interface SchoolRelation {
   name?: string
 }
 
-interface DepartmentSearchRow {
+interface DepartmentRankingRow {
   id: string
   name: string
-  category: string
   total_clicks: number
   pressure_level: number | null
   school?: SchoolRelation | SchoolRelation[] | null
@@ -25,31 +24,35 @@ function resolveSchoolName(school: SchoolRelation | SchoolRelation[] | null | un
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
-    const q = searchParams.get('q')?.trim() ?? ''
+    const scope = searchParams.get('scope') === 'school' ? 'school' : 'national'
     const schoolId = searchParams.get('schoolId')?.trim() || undefined
-    const limitParam = Number(searchParams.get('limit') ?? '20')
-    const limit = Number.isFinite(limitParam) ? Math.max(1, Math.min(50, limitParam)) : 20
 
-    const supabase = await createClient()
-
-    let query = supabase
-      .from('department')
-      .select('id, name, category, total_clicks, pressure_level, school:school(name)')
-      .order('total_clicks', { ascending: false })
-      .limit(limit)
-
-    if (schoolId) {
-      query = query.eq('school_id', schoolId)
+    if (scope === 'school' && !schoolId) {
+      return NextResponse.json(
+        {
+          code: 'VALIDATION_ERROR',
+          error: 'VALIDATION_ERROR',
+          message: 'schoolId is required when scope=school.',
+        },
+        { status: 400 },
+      )
     }
 
-    if (q) {
-      query = query.ilike('name', `%${q}%`)
+    const supabase = await createClient()
+    let query = supabase
+      .from('department')
+      .select('id, name, total_clicks, pressure_level, school:school(name)')
+      .order('total_clicks', { ascending: false })
+      .limit(10)
+
+    if (scope === 'school' && schoolId) {
+      query = query.eq('school_id', schoolId)
     }
 
     const { data, error } = await query
 
     if (error) {
-      console.error('[GET /api/departments/search] query failed', error)
+      console.error('[GET /api/rankings] query failed', error)
       return NextResponse.json(
         {
           code: 'INTERNAL_ERROR',
@@ -60,29 +63,33 @@ export async function GET(request: Request) {
       )
     }
 
-    const items = ((data ?? []) as DepartmentSearchRow[]).map((row) => {
+    const rows = (data ?? []) as DepartmentRankingRow[]
+    const items = rows.map((row, index) => {
       const totalClicks = Number(row.total_clicks ?? 0)
-      const computedPressure = calculatePressureLevel(totalClicks)
       const pressureFromDb = row.pressure_level
       const pressureLevel =
         typeof pressureFromDb === 'number' && pressureFromDb >= 0 && pressureFromDb <= 4
           ? (pressureFromDb as PressureLevel)
-          : computedPressure
+          : calculatePressureLevel(totalClicks)
 
       return {
+        rank: index + 1,
         departmentId: row.id,
-        name: row.name,
+        departmentName: row.name,
         schoolName: resolveSchoolName(row.school),
-        category: row.category,
         totalClicks,
         stackCount: calculateStackCount(totalClicks),
         pressureLevel,
       }
     })
 
-    return NextResponse.json({ items })
+    return NextResponse.json({
+      scope,
+      items,
+      generatedAt: new Date().toISOString(),
+    })
   } catch (error) {
-    console.error('[GET /api/departments/search] unexpected error', error)
+    console.error('[GET /api/rankings] unexpected error', error)
     return NextResponse.json(
       {
         code: 'INTERNAL_ERROR',
