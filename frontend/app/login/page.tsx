@@ -2,14 +2,44 @@
 
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
+import { createClient } from '@/lib/supabase/client'
 import { signInWithGoogle } from '@/lib/auth/client'
+import type { User } from '@/lib/types'
+
+interface MeResponse {
+  user: User | null
+}
 
 export default function LoginPage() {
+  const router = useRouter()
   const startedRef = useRef(false)
   const [isSubmitting, setIsSubmitting] = useState(true)
   const [hasError, setHasError] = useState(false)
+
+  const redirectFromSession = useCallback(async (): Promise<boolean> => {
+    const supabase = createClient()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) return false
+
+    const response = await fetch('/api/me', { cache: 'no-store' })
+    if (!response.ok) return false
+
+    const payload = (await response.json()) as MeResponse
+    if (!payload.user) return false
+
+    if (payload.user.selectedSchoolId && payload.user.selectedDepartmentId) {
+      router.replace('/home')
+    } else {
+      router.replace('/onboarding/school')
+    }
+    return true
+  }, [router])
 
   const startGoogleLogin = useCallback(async () => {
     if (startedRef.current) return
@@ -18,6 +48,9 @@ export default function LoginPage() {
     setHasError(false)
 
     try {
+      const alreadySignedIn = await redirectFromSession()
+      if (alreadySignedIn) return
+
       const nextPath = new URLSearchParams(window.location.search).get('next')
       await signInWithGoogle(nextPath)
     } catch {
@@ -26,7 +59,7 @@ export default function LoginPage() {
       setIsSubmitting(false)
       startedRef.current = false
     }
-  }, [])
+  }, [redirectFromSession])
 
   useEffect(() => {
     void startGoogleLogin()
