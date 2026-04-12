@@ -1,15 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
-type DepartmentRelation =
-  | {
-      school_id?: string | null
-    }
-  | Array<{
-      school_id?: string | null
-    }>
-  | null
-
 function sanitizeNextPath(nextPath: string | null): string | null {
   if (!nextPath) return null
   if (!nextPath.startsWith('/')) return null
@@ -25,35 +16,36 @@ function buildLoginRedirect(origin: string, nextPath: string | null): string {
   return loginUrl.toString()
 }
 
-function resolveDepartmentSchoolId(department: DepartmentRelation): string | null {
-  if (!department) return null
-  if (Array.isArray(department)) {
-    return department[0]?.school_id ?? null
-  }
-  return department.school_id ?? null
-}
-
 async function getUserSelection(supabase: Awaited<ReturnType<typeof createClient>>, userId: string) {
   const { data, error } = await supabase
     .from('app_user')
-    .select('selected_school_id, selected_department_id, department:department(school_id)')
+    .select('selected_school_id, selected_department_id')
     .eq('id', userId)
     .maybeSingle()
 
   if (!error) {
     const selectedSchoolId = data?.selected_school_id ?? null
     const selectedDepartmentId = data?.selected_department_id ?? null
-    const departmentSchoolId = resolveDepartmentSchoolId(
-      (data?.department ?? null) as DepartmentRelation,
-    )
-    const hasValidDepartment = Boolean(
-      selectedSchoolId && selectedDepartmentId && departmentSchoolId === selectedSchoolId,
-    )
+
+    if (!selectedSchoolId || !selectedDepartmentId) {
+      return {
+        selectedSchoolId,
+        selectedDepartmentId: null,
+        error: null as unknown,
+      }
+    }
+
+    const departmentQuery = await supabase
+      .from('department')
+      .select('school_id')
+      .eq('id', selectedDepartmentId)
+      .maybeSingle()
 
     return {
       selectedSchoolId,
-      selectedDepartmentId: hasValidDepartment ? selectedDepartmentId : null,
-      error: null as unknown,
+      selectedDepartmentId:
+        departmentQuery.data?.school_id === selectedSchoolId ? selectedDepartmentId : null,
+      error: departmentQuery.error,
     }
   }
 
