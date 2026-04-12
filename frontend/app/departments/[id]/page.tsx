@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft, Zap } from 'lucide-react'
 import { toast } from 'sonner'
@@ -11,6 +11,7 @@ import { ApiError } from '@/lib/api/client'
 import { clickDepartment, getDepartmentById } from '@/lib/api/departments'
 import { signInWithGoogle } from '@/lib/auth/client'
 import { getOrCreateDeviceId } from '@/lib/device'
+import { calculatePressureLevel, calculateStackCount } from '@/lib/domain'
 import { useAppStore } from '@/lib/store'
 import type { Department } from '@/lib/types'
 
@@ -20,10 +21,13 @@ export default function DepartmentDetailPage() {
   const router = useRouter()
   const { userState, user, authLoaded } = useAppStore()
   const [department, setDepartment] = useState<Department | null>(null)
-  const [isClicking, setIsClicking] = useState(false)
   const [isCountBumping, setIsCountBumping] = useState(false)
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
   const [isShareRef, setIsShareRef] = useState(false)
+  const pendingBoostsRef = useRef(0)
+  const optimisticBoostsRef = useRef(0)
+  const isFlushingBoostsRef = useRef(false)
+  const bumpTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const paramsFromUrl = new URLSearchParams(window.location.search)
@@ -61,51 +65,122 @@ export default function DepartmentDetailPage() {
     }
   }, [authLoaded, id, isShareRef, router, userState])
 
+  useEffect(() => {
+    return () => {
+      if (bumpTimeoutRef.current) {
+        clearTimeout(bumpTimeoutRef.current)
+      }
+    }
+  }, [])
+
   const canBoost = user?.selectedDepartmentId === department?.id
 
-  const handleBoost = useCallback(async () => {
-    if (!department || isClicking || !canBoost) return
-    setIsClicking(true)
-    setStatusMessage(null)
-    try {
-      const deviceId = getOrCreateDeviceId()
-      const response = await clickDepartment(department.id, {
-        deviceHash: deviceId,
-        refSource: isShareRef ? 'share' : 'direct',
-      })
-
-      setDepartment((prev) =>
-        prev
-          ? {
-              ...prev,
-              totalClicks: response.newTotalClicks,
-              stackCount: response.stackCount,
-              pressureLevel: response.pressureLevel,
-              todayClicks: response.accepted ? prev.todayClicks + 1 : prev.todayClicks,
-            }
-          : prev,
-      )
-
-      if (!response.accepted) {
-        toast.message('클릭은 저장됐지만 랭킹에는 반영되지 않았어요.')
-        setStatusMessage('클릭은 저장됐지만 랭킹에는 반영되지 않았어요.')
-      } else {
-        setIsCountBumping(true)
-        setTimeout(() => setIsCountBumping(false), 300)
-      }
-    } catch (error) {
-      if (error instanceof ApiError && error.code === 'RATE_LIMITED') {
-        toast.message('짧은 시간에 클릭이 너무 많아 일부가 제외되었어요.')
-      } else if (error instanceof ApiError && error.code === 'NOT_FOUND') {
-        toast.error('학과를 찾을 수 없습니다.')
-        router.replace('/home')
-      } else {
-        toast.error('클릭 처리에 실패했습니다. 다시 시도해 주세요.')
-      }
-    } finally {
-      setIsClicking(false)
+  const triggerCountBump = useCallback(() => {
+    if (bumpTimeoutRef.current) {
+      clearTimeout(bumpTimeoutRef.current)
     }
-  }, [canBoost, department, isClicking, isShareRef, router])
+    setIsCountBumping(true)
+    bumpTimeoutRef.current = setTimeout(() => {
+      setIsCountBumping(false)
+      bumpTimeoutRef.current = null
+    }, 300)
+  }, [])
+
+  const rollbackOptimisticBoost = useCallback((departmentId: string) => {
+    optimisticBoostsRef.current = Math.max(optimisticBoostsRef.current - 1, 0)
+    setDepartment((prev) => {
+      if (!prev || prev.id !== departmentId) return prev
+      const totalClicks = Math.max(prev.totalClicks - 1, 0)
+      return {
+        ...prev,
+        totalClicks,
+        stackCount: calculateStackCount(totalClicks),
+        pressureLevel: calculatePressureLevel(totalClicks),
+        todayClicks: Math.max(prev.todayClicks - 1, 0),
+      }
+    })
+  }, [])
+
+  const flushBoostQueue = useCallback(
+    async (departmentId: string) => {
+      if (isFlushingBoostsRef.current) return
+      isFlushingBoostsRef.current = true
+      const deviceId = getOrCreateDeviceId()
+      let showedFailureToast = false
+
+      try {
+        while (pendingBoostsRef.current > 0) {
+          pendingBoostsRef.current -= 1
+
+          try {
+            const response = await clickDepartment(departmentId, {
+              deviceHash: deviceId,
+              refSource: isShareRef ? 'share' : 'direct',
+            })
+
+            optimisticBoostsRef.current = Math.max(optimisticBoostsRef.current - 1, 0)
+            setDepartment((prev) => {
+              if (!prev || prev.id !== departmentId) return prev
+              const totalClicks = response.newTotalClicks + optimisticBoostsRef.current
+              return {
+                ...prev,
+                totalClicks,
+                stackCount:
+                  optimisticBoostsRef.current === 0 ? response.stackCount : calculateStackCount(totalClicks),
+                pressureLevel:
+                  optimisticBoostsRef.current === 0
+                    ? response.pressureLevel
+                    : calculatePressureLevel(totalClicks),
+                todayClicks: prev.todayClicks,
+              }
+            })
+          } catch (error) {
+            rollbackOptimisticBoost(departmentId)
+            if (error instanceof ApiError && error.code === 'RATE_LIMITED') {
+              if (!showedFailureToast) {
+                toast.message('짧은 시간에 클릭이 너무 많아 일부가 제외되었어요.')
+                showedFailureToast = true
+              }
+            } else if (error instanceof ApiError && error.code === 'NOT_FOUND') {
+              toast.error('학과를 찾을 수 없습니다.')
+              router.replace('/home')
+              pendingBoostsRef.current = 0
+            } else if (!showedFailureToast) {
+              toast.error('일부 클릭 반영에 실패했습니다. 다시 시도해 주세요.')
+              setStatusMessage('일부 클릭 반영에 실패했습니다. 다시 시도해 주세요.')
+              showedFailureToast = true
+            }
+          }
+        }
+      } finally {
+        isFlushingBoostsRef.current = false
+        if (pendingBoostsRef.current > 0) {
+          void flushBoostQueue(departmentId)
+        }
+      }
+    },
+    [isShareRef, rollbackOptimisticBoost, router],
+  )
+
+  const handleBoost = useCallback(() => {
+    if (!department || !canBoost) return
+    setStatusMessage(null)
+    pendingBoostsRef.current += 1
+    optimisticBoostsRef.current += 1
+    setDepartment((prev) => {
+      if (!prev || prev.id !== department.id) return prev
+      const totalClicks = prev.totalClicks + 1
+      return {
+        ...prev,
+        totalClicks,
+        stackCount: calculateStackCount(totalClicks),
+        pressureLevel: calculatePressureLevel(totalClicks),
+        todayClicks: prev.todayClicks + 1,
+      }
+    })
+    triggerCountBump()
+    void flushBoostQueue(department.id)
+  }, [canBoost, department, flushBoostQueue, triggerCountBump])
 
   const handleShare = useCallback(async () => {
     const shareUrl = `${window.location.origin}/departments/${id}?ref=share`
@@ -232,11 +307,10 @@ export default function DepartmentDetailPage() {
         {canBoost ? (
           <Button
             onClick={handleBoost}
-            disabled={isClicking}
-            className="h-14 w-full rounded-[14px] bg-primary text-base font-semibold text-primary-foreground hover:bg-primary/90"
+            className="h-14 w-full rounded-[14px] bg-primary text-base font-semibold text-primary-foreground hover:bg-primary/90 active:scale-[0.99]"
           >
             <Zap className="mr-2 h-5 w-5" />
-            {isClicking ? '반영 중...' : '압박 올리기'}
+            압박 올리기
           </Button>
         ) : (
           <p className="text-center text-xs text-muted-foreground">본인 학과에서만 압박 올리기를 사용할 수 있어요.</p>

@@ -11,16 +11,7 @@ interface ClickPayload {
 interface DepartmentClickRow {
   id: string
   total_clicks: number
-  pressure_level: number | null
 }
-
-type ClickReason =
-  | 'OK'
-  | 'WARN_BURST'
-  | 'BURST_OVER_60'
-  | 'REPEATED_PATTERN'
-  | 'CLUSTER_PATTERN'
-  | 'SAFE_FALLBACK'
 
 function buildError(code: string, message: string, status: number) {
   return NextResponse.json({ code, error: code, message }, { status })
@@ -49,26 +40,8 @@ function getIpHash(headers: Headers): string {
   return createHash('sha256').update(raw).digest('hex')
 }
 
-function evaluateClickPolicy(recentCount: number): { accepted: boolean; reason: ClickReason } {
-  try {
-    if (recentCount >= 60) {
-      return { accepted: false, reason: 'BURST_OVER_60' }
-    }
-    if (recentCount > 25) {
-      return { accepted: true, reason: 'WARN_BURST' }
-    }
-    return { accepted: true, reason: 'OK' }
-  } catch {
-    return { accepted: true, reason: 'SAFE_FALLBACK' }
-  }
-}
-
 function todayDateKey(): string {
   return new Date().toISOString().slice(0, 10)
-}
-
-function windowStartIso(msWindow: number): string {
-  return new Date(Date.now() - msWindow).toISOString()
 }
 
 async function incrementDailyStat(supabase: Awaited<ReturnType<typeof createClient>>, departmentId: string) {
@@ -155,7 +128,7 @@ export async function POST(
 
   const departmentQuery = await supabase
     .from('department')
-    .select('id, total_clicks, pressure_level')
+    .select('id, total_clicks')
     .eq('id', id)
     .maybeSingle()
 
@@ -169,21 +142,7 @@ export async function POST(
   }
 
   const department = departmentQuery.data as DepartmentClickRow
-  const recentCountQuery = await supabase
-    .from('click_event')
-    .select('id', { count: 'exact', head: true })
-    .eq('user_id', user.id)
-    .eq('department_id', id)
-    .gte('created_at', windowStartIso(10_000))
-
-  if (recentCountQuery.error) {
-    console.error('[POST /api/departments/:id/click] recent count query failed', recentCountQuery.error)
-    return buildError('INTERNAL_ERROR', 'An unexpected server error occurred.', 500)
-  }
-
-  const decision = evaluateClickPolicy(Number(recentCountQuery.count ?? 0))
-  const accepted = decision.accepted
-  const reason = decision.reason
+  const accepted = true
 
   const clickInsert = await supabase.from('click_event').insert({
     user_id: user.id,
@@ -191,7 +150,7 @@ export async function POST(
     device_hash: payload.deviceHash,
     ip_hash: getIpHash(req.headers),
     accepted,
-    reason,
+    reason: 'OK',
     ref_source: payload.refSource,
   })
 
@@ -201,44 +160,38 @@ export async function POST(
   }
 
   const currentTotal = Number(department.total_clicks ?? 0)
-  let newTotalClicks = currentTotal
-  let pressureLevel = Number(department.pressure_level ?? calculatePressureLevel(currentTotal))
+  const newTotalClicks = currentTotal + 1
+  const pressureLevel = calculatePressureLevel(newTotalClicks)
 
-  if (accepted) {
-    newTotalClicks = currentTotal + 1
-    pressureLevel = calculatePressureLevel(newTotalClicks)
+  let updateResult = await supabase
+    .from('department')
+    .update({
+      total_clicks: newTotalClicks,
+      pressure_level: pressureLevel,
+    })
+    .eq('id', id)
 
-    let updateResult = await supabase
+  if (updateResult.error?.code === '42703') {
+    updateResult = await supabase
       .from('department')
       .update({
         total_clicks: newTotalClicks,
         pressure_level: pressureLevel,
       })
       .eq('id', id)
-
-    if (updateResult.error?.code === '42703') {
-      updateResult = await supabase
-        .from('department')
-        .update({
-          total_clicks: newTotalClicks,
-          pressure_level: pressureLevel,
-        })
-        .eq('id', id)
-    }
-
-    if (updateResult.error) {
-      console.error('[POST /api/departments/:id/click] department update failed', updateResult.error)
-      return buildError('INTERNAL_ERROR', 'An unexpected server error occurred.', 500)
-    }
-
-    await incrementDailyStat(supabase, id)
   }
+
+  if (updateResult.error) {
+    console.error('[POST /api/departments/:id/click] department update failed', updateResult.error)
+    return buildError('INTERNAL_ERROR', 'An unexpected server error occurred.', 500)
+  }
+
+  await incrementDailyStat(supabase, id)
 
   return NextResponse.json({
     accepted,
     newTotalClicks,
     stackCount: calculateStackCount(newTotalClicks),
     pressureLevel,
-    reason: reason === 'OK' ? undefined : reason,
   })
 }
