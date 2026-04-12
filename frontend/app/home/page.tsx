@@ -46,17 +46,18 @@ export default function HomePage() {
 
   useEffect(() => {
     const departmentId = user?.selectedDepartmentId
-    if (!departmentId) {
+    if (typeof departmentId !== 'string' || departmentId.length === 0) {
       setMyDepartment(null)
       setMyDepartmentError(false)
       return
     }
+    const activeDepartmentId = departmentId
 
     let cancelled = false
 
     async function loadMyDepartment() {
       try {
-        const department = await getDepartmentById(departmentId)
+        const department = await getDepartmentById(activeDepartmentId)
         if (cancelled) return
         setMyDepartment(department)
         setMyDepartmentError(false)
