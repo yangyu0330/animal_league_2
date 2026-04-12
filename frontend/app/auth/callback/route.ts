@@ -52,6 +52,56 @@ async function getUserSelection(supabase: Awaited<ReturnType<typeof createClient
   }
 }
 
+async function ensureAppUser(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  input: {
+    userId: string
+    nickname: string
+  },
+) {
+  const { userId, nickname } = input
+  const profilePayload = {
+    provider: 'google',
+    nickname,
+    updated_at: new Date().toISOString(),
+  }
+
+  const existingProfile = await supabase
+    .from('app_user')
+    .select('id')
+    .eq('id', userId)
+    .maybeSingle()
+
+  if (existingProfile.error) {
+    return existingProfile.error
+  }
+
+  if (existingProfile.data) {
+    const updateResult = await supabase
+      .from('app_user')
+      .update(profilePayload)
+      .eq('id', userId)
+    return updateResult.error
+  }
+
+  const insertResult = await supabase
+    .from('app_user')
+    .insert({
+      id: userId,
+      ...profilePayload,
+    })
+
+  if (insertResult.error?.code === '23505') {
+    const retryUpdate = await supabase
+      .from('app_user')
+      .update(profilePayload)
+      .eq('id', userId)
+    return retryUpdate.error
+  }
+
+  return insertResult.error
+}
+
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
@@ -86,20 +136,13 @@ export async function GET(request: Request) {
     user.email?.split('@')[0] ||
     'user'
 
-  const { error: upsertError } = await supabase
-    .from('app_user')
-    .upsert(
-      {
-        id: user.id,
-        provider: 'google',
-        nickname,
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: 'id' },
-    )
+  const upsertError = await ensureAppUser(supabase, {
+    userId: user.id,
+    nickname,
+  })
 
   if (upsertError) {
-    console.error('[auth/callback] app_user upsert failed', upsertError)
+    console.error('[auth/callback] app_user ensure failed', upsertError)
     return NextResponse.redirect(buildLoginRedirect(origin, nextPath))
   }
 
@@ -110,8 +153,7 @@ export async function GET(request: Request) {
   }
 
   if (selection.selectedSchoolId && selection.selectedDepartmentId) {
-    const target = nextPath ?? '/home'
-    return NextResponse.redirect(new URL(target, origin).toString())
+    return NextResponse.redirect(new URL('/home', origin).toString())
   }
 
   const onboardingUrl = new URL('/onboarding/school', origin)
