@@ -1,6 +1,15 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
+type DepartmentRelation =
+  | {
+      school_id?: string | null
+    }
+  | Array<{
+      school_id?: string | null
+    }>
+  | null
+
 function sanitizeNextPath(nextPath: string | null): string | null {
   if (!nextPath) return null
   if (!nextPath.startsWith('/')) return null
@@ -16,17 +25,34 @@ function buildLoginRedirect(origin: string, nextPath: string | null): string {
   return loginUrl.toString()
 }
 
+function resolveDepartmentSchoolId(department: DepartmentRelation): string | null {
+  if (!department) return null
+  if (Array.isArray(department)) {
+    return department[0]?.school_id ?? null
+  }
+  return department.school_id ?? null
+}
+
 async function getUserSelection(supabase: Awaited<ReturnType<typeof createClient>>, userId: string) {
   const { data, error } = await supabase
     .from('app_user')
-    .select('selected_school_id, selected_department_id')
+    .select('selected_school_id, selected_department_id, department:department(school_id)')
     .eq('id', userId)
     .maybeSingle()
 
   if (!error) {
+    const selectedSchoolId = data?.selected_school_id ?? null
+    const selectedDepartmentId = data?.selected_department_id ?? null
+    const departmentSchoolId = resolveDepartmentSchoolId(
+      (data?.department ?? null) as DepartmentRelation,
+    )
+    const hasValidDepartment = Boolean(
+      selectedSchoolId && selectedDepartmentId && departmentSchoolId === selectedSchoolId,
+    )
+
     return {
-      selectedSchoolId: data?.selected_school_id ?? null,
-      selectedDepartmentId: data?.selected_department_id ?? null,
+      selectedSchoolId,
+      selectedDepartmentId: hasValidDepartment ? selectedDepartmentId : null,
       error: null as unknown,
     }
   }

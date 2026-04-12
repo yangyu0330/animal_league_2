@@ -48,6 +48,14 @@ function resolveDepartmentName(department: DepartmentRelation): string | null {
   return department.name ?? null
 }
 
+function resolveDepartmentSchoolId(department: DepartmentRelation): string | null {
+  if (!department) return null
+  if (Array.isArray(department)) {
+    return department[0]?.school_id ?? null
+  }
+  return department.school_id ?? null
+}
+
 export async function GET() {
   const supabase = await createClient()
 
@@ -90,11 +98,21 @@ export async function GET() {
     user.email?.split('@')[0] ||
     'user'
 
-  const selectedSchoolId = appUser?.selected_school_id ?? null
-  const selectedSchoolName = resolveSchoolName((appUser?.school ?? null) as SchoolRelation)
-  const selectedDepartmentId = appUser?.selected_department_id ?? null
-  const selectedDepartmentName = resolveDepartmentName(
+  const rawSelectedSchoolId = appUser?.selected_school_id ?? null
+  const rawSelectedDepartmentId = appUser?.selected_department_id ?? null
+  const rawSelectedSchoolName = resolveSchoolName((appUser?.school ?? null) as SchoolRelation)
+  const rawSelectedDepartmentName = resolveDepartmentName(
     (appUser?.department ?? null) as DepartmentRelation,
+  )
+  const departmentSchoolId = resolveDepartmentSchoolId(
+    (appUser?.department ?? null) as DepartmentRelation,
+  )
+  const hasValidSchool = Boolean(rawSelectedSchoolId && rawSelectedSchoolName)
+  const hasValidDepartment = Boolean(
+    rawSelectedDepartmentId &&
+      rawSelectedDepartmentName &&
+      rawSelectedSchoolId &&
+      departmentSchoolId === rawSelectedSchoolId,
   )
 
   return NextResponse.json({
@@ -102,10 +120,10 @@ export async function GET() {
       id: user.id,
       email: user.email ?? '',
       name: fallbackName,
-      selectedSchoolId,
-      selectedSchoolName,
-      selectedDepartmentId,
-      selectedDepartmentName,
+      selectedSchoolId: hasValidSchool ? rawSelectedSchoolId : null,
+      selectedSchoolName: hasValidSchool ? rawSelectedSchoolName : null,
+      selectedDepartmentId: hasValidDepartment ? rawSelectedDepartmentId : null,
+      selectedDepartmentName: hasValidDepartment ? rawSelectedDepartmentName : null,
     },
   })
 }

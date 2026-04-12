@@ -12,6 +12,72 @@ function resolveUserName(email: string, metadataName?: string, metadataFullName?
   return metadataName || metadataFullName || email.split('@')[0] || 'user'
 }
 
+interface SavedProfileRow {
+  selected_school_id: string | null
+  selected_department_id?: string | null
+}
+
+async function saveUserProfile(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  input: {
+    userId: string
+    nickname: string
+    schoolId: string
+    hasDepartmentField: boolean
+    departmentId: string | null | undefined
+  },
+) {
+  const updatePayload: {
+    selected_school_id: string
+    selected_department_id?: string | null
+    updated_at: string
+  } = {
+    selected_school_id: input.schoolId,
+    updated_at: new Date().toISOString(),
+  }
+
+  if (input.hasDepartmentField) {
+    updatePayload.selected_department_id = input.departmentId ?? null
+  }
+
+  const updateResult = await supabase
+    .from('app_user')
+    .update(updatePayload)
+    .eq('id', input.userId)
+    .select('selected_school_id, selected_department_id')
+    .maybeSingle()
+
+  if (updateResult.error) {
+    return updateResult
+  }
+
+  if (updateResult.data) {
+    return updateResult
+  }
+
+  const insertResult = await supabase
+    .from('app_user')
+    .insert({
+      id: input.userId,
+      provider: 'google',
+      nickname: input.nickname,
+      ...updatePayload,
+    })
+    .select('selected_school_id, selected_department_id')
+    .maybeSingle()
+
+  if (insertResult.error?.code !== '23505') {
+    return insertResult
+  }
+
+  return supabase
+    .from('app_user')
+    .update(updatePayload)
+    .eq('id', input.userId)
+    .select('selected_school_id, selected_department_id')
+    .maybeSingle()
+}
+
 export async function PATCH(request: Request) {
   const supabase = await createClient()
 
@@ -79,48 +145,48 @@ export async function PATCH(request: Request) {
     departmentName = departmentQuery.data.name
   }
 
-  const updatePayload: {
-    selected_school_id: string
-    selected_department_id?: string | null
-    updated_at: string
-  } = {
-    selected_school_id: schoolId,
-    updated_at: new Date().toISOString(),
-  }
-
-  if (hasDepartmentField) {
-    updatePayload.selected_department_id = departmentId ?? null
-  }
-
-  let updateResult = await supabase.from('app_user').update(updatePayload).eq('id', user.id)
-
-  if (updateResult.error?.code === '42703' && hasDepartmentField) {
-    const fallbackPayload = {
-      selected_school_id: schoolId,
-      updated_at: new Date().toISOString(),
-    }
-    updateResult = await supabase.from('app_user').update(fallbackPayload).eq('id', user.id)
-  }
-
-  if (updateResult.error) {
-    console.error('[PATCH /api/me/profile] app_user update failed', updateResult.error)
-    return NextResponse.json({ code: 'INTERNAL_ERROR', error: 'INTERNAL_ERROR' }, { status: 500 })
-  }
-
   const fallbackName = resolveUserName(
     user.email ?? '',
     user.user_metadata?.name,
     user.user_metadata?.full_name,
   )
 
+  const saveResult = await saveUserProfile(supabase, {
+    userId: user.id,
+    nickname: fallbackName,
+    schoolId,
+    hasDepartmentField,
+    departmentId,
+  })
+
+  if (saveResult.error || !saveResult.data) {
+    console.error('[PATCH /api/me/profile] app_user save failed', saveResult.error)
+    return NextResponse.json({ code: 'INTERNAL_ERROR', error: 'INTERNAL_ERROR' }, { status: 500 })
+  }
+
+  const savedProfile = saveResult.data as SavedProfileRow
+  const expectedDepartmentId = hasDepartmentField ? departmentId ?? null : savedProfile.selected_department_id ?? null
+
+  if (
+    savedProfile.selected_school_id !== schoolId ||
+    (hasDepartmentField && (savedProfile.selected_department_id ?? null) !== expectedDepartmentId)
+  ) {
+    console.error('[PATCH /api/me/profile] saved profile mismatch', {
+      expectedSchoolId: schoolId,
+      expectedDepartmentId,
+      savedProfile,
+    })
+    return NextResponse.json({ code: 'INTERNAL_ERROR', error: 'INTERNAL_ERROR' }, { status: 500 })
+  }
+
   return NextResponse.json({
     user: {
       id: user.id,
       email: user.email ?? '',
       name: fallbackName,
-      selectedSchoolId: schoolId,
+      selectedSchoolId: savedProfile.selected_school_id,
       selectedSchoolName: schoolQuery.data.name,
-      selectedDepartmentId: hasDepartmentField ? departmentId ?? null : null,
+      selectedDepartmentId: savedProfile.selected_department_id ?? null,
       selectedDepartmentName: hasDepartmentField ? departmentName : null,
     },
   })

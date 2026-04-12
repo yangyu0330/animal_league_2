@@ -30,6 +30,25 @@ async function patchProfile(payload: { schoolId: string; departmentId?: string |
   })
 }
 
+function requireSavedUser(
+  response: ProfileResponse,
+  expected: { schoolId: string; departmentId?: string | null },
+): User {
+  if (!response.user) {
+    throw new Error('PROFILE_SAVE_FAILED')
+  }
+  if (response.user.selectedSchoolId !== expected.schoolId) {
+    throw new Error('PROFILE_SAVE_MISMATCH')
+  }
+  if (
+    Object.prototype.hasOwnProperty.call(expected, 'departmentId') &&
+    response.user.selectedDepartmentId !== (expected.departmentId ?? null)
+  ) {
+    throw new Error('PROFILE_SAVE_MISMATCH')
+  }
+  return response.user
+}
+
 export async function signInWithGoogle(nextPath?: string | null): Promise<void> {
   const supabase = createClient()
   const { error } = await supabase.auth.signInWithOAuth({
@@ -75,15 +94,12 @@ export async function selectUserSchool(schoolId: string, schoolName?: string): P
     schoolId: normalizedSchoolId,
     departmentId: nextDepartmentId,
   })
+  const savedUser = requireSavedUser(response, {
+    schoolId: normalizedSchoolId,
+    departmentId: nextDepartmentId,
+  })
 
-  if (response.user) {
-    state.setUser(response.user)
-  } else {
-    state.setUserSchool(
-      normalizedSchoolId,
-      schoolName ?? state.user.selectedSchoolName ?? '',
-    )
-  }
+  state.setUser(savedUser)
 
   const user = useAppStore.getState().user
   if (!user) {
@@ -108,12 +124,12 @@ export async function selectUserDepartment(
     schoolId: state.user.selectedSchoolId,
     departmentId,
   })
+  const savedUser = requireSavedUser(response, {
+    schoolId: state.user.selectedSchoolId,
+    departmentId,
+  })
 
-  if (response.user) {
-    state.setUser(response.user)
-  } else if (departmentName) {
-    state.setUserDepartment(departmentId, departmentName)
-  }
+  state.setUser(savedUser)
 
   const user = useAppStore.getState().user
   if (!user) {
