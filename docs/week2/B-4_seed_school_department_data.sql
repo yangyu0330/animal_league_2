@@ -34,18 +34,18 @@ seed_departments (
   today_clicks
 ) as (
   values
-    ('0eaad6a1-72a5-44b8-8b7d-0ce9493a7e42'::uuid, 'Computer Science', 'engineering', 'eng_default_01', 12340, 901),
-    ('0eaad6a1-72a5-44b8-8b7d-0ce9493a7e42'::uuid, 'Electrical Engineering', 'engineering', 'eng_default_01', 9880, 702),
-    ('0eaad6a1-72a5-44b8-8b7d-0ce9493a7e42'::uuid, 'Mechanical Engineering', 'engineering', 'eng_default_01', 6420, 496),
-    ('a936f670-2fb7-4482-ac19-45810ffdbf77'::uuid, 'Business Administration', 'engineering', 'eng_default_01', 11902, 844),
-    ('a936f670-2fb7-4482-ac19-45810ffdbf77'::uuid, 'Industrial Engineering', 'engineering', 'eng_default_01', 3890, 267),
-    ('a936f670-2fb7-4482-ac19-45810ffdbf77'::uuid, 'International Studies', 'engineering', 'eng_default_01', 3420, 229),
-    ('e5d232ed-6335-4c3b-aa73-e1c3a36c3e5b'::uuid, 'Nursing', 'engineering', 'eng_default_01', 2890, 201),
-    ('e5d232ed-6335-4c3b-aa73-e1c3a36c3e5b'::uuid, 'Visual Design', 'engineering', 'eng_default_01', 2455, 176),
-    ('e5d232ed-6335-4c3b-aa73-e1c3a36c3e5b'::uuid, 'Korean Language and Literature', 'engineering', 'eng_default_01', 1880, 138),
-    ('bde6bfb9-e055-423f-989f-f576f803dbd6'::uuid, 'Semiconductor Systems', 'engineering', 'eng_default_01', 4310, 305),
-    ('bde6bfb9-e055-423f-989f-f576f803dbd6'::uuid, 'Psychology', 'engineering', 'eng_default_01', 4980, 384),
-    ('bde6bfb9-e055-423f-989f-f576f803dbd6'::uuid, 'Aerospace Engineering', 'engineering', 'eng_default_01', 1670, 121)
+    ('0eaad6a1-72a5-44b8-8b7d-0ce9493a7e42'::uuid, '컴퓨터공학과', '공학', 'eng_default_01', 12340, 901),
+    ('0eaad6a1-72a5-44b8-8b7d-0ce9493a7e42'::uuid, '전기전자공학과', '공학', 'eng_default_01', 9880, 702),
+    ('0eaad6a1-72a5-44b8-8b7d-0ce9493a7e42'::uuid, '기계공학과', '공학', 'eng_default_01', 6420, 496),
+    ('a936f670-2fb7-4482-ac19-45810ffdbf77'::uuid, '경영학과', '경영/경제', 'biz_default_01', 11902, 844),
+    ('a936f670-2fb7-4482-ac19-45810ffdbf77'::uuid, '산업공학과', '공학', 'eng_default_01', 3890, 267),
+    ('a936f670-2fb7-4482-ac19-45810ffdbf77'::uuid, '국제학과', '사회과학', 'social_default_01', 3420, 229),
+    ('e5d232ed-6335-4c3b-aa73-e1c3a36c3e5b'::uuid, '간호학과', '보건/의학', 'health_default_01', 2890, 201),
+    ('e5d232ed-6335-4c3b-aa73-e1c3a36c3e5b'::uuid, '시각디자인과', '예술/체육', 'arts_default_01', 2455, 176),
+    ('e5d232ed-6335-4c3b-aa73-e1c3a36c3e5b'::uuid, '국어국문학과', '인문', 'humanities_default_01', 1880, 138),
+    ('bde6bfb9-e055-423f-989f-f576f803dbd6'::uuid, '반도체시스템공학과', '공학', 'eng_default_01', 4310, 305),
+    ('bde6bfb9-e055-423f-989f-f576f803dbd6'::uuid, '심리학과', '사회과학', 'social_default_01', 4980, 384),
+    ('bde6bfb9-e055-423f-989f-f576f803dbd6'::uuid, '항공우주공학과', '공학', 'eng_default_01', 1670, 121)
 ),
 normalized as (
   select
