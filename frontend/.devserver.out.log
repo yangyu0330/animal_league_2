@@ -1,0 +1,15 @@
+
+> my-project@0.1.0 dev
+> next dev --port 3000
+
+▲ Next.js 16.2.0 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.56.1:3000
+- Environments: .env.local
+✓ Ready in 521ms
+Creating turbopack project {
+  dir: 'C:\\Users\\andyw\\Desktop\\aaa\\animal_league\\frontend',
+  testMode: true
+}
+
+ GET /login 200 in 1161ms (next.js: 858ms, application-code: 303ms)

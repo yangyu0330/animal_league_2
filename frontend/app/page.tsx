@@ -3,9 +3,11 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import { RankingCard } from '@/components/ranking-card'
 import { Button } from '@/components/ui/button'
 import { getRankings } from '@/lib/api/rankings'
+import { signInWithGoogle } from '@/lib/auth/client'
 import { useAppStore } from '@/lib/store'
 import type { RankingItem } from '@/lib/types'
 
@@ -15,6 +17,7 @@ export default function LandingPage() {
   const [topItems, setTopItems] = useState<RankingItem[]>([])
   const [isRankingLoading, setIsRankingLoading] = useState(true)
   const [rankingLoadFailed, setRankingLoadFailed] = useState(false)
+  const [isSigningIn, setIsSigningIn] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -40,8 +43,8 @@ export default function LandingPage() {
     }
   }, [])
 
-  function handleCtaClick() {
-    if (!authLoaded) return
+  async function handleCtaClick() {
+    if (!authLoaded || isSigningIn) return
 
     if (userState === 'ACTIVE_USER') {
       router.push('/home')
@@ -53,17 +56,25 @@ export default function LandingPage() {
       return
     }
 
-    const nextPath = new URLSearchParams(window.location.search).get('next')
-    router.push(nextPath ? `/login?next=${encodeURIComponent(nextPath)}` : '/login')
+    try {
+      setIsSigningIn(true)
+      const nextPath = new URLSearchParams(window.location.search).get('next')
+      await signInWithGoogle(nextPath)
+    } catch {
+      toast.error('Google 로그인에 실패했어요. 다시 시도해주세요.')
+      setIsSigningIn(false)
+    }
   }
 
   const ctaLabel = !authLoaded
     ? '상태 확인 중...'
-    : userState === 'ACTIVE_USER'
-      ? '홈으로 이동하기'
-      : userState === 'AUTH_NO_SCHOOL'
-        ? '학교/학과 선택하고 시작하기'
-        : '로그인하고 압박 시작하기'
+    : isSigningIn
+      ? 'Google 로그인으로 이동 중...'
+      : userState === 'ACTIVE_USER'
+        ? '홈으로 이동하기'
+        : userState === 'AUTH_NO_SCHOOL'
+          ? '학교/학과 선택하고 시작하기'
+          : '로그인하고 압박 시작하기'
 
   return (
     <div className="mobile-canvas min-h-screen bg-background">
@@ -72,7 +83,7 @@ export default function LandingPage() {
           <h1 className="text-2xl font-bold text-foreground">과제가 많아서 힘들어요???</h1>
           <p className="mt-2 text-base font-semibold text-foreground">교수님에게도 압박을 가해봐요!!</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            당신이 클릭을 할 수록 당신 학과 교수님이 힘들어집니다
+            당신이 클릭을 할수록 당신 학과 교수님이 힘들어집니다
           </p>
 
           <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
@@ -87,8 +98,8 @@ export default function LandingPage() {
           </div>
 
           <Button
-            onClick={handleCtaClick}
-            disabled={!authLoaded}
+            onClick={() => void handleCtaClick()}
+            disabled={!authLoaded || isSigningIn}
             className="mt-4 h-14 w-full rounded-[14px] bg-primary text-base font-semibold text-primary-foreground hover:bg-primary/90"
           >
             {ctaLabel}
