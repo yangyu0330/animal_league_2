@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Check, Plus, Search, X } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { getSchoolById, searchSchoolsByName } from '@/lib/catalog'
+import { searchSchools } from '@/lib/api/schools'
 import { searchDepartments } from '@/lib/api/departments'
 import { selectUserDepartment, selectUserSchool } from '@/lib/auth/client'
 import { ApiError } from '@/lib/api/client'
@@ -22,10 +22,12 @@ export default function SchoolOnboardingPage() {
   const router = useRouter()
   const { userState, user, authLoaded } = useAppStore()
   const [schoolQuery, setSchoolQuery] = useState('')
+  const [schoolResults, setSchoolResults] = useState<School[]>([])
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null)
   const [departmentQuery, setDepartmentQuery] = useState('')
   const [departmentResults, setDepartmentResults] = useState<SearchDepartmentsResponse['items']>([])
   const [selectedDepartment, setSelectedDepartment] = useState<SelectedDepartment | null>(null)
+  const [isSchoolLoading, setIsSchoolLoading] = useState(false)
   const [isDepartmentLoading, setIsDepartmentLoading] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -54,11 +56,11 @@ export default function SchoolOnboardingPage() {
 
   useEffect(() => {
     if (!user) return
-    if (user.selectedSchoolId) {
-      const school = getSchoolById(user.selectedSchoolId)
-      if (school) {
-        setSelectedSchool(school)
-      }
+    if (user.selectedSchoolId && user.selectedSchoolName) {
+      setSelectedSchool({
+        id: user.selectedSchoolId,
+        name: user.selectedSchoolName,
+      })
     }
     if (user.selectedDepartmentId && user.selectedDepartmentName) {
       setSelectedDepartment({
@@ -69,7 +71,33 @@ export default function SchoolOnboardingPage() {
     }
   }, [user])
 
-  const schools = useMemo(() => searchSchoolsByName(schoolQuery), [schoolQuery])
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadSchools() {
+      setIsSchoolLoading(true)
+      try {
+        const items = await searchSchools(schoolQuery, 30)
+        if (!cancelled) {
+          setSchoolResults(items)
+        }
+      } catch {
+        if (!cancelled) {
+          setSchoolResults([])
+          toast.error('?숆탳 紐⑸줉??遺덈윭?ㅼ? 紐삵뻽?듬땲??')
+        }
+      } finally {
+        if (!cancelled) {
+          setIsSchoolLoading(false)
+        }
+      }
+    }
+
+    void loadSchools()
+    return () => {
+      cancelled = true
+    }
+  }, [schoolQuery])
 
   useEffect(() => {
     if (!selectedSchool?.id) {
@@ -131,7 +159,7 @@ export default function SchoolOnboardingPage() {
     setIsSubmitting(true)
     try {
       if (user?.selectedSchoolId !== selectedSchool.id) {
-        await selectUserSchool(selectedSchool.id)
+        await selectUserSchool(selectedSchool.id, selectedSchool.name)
       }
       const fallbackNext = nextPath ?? '/home'
       router.push(`/departments/new?next=${encodeURIComponent(fallbackNext)}`)
@@ -147,7 +175,7 @@ export default function SchoolOnboardingPage() {
     setIsSubmitting(true)
     try {
       if (user?.selectedSchoolId !== selectedSchool.id) {
-        await selectUserSchool(selectedSchool.id)
+        await selectUserSchool(selectedSchool.id, selectedSchool.name)
       }
       await selectUserDepartment(selectedDepartment.id, selectedDepartment.name)
       router.push(nextPath ?? '/home')
@@ -198,7 +226,7 @@ export default function SchoolOnboardingPage() {
         </div>
 
         <section className="mb-6 space-y-2">
-          {schools.map((school) => (
+          {schoolResults.map((school) => (
             <button
               type="button"
               key={school.id}
@@ -213,6 +241,11 @@ export default function SchoolOnboardingPage() {
               {selectedSchool?.id === school.id ? <Check className="h-4 w-4 text-primary" /> : null}
             </button>
           ))}
+          {!isSchoolLoading && schoolResults.length === 0 ? (
+            <p className="rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground">
+              ?숆탳 寃??寃곌낵媛 ?녿굹??
+            </p>
+          ) : null}
         </section>
 
         <section>

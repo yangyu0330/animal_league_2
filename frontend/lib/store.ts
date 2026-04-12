@@ -24,7 +24,7 @@ interface AppState {
 
 function resolveUserState(user: User | null): UserState {
   if (!user) return 'GUEST'
-  return user.selectedSchoolId ? 'ACTIVE_USER' : 'AUTH_NO_SCHOOL'
+  return user.selectedSchoolId && user.selectedDepartmentId ? 'ACTIVE_USER' : 'AUTH_NO_SCHOOL'
 }
 
 export const useAppStore = create<AppState>()(

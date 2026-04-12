@@ -129,16 +129,12 @@ export default function DepartmentDetailPage() {
   }, [department?.name, department?.schoolName, id])
 
   async function handleContinueLogin() {
-    const user = await signInWithGoogle()
-    if (!id) {
-      router.push('/')
-      return
+    if (!id) return
+    try {
+      await signInWithGoogle(`/departments/${id}`)
+    } catch {
+      toast.error('Google login failed. Please try again.')
     }
-    if (user.selectedSchoolId && user.selectedDepartmentId) {
-      router.push(`/departments/${id}`)
-      return
-    }
-    router.push(`/onboarding/school?next=${encodeURIComponent(`/departments/${id}`)}`)
   }
 
   if (!id) return null

@@ -72,7 +72,12 @@ export default function DepartmentSearchPage() {
           </div>
 
           <div className="mb-2">
-            <SchoolSelector value={schoolFilter} onChange={(id, _name) => setSchoolFilter(id)} showAllOption={false} />
+            <SchoolSelector
+              value={schoolFilter}
+              valueLabel={user?.selectedSchoolName ?? null}
+              onChange={(id, _name) => setSchoolFilter(id)}
+              showAllOption={false}
+            />
           </div>
 
           <div className="relative">

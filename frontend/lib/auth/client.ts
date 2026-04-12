@@ -1,28 +1,47 @@
-import { getSchoolById } from '@/lib/catalog'
+import { fetchJson } from '@/lib/api/client'
 import { useAppStore } from '@/lib/store'
 import { createClient } from '@/lib/supabase/client'
 import type { User, UserState } from '@/lib/types'
 
-const MOCK_USER_ID = 'user_mock_001'
+interface ProfileResponse {
+  user: User
+}
 
-export async function signInWithGoogle(): Promise<User> {
-  const state = useAppStore.getState()
-  const existingUser = state.user
+function sanitizeNextPath(nextPath?: string | null): string | null {
+  if (!nextPath) return null
+  if (!nextPath.startsWith('/')) return null
+  if (nextPath.startsWith('//')) return null
+  return nextPath
+}
 
-  const user: User =
-    existingUser ?? {
-      id: MOCK_USER_ID,
-      email: 'student@example.com',
-      name: 'Student',
-      selectedSchoolId: null,
-      selectedSchoolName: null,
-      selectedDepartmentId: null,
-      selectedDepartmentName: null,
-    }
+function getCallbackUrl(nextPath?: string | null): string {
+  const callbackUrl = new URL('/auth/callback', location.origin)
+  const safeNextPath = sanitizeNextPath(nextPath)
+  if (safeNextPath) {
+    callbackUrl.searchParams.set('next', safeNextPath)
+  }
+  return callbackUrl.toString()
+}
 
-  state.setUser(user)
-  state.setAuthLoaded(true)
-  return user
+async function patchProfile(payload: { schoolId: string; departmentId?: string | null }) {
+  return fetchJson<ProfileResponse>('/api/me/profile', {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  })
+}
+
+export async function signInWithGoogle(nextPath?: string | null): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: getCallbackUrl(nextPath),
+    },
+  })
+
+  if (error) {
+    throw error
+  }
 }
 
 export async function signOut(): Promise<void> {
@@ -39,9 +58,9 @@ export async function getUserState(): Promise<UserState> {
   return useAppStore.getState().userState
 }
 
-export async function selectUserSchool(schoolId: string): Promise<User> {
-  const school = getSchoolById(schoolId)
-  if (!school) {
+export async function selectUserSchool(schoolId: string, schoolName?: string): Promise<User> {
+  const normalizedSchoolId = schoolId.trim()
+  if (!normalizedSchoolId) {
     throw new Error('SCHOOL_NOT_FOUND')
   }
 
@@ -50,7 +69,22 @@ export async function selectUserSchool(schoolId: string): Promise<User> {
     throw new Error('UNAUTHORIZED')
   }
 
-  state.setUserSchool(schoolId, school.name)
+  const schoolChanged = state.user.selectedSchoolId !== normalizedSchoolId
+  const nextDepartmentId = schoolChanged ? null : state.user.selectedDepartmentId
+  const response = await patchProfile({
+    schoolId: normalizedSchoolId,
+    departmentId: nextDepartmentId,
+  })
+
+  if (response.user) {
+    state.setUser(response.user)
+  } else {
+    state.setUserSchool(
+      normalizedSchoolId,
+      schoolName ?? state.user.selectedSchoolName ?? '',
+    )
+  }
+
   const user = useAppStore.getState().user
   if (!user) {
     throw new Error('UNAUTHORIZED')
@@ -80,7 +114,17 @@ export async function selectUserDepartment(
     throw new Error('DEPARTMENT_NOT_FOUND')
   }
 
-  state.setUserDepartment(departmentId, resolvedName)
+  const response = await patchProfile({
+    schoolId: state.user.selectedSchoolId,
+    departmentId,
+  })
+
+  if (response.user) {
+    state.setUser(response.user)
+  } else {
+    state.setUserDepartment(departmentId, resolvedName)
+  }
+
   const user = useAppStore.getState().user
   if (!user) {
     throw new Error('UNAUTHORIZED')

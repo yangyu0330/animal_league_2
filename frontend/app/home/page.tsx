@@ -72,7 +72,7 @@ export default function HomePage() {
     <AppShell>
       <div className="px-4 py-6">
         <header className="mb-5 flex items-center justify-between">
-          <SchoolSelector value={schoolFilter} onChange={handleSchoolChange} />
+          <SchoolSelector value={schoolFilter} valueLabel={schoolName} onChange={handleSchoolChange} />
           <Link href="/departments/search" className="rounded-lg p-2 hover:bg-muted" aria-label="학과 검색">
             <Search className="h-5 w-5 text-foreground" />
           </Link>

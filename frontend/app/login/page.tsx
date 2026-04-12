@@ -2,24 +2,19 @@
 
 import { useState } from 'react'
 import { toast } from 'sonner'
-import { createClient } from '@/lib/supabase/client'
+import { signInWithGoogle } from '@/lib/auth/client'
 
 export default function LoginPage() {
-  const supabase = createClient()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleGoogleLogin = async () => {
     if (isSubmitting) return
 
     setIsSubmitting(true)
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      },
-    })
-
-    if (error) {
+    try {
+      const nextPath = new URLSearchParams(window.location.search).get('next')
+      await signInWithGoogle(nextPath)
+    } catch {
       toast.error('Google login failed. Please try again.')
       setIsSubmitting(false)
     }
