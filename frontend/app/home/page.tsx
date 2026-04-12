@@ -6,19 +6,23 @@ import { useRouter } from 'next/navigation'
 import { Search } from 'lucide-react'
 import { toast } from 'sonner'
 import { AppShell } from '@/components/app-shell'
+import { PressureBadge } from '@/components/pressure-badge'
 import { RankingCard } from '@/components/ranking-card'
 import { SchoolSelector } from '@/components/school-selector'
 import { TrendingCard } from '@/components/trending-card'
+import { getDepartmentById } from '@/lib/api/departments'
 import { getRankings, getTrendingDepartments } from '@/lib/api/rankings'
 import { ApiError } from '@/lib/api/client'
 import { useAppStore } from '@/lib/store'
-import type { RankingItem, TrendingItem } from '@/lib/types'
+import type { Department, RankingItem, TrendingItem } from '@/lib/types'
 
 export default function HomePage() {
   const router = useRouter()
   const { userState, user, authLoaded } = useAppStore()
   const [schoolFilter, setSchoolFilter] = useState<string | null>(null)
   const [schoolName, setSchoolName] = useState<string | null>(null)
+  const [myDepartment, setMyDepartment] = useState<Department | null>(null)
+  const [myDepartmentError, setMyDepartmentError] = useState(false)
   const [nationalRankings, setNationalRankings] = useState<RankingItem[]>([])
   const [schoolRankings, setSchoolRankings] = useState<RankingItem[]>([])
   const [trending, setTrending] = useState<TrendingItem[]>([])
@@ -39,6 +43,35 @@ export default function HomePage() {
     setSchoolFilter(user.selectedSchoolId)
     setSchoolName(user.selectedSchoolName)
   }, [user?.selectedSchoolId, user?.selectedSchoolName])
+
+  useEffect(() => {
+    const departmentId = user?.selectedDepartmentId
+    if (!departmentId) {
+      setMyDepartment(null)
+      setMyDepartmentError(false)
+      return
+    }
+
+    let cancelled = false
+
+    async function loadMyDepartment() {
+      try {
+        const department = await getDepartmentById(departmentId)
+        if (cancelled) return
+        setMyDepartment(department)
+        setMyDepartmentError(false)
+      } catch {
+        if (cancelled) return
+        setMyDepartment(null)
+        setMyDepartmentError(true)
+      }
+    }
+
+    void loadMyDepartment()
+    return () => {
+      cancelled = true
+    }
+  }, [user?.selectedDepartmentId])
 
   useEffect(() => {
     async function load() {
@@ -79,14 +112,45 @@ export default function HomePage() {
         </header>
 
         <section className="mb-6">
-          <h1 className="text-xl font-bold text-foreground">전국 학과 압박 TOP 10</h1>
-          <p className="text-sm text-muted-foreground">실시간 누적 클릭 기준</p>
+          <h1 className="text-xl font-bold text-foreground">내 학과</h1>
+          <p className="text-sm text-muted-foreground">현재 선택한 학과 기준</p>
         </section>
 
-        <section className="space-y-2 mb-7">
-          {nationalRankings.map((item) => (
-            <RankingCard key={item.departmentId} item={item} />
-          ))}
+        <section className="mb-7">
+          {myDepartment ? (
+            <Link
+              href={`/departments/${myDepartment.id}`}
+              className="block rounded-2xl border border-border bg-card p-4 transition-colors hover:border-primary/30"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h2 className="truncate text-base font-semibold text-foreground">{myDepartment.name}</h2>
+                  <p className="truncate text-sm text-muted-foreground">{myDepartment.schoolName}</p>
+                </div>
+                <PressureBadge level={myDepartment.pressureLevel} size="sm" />
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+                <div>
+                  <p className="text-[11px] text-muted-foreground">총 클릭</p>
+                  <p className="number-display text-sm font-bold text-foreground">{myDepartment.totalClicks.toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-[11px] text-muted-foreground">학생 스택</p>
+                  <p className="number-display text-sm font-bold text-foreground">{myDepartment.stackCount}</p>
+                </div>
+                <div>
+                  <p className="text-[11px] text-muted-foreground">오늘 클릭</p>
+                  <p className="number-display text-sm font-bold text-foreground">{myDepartment.todayClicks.toLocaleString()}</p>
+                </div>
+              </div>
+            </Link>
+          ) : (
+            <div className="rounded-xl border border-border bg-card p-4 text-sm text-muted-foreground">
+              {myDepartmentError
+                ? '내 학과 정보를 불러오지 못했습니다.'
+                : '내 학과 정보를 준비하고 있습니다.'}
+            </div>
+          )}
         </section>
 
         <section className="mb-7">
@@ -102,7 +166,7 @@ export default function HomePage() {
           <h2 className="text-base font-semibold text-foreground">학교별 TOP 5</h2>
           {schoolFilter ? <p className="text-sm text-muted-foreground">{schoolName} 기준</p> : null}
         </section>
-        <section className="space-y-2">
+        <section className="space-y-2 mb-7">
           {schoolRankings.map((item) => (
             <RankingCard key={item.departmentId} item={item} />
           ))}
@@ -111,6 +175,17 @@ export default function HomePage() {
               학교를 선택하면 학교별 TOP 5를 볼 수 있어요.
             </div>
           ) : null}
+        </section>
+
+        <section className="mb-6">
+          <h2 className="text-xl font-bold text-foreground">전국 학과 압박 TOP 10</h2>
+          <p className="text-sm text-muted-foreground">실시간 누적 클릭 기준</p>
+        </section>
+
+        <section className="space-y-2 mb-7">
+          {nationalRankings.map((item) => (
+            <RankingCard key={item.departmentId} item={item} />
+          ))}
         </section>
       </div>
     </AppShell>
