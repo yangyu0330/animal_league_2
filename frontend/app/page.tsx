@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -61,34 +61,34 @@ export default function LandingPage() {
       const nextPath = new URLSearchParams(window.location.search).get('next')
       await signInWithGoogle(nextPath)
     } catch {
-      toast.error('Google 로그인에 실패했어요. 다시 시도해주세요.')
+      toast.error('Google 濡쒓렇?몄뿉 ?ㅽ뙣?덉뼱?? ?ㅼ떆 ?쒕룄?댁＜?몄슂.')
       setIsSigningIn(false)
     }
   }
 
   const ctaLabel = !authLoaded
-    ? '상태 확인 중...'
+    ? '?곹깭 ?뺤씤 以?..'
     : isSigningIn
-      ? 'Google 로그인으로 이동 중...'
+      ? 'Google 濡쒓렇?몄쑝濡??대룞 以?..'
       : userState === 'ACTIVE_USER'
-        ? '홈으로 이동하기'
+        ? '?덉쑝濡??대룞?섍린'
         : userState === 'AUTH_NO_SCHOOL'
-          ? '학교/학과 선택하고 시작하기'
-          : '로그인하고 압박 시작하기'
+          ? '?숆탳/?숆낵 ?좏깮?섍퀬 ?쒖옉?섍린'
+          : '濡쒓렇?명븯怨??뺣컯 ?쒖옉?섍린'
 
   return (
     <div className="mobile-canvas min-h-screen bg-background">
       <main className="px-4 py-6">
         <section>
-          <h1 className="text-2xl font-bold text-foreground">과제가 많아서 힘들어요???</h1>
-          <p className="mt-2 text-base font-semibold text-foreground">교수님에게도 압박을 가해봐요!!</p>
+          <h1 className="text-2xl font-bold text-foreground">怨쇱젣媛 留롮븘???섎뱾?댁슂???</h1>
+          <p className="mt-2 text-base font-semibold text-foreground">援먯닔?섏뿉寃뚮룄 ?뺣컯??媛?대킄??!</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            당신이 클릭을 할수록 당신 학과 교수님이 힘들어집니다
+            ?뱀떊???대┃???좎닔濡??뱀떊 ?숆낵 援먯닔?섏씠 ?섎뱾?댁쭛?덈떎
           </p>
 
           <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
             <Image
-              src="/new-professor.png"
+              src="/new-professor.webp.png"
               alt="과제 압박에 힘들어진 교수님"
               width={864}
               height={1152}
@@ -107,25 +107,25 @@ export default function LandingPage() {
         </section>
 
         <section className="mt-8 pb-6">
-          <h2 className="text-base font-semibold text-foreground">현재 전국 제일 힘든 학과 TOP 5</h2>
-          <p className="mt-1 text-sm text-muted-foreground">총 클릭 수 기준</p>
+          <h2 className="text-base font-semibold text-foreground">?꾩옱 ?꾧뎅 ?쒖씪 ?섎뱺 ?숆낵 TOP 5</h2>
+          <p className="mt-1 text-sm text-muted-foreground">珥??대┃ ??湲곗?</p>
 
           <div className="mt-3 space-y-2">
             {isRankingLoading ? (
               <div className="rounded-xl border border-border bg-card p-4 text-sm text-muted-foreground">
-                랭킹을 불러오는 중...
+                ??궧??遺덈윭?ㅻ뒗 以?..
               </div>
             ) : null}
 
             {!isRankingLoading && rankingLoadFailed ? (
               <div className="rounded-xl border border-border bg-card p-4 text-sm text-muted-foreground">
-                랭킹을 불러오지 못했어요.
+                ??궧??遺덈윭?ㅼ? 紐삵뻽?댁슂.
               </div>
             ) : null}
 
             {!isRankingLoading && !rankingLoadFailed && topItems.length === 0 ? (
               <div className="rounded-xl border border-border bg-card p-4 text-sm text-muted-foreground">
-                표시할 랭킹 데이터가 없어요.
+                ?쒖떆????궧 ?곗씠?곌? ?놁뼱??
               </div>
             ) : null}
 
