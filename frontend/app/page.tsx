@@ -88,7 +88,7 @@ export default function LandingPage() {
 
           <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
             <Image
-              src="/new-professor.webp"
+              src="/new-professor.png"
               alt="과제 압박에 힘들어진 교수님"
               width={864}
               height={1152}
