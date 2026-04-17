@@ -1,3 +1,8 @@
+'use client'
+
+import Image from 'next/image'
+import { useEffect, useRef } from 'react'
+import Matter from 'matter-js'
 import type { DepartmentCategory, PressureLevel } from '@/lib/types'
 
 interface MascotCardProps {
@@ -22,6 +27,21 @@ function getCategoryIcon(category: DepartmentCategory): string {
   return categoryIcons[category] ?? 'stack'
 }
 
+const professorSprite = '/characters/professor-base.png'
+
+const studentSprites = [
+  '/characters/student-01.png',
+  '/characters/student-02.png',
+  '/characters/student-03.png',
+  '/characters/student-04.png',
+  '/characters/student-05.png',
+  '/characters/student-06.png',
+  '/characters/student-07.png',
+  '/characters/student-08.png',
+  '/characters/student-09.png',
+  '/characters/student-10.png',
+]
+
 const pressureBackgrounds: Record<PressureLevel, string> = {
   0: 'from-pressure-0/50 to-pressure-0/20',
   1: 'from-pressure-1/55 to-pressure-1/25',
@@ -38,54 +58,178 @@ const pressureFaces: Record<PressureLevel, string> = {
   4: 'x_x',
 }
 
-function StackVisual({ stackCount }: { stackCount: number }) {
-  const visible = Math.min(stackCount, 12)
-  const hidden = Math.max(stackCount - visible, 0)
+type PhysicsRefs = {
+  engine: Matter.Engine
+  render: Matter.Render
+  runner: Matter.Runner
+  studentBodies: Matter.Body[]
+}
 
-  return (
-    <div className="flex items-end gap-1">
-      {Array.from({ length: visible }).map((_, index) => (
-        <span
-          key={`stack-${index}`}
-          className="h-4 w-2 rounded-sm border border-foreground/20 bg-foreground/90"
-          style={{ opacity: 0.45 + index * 0.03 }}
-        />
-      ))}
-      {hidden > 0 ? <span className="text-xs font-semibold text-foreground">+{hidden}</span> : null}
-    </div>
-  )
+const stageSize = 270
+const studentBodySize = 44
+
+function buildStudentBody(index: number): Matter.Body {
+  const sprite = studentSprites[index % studentSprites.length]
+  return Matter.Bodies.rectangle(stageSize * 0.5, 8, studentBodySize, studentBodySize, {
+    restitution: 0.12,
+    friction: 0.8,
+    frictionAir: 0.02,
+    density: 0.0025,
+    render: {
+      sprite: {
+        texture: sprite,
+        xScale: studentBodySize / 768,
+        yScale: studentBodySize / 768,
+      },
+    },
+  })
+}
+
+function createStaticBodies() {
+  const wallThickness = 32
+  const floor = Matter.Bodies.rectangle(stageSize * 0.5, stageSize + 10, stageSize + wallThickness, 30, {
+    isStatic: true,
+    render: { fillStyle: 'transparent' },
+  })
+  const leftWall = Matter.Bodies.rectangle(-10, stageSize * 0.5, wallThickness, stageSize, {
+    isStatic: true,
+    render: { fillStyle: 'transparent' },
+  })
+  const rightWall = Matter.Bodies.rectangle(stageSize + 10, stageSize * 0.5, wallThickness, stageSize, {
+    isStatic: true,
+    render: { fillStyle: 'transparent' },
+  })
+  const professorBodyBlock = Matter.Bodies.rectangle(stageSize * 0.5, 205, 140, 110, {
+    isStatic: true,
+    chamfer: { radius: 10 },
+    render: { fillStyle: 'transparent' },
+  })
+
+  return [floor, leftWall, rightWall, professorBodyBlock]
 }
 
 export function MascotCard({ category, pressureLevel, totalClicks, stackCount }: MascotCardProps) {
+  const safeClicks = Math.max(totalClicks, 0)
+  const cycle = Math.floor(safeClicks / 1000)
+  const studentCount = Math.floor((safeClicks % 1000) / 100)
+  const physicsRootRef = useRef<HTMLDivElement | null>(null)
+  const physicsRefsRef = useRef<PhysicsRefs | null>(null)
+  const previousStateRef = useRef<{ cycle: number; studentCount: number }>({ cycle, studentCount: 0 })
+
+  useEffect(() => {
+    const root = physicsRootRef.current
+    if (!root) return
+
+    const engine = Matter.Engine.create({ gravity: { x: 0, y: 0.9 } })
+    const render = Matter.Render.create({
+      element: root,
+      engine,
+      options: {
+        width: stageSize,
+        height: stageSize,
+        wireframes: false,
+        background: 'transparent',
+        pixelRatio: window.devicePixelRatio || 1,
+      },
+    })
+    const runner = Matter.Runner.create()
+    Matter.Composite.add(engine.world, createStaticBodies())
+
+    Matter.Render.run(render)
+    Matter.Runner.run(runner, engine)
+
+    physicsRefsRef.current = { engine, render, runner, studentBodies: [] }
+
+    return () => {
+      const refs = physicsRefsRef.current
+      if (!refs) return
+      Matter.Render.stop(refs.render)
+      Matter.Runner.stop(refs.runner)
+      Matter.Composite.clear(refs.engine.world, false)
+      Matter.Engine.clear(refs.engine)
+      refs.render.canvas.remove()
+      refs.render.textures = {}
+      physicsRefsRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    const refs = physicsRefsRef.current
+    if (!refs) return
+
+    const { engine, studentBodies } = refs
+    const prev = previousStateRef.current
+
+    if (studentCount < prev.studentCount || cycle !== prev.cycle) {
+      if (studentBodies.length > 0) {
+        Matter.Composite.remove(engine.world, studentBodies)
+        refs.studentBodies = []
+      }
+    }
+
+    if (studentCount > refs.studentBodies.length) {
+      for (let index = refs.studentBodies.length; index < studentCount; index += 1) {
+        const studentBody = buildStudentBody(index)
+        Matter.Composite.add(engine.world, studentBody)
+        refs.studentBodies.push(studentBody)
+      }
+    } else if (studentCount < refs.studentBodies.length) {
+      const removed = refs.studentBodies.splice(studentCount)
+      Matter.Composite.remove(engine.world, removed)
+    }
+
+    previousStateRef.current = { cycle, studentCount }
+  }, [cycle, studentCount])
+
   return (
     <section
-      className={`relative min-h-[220px] rounded-2xl border border-border bg-gradient-to-b ${pressureBackgrounds[pressureLevel]} p-4`}
+      className={`relative min-h-[320px] rounded-2xl border border-border bg-gradient-to-b ${pressureBackgrounds[pressureLevel]} p-4`}
     >
       <div className="absolute right-4 top-4 rounded-full bg-card/70 px-2 py-1 text-[11px] font-semibold text-muted-foreground">
         {getCategoryIcon(category)}
       </div>
-      <div className="flex h-full flex-col justify-between">
-        <div>
+
+      <div className="flex h-full flex-col">
+        <div className="pr-16">
           <p className="text-xs font-medium text-muted-foreground">계열 템플릿</p>
           <p className="text-sm font-semibold text-foreground">{category}</p>
         </div>
-        <div className="text-center">
-          <p className="number-display text-5xl font-bold text-foreground">{pressureFaces[pressureLevel]}</p>
-          <p className="mt-2 text-xs text-muted-foreground">압박 상태</p>
-        </div>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-[11px] text-muted-foreground">총 클릭</p>
-              <p className="number-display text-xl font-bold text-foreground">{totalClicks.toLocaleString()}</p>
-            </div>
-            <div className="text-right">
-              <p className="text-[11px] text-muted-foreground">학생 스택</p>
-              <p className="number-display text-xl font-bold text-foreground">{stackCount}</p>
+
+        <div className="mt-3 rounded-lg border border-white/10 bg-black p-2">
+          <div className="relative mx-auto aspect-square w-full max-w-[270px] overflow-hidden rounded-md bg-black">
+            <Image
+              src={professorSprite}
+              alt="교수님"
+              width={768}
+              height={768}
+              className="absolute left-1/2 top-4 h-[200px] w-[200px] -translate-x-1/2 object-contain"
+              style={{ imageRendering: 'pixelated' }}
+              priority
+            />
+            <div className="absolute inset-0 z-20">
+              <div ref={physicsRootRef} className="h-full w-full" />
             </div>
           </div>
-          <StackVisual stackCount={stackCount} />
         </div>
+
+        <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+          <div>
+            <p className="text-[11px] text-muted-foreground">총 클릭</p>
+            <p className="number-display text-lg font-bold text-foreground">{safeClicks.toLocaleString()}</p>
+          </div>
+          <div>
+            <p className="text-[11px] text-muted-foreground">현재 학생</p>
+            <p className="number-display text-lg font-bold text-foreground">{studentCount}</p>
+          </div>
+          <div>
+            <p className="text-[11px] text-muted-foreground">누적 단계</p>
+            <p className="number-display text-lg font-bold text-foreground">{stackCount}</p>
+          </div>
+        </div>
+
+        <p className="mt-2 text-center text-[11px] text-muted-foreground">
+          {pressureFaces[pressureLevel]} · 100 클릭당 학생 1명 · 1000 클릭마다 초기화
+        </p>
       </div>
     </section>
   )
