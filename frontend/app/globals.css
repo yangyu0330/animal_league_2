@@ -231,6 +231,14 @@
       0 -1px rgba(0, 0, 0, 0.8),
       0 1px rgba(0, 0, 0, 0.8);
   }
+
+  .speech-outline {
+    letter-spacing: 0;
+    text-shadow:
+      -1px 0 rgba(0, 0, 0, 0.45),
+      1px 0 rgba(0, 0, 0, 0.45),
+      0 1px rgba(0, 0, 0, 0.35);
+  }
 }
 
 @keyframes count-bump {

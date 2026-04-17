@@ -74,7 +74,7 @@ type PhysicsRefs = {
 const stageSize = 270
 const studentBodySize = 42
 const pileResetDelayMs = 900
-const speechDurationMs = 900
+const speechDurationMs = 1600
 const studentDropDurationMs = 680
 const stageUpDurationMs = 820
 const comboFadeDurationMs = 260
@@ -467,9 +467,9 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
             {speechText ? (
               <div
                 key={`speech-${speechKey}`}
-                className="speech-pop speech-bubble absolute left-1/2 top-2 z-40 w-max max-w-[220px] -translate-x-1/2 rounded-[8px] border border-black/75 bg-[#fff6df] px-3 py-2 text-center text-[12px] font-black text-[#2c120a]"
+                className="speech-pop speech-bubble absolute left-1/2 top-2 z-40 w-max max-w-[240px] -translate-x-1/2 rounded-[8px] border border-black/75 bg-[#fff6df] px-3.5 py-2.5 text-center text-[15px] font-semibold text-[#2c120a]"
               >
-                <p className="pixel-outline leading-tight">{speechText}</p>
+                <p className="speech-outline leading-[1.25]">{speechText}</p>
                 <div className="speech-tail absolute left-1/2 top-full h-0 w-0 -translate-x-1/2 border-l-[10px] border-r-[10px] border-t-[10px] border-l-transparent border-r-transparent border-t-[#fff6df]" />
               </div>
             ) : null}
