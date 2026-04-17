@@ -1,11 +1,11 @@
 import type { DepartmentCategory, PressureLevel } from '@/lib/types'
 
-const LEVEL_1_MIN = 1000
-const LEVEL_2_MIN = 5000
-const LEVEL_3_MIN = 10000
-const LEVEL_4_MIN = 25000
-const LEVEL_5_MIN = 50000
-const LEVEL_6_MIN = 100000
+const LEVEL_1_MIN = 500
+const LEVEL_2_MIN = 1000
+const LEVEL_3_MIN = 1500
+const LEVEL_4_MIN = 2000
+const LEVEL_5_MIN = 2500
+const LEVEL_6_MIN = 3000
 
 const SYNONYM_MAP: Record<string, string> = {
   컴퓨터공학부: '컴퓨터공학과',
