@@ -63,18 +63,22 @@ type PhysicsRefs = {
   render: Matter.Render
   runner: Matter.Runner
   studentBodies: Matter.Body[]
+  resetTimeoutId: number | null
 }
 
 const stageSize = 270
-const studentBodySize = 44
+const studentBodySize = 42
+const pileResetDelayMs = 900
 
 function buildStudentBody(index: number): Matter.Body {
   const sprite = studentSprites[index % studentSprites.length]
-  return Matter.Bodies.rectangle(stageSize * 0.5, 8, studentBodySize, studentBodySize, {
-    restitution: 0.12,
-    friction: 0.8,
-    frictionAir: 0.02,
-    density: 0.0025,
+  const spawnX = 48 + Math.random() * (stageSize - 96)
+  const body = Matter.Bodies.rectangle(spawnX, -studentBodySize, studentBodySize, studentBodySize, {
+    restitution: 0.9,
+    friction: 0.16,
+    frictionStatic: 0.001,
+    frictionAir: 0.004,
+    density: 0.0016,
     render: {
       sprite: {
         texture: sprite,
@@ -83,35 +87,52 @@ function buildStudentBody(index: number): Matter.Body {
       },
     },
   })
+
+  Matter.Body.setVelocity(body, {
+    x: -5 + Math.random() * 10,
+    y: 7 + Math.random() * 5,
+  })
+  Matter.Body.setAngularVelocity(body, -0.28 + Math.random() * 0.56)
+
+  return body
 }
 
 function createStaticBodies() {
   const wallThickness = 32
   const floor = Matter.Bodies.rectangle(stageSize * 0.5, stageSize + 10, stageSize + wallThickness, 30, {
     isStatic: true,
+    restitution: 0.82,
+    friction: 0.12,
     render: { fillStyle: 'transparent' },
   })
   const leftWall = Matter.Bodies.rectangle(-10, stageSize * 0.5, wallThickness, stageSize, {
     isStatic: true,
+    restitution: 0.9,
+    friction: 0.08,
     render: { fillStyle: 'transparent' },
   })
   const rightWall = Matter.Bodies.rectangle(stageSize + 10, stageSize * 0.5, wallThickness, stageSize, {
     isStatic: true,
-    render: { fillStyle: 'transparent' },
-  })
-  const professorBodyBlock = Matter.Bodies.rectangle(stageSize * 0.5, 205, 140, 110, {
-    isStatic: true,
-    chamfer: { radius: 10 },
+    restitution: 0.9,
+    friction: 0.08,
     render: { fillStyle: 'transparent' },
   })
 
-  return [floor, leftWall, rightWall, professorBodyBlock]
+  return [floor, leftWall, rightWall]
+}
+
+function clearStudentBodies(refs: PhysicsRefs) {
+  if (refs.studentBodies.length === 0) return
+  Matter.Composite.remove(refs.engine.world, refs.studentBodies)
+  refs.studentBodies = []
 }
 
 export function MascotCard({ category, pressureLevel, totalClicks, stackCount }: MascotCardProps) {
   const safeClicks = Math.max(totalClicks, 0)
-  const cycle = Math.floor(safeClicks / 1000)
-  const studentCount = Math.floor((safeClicks % 1000) / 100)
+  const remainderClicks = safeClicks % 1000
+  const isCycleComplete = safeClicks > 0 && remainderClicks === 0
+  const cycle = isCycleComplete ? Math.floor((safeClicks - 1) / 1000) : Math.floor(safeClicks / 1000)
+  const studentCount = isCycleComplete ? 10 : Math.floor(remainderClicks / 100)
   const physicsRootRef = useRef<HTMLDivElement | null>(null)
   const physicsRefsRef = useRef<PhysicsRefs | null>(null)
   const previousStateRef = useRef<{ cycle: number; studentCount: number }>({ cycle, studentCount: 0 })
@@ -138,11 +159,14 @@ export function MascotCard({ category, pressureLevel, totalClicks, stackCount }:
     Matter.Render.run(render)
     Matter.Runner.run(runner, engine)
 
-    physicsRefsRef.current = { engine, render, runner, studentBodies: [] }
+    physicsRefsRef.current = { engine, render, runner, studentBodies: [], resetTimeoutId: null }
 
     return () => {
       const refs = physicsRefsRef.current
       if (!refs) return
+      if (refs.resetTimeoutId !== null) {
+        window.clearTimeout(refs.resetTimeoutId)
+      }
       Matter.Render.stop(refs.render)
       Matter.Runner.stop(refs.runner)
       Matter.Composite.clear(refs.engine.world, false)
@@ -161,10 +185,12 @@ export function MascotCard({ category, pressureLevel, totalClicks, stackCount }:
     const prev = previousStateRef.current
 
     if (studentCount < prev.studentCount || cycle !== prev.cycle) {
-      if (studentBodies.length > 0) {
-        Matter.Composite.remove(engine.world, studentBodies)
-        refs.studentBodies = []
-      }
+      clearStudentBodies(refs)
+    }
+
+    if (refs.resetTimeoutId !== null) {
+      window.clearTimeout(refs.resetTimeoutId)
+      refs.resetTimeoutId = null
     }
 
     if (studentCount > refs.studentBodies.length) {
@@ -178,8 +204,15 @@ export function MascotCard({ category, pressureLevel, totalClicks, stackCount }:
       Matter.Composite.remove(engine.world, removed)
     }
 
+    if (isCycleComplete && refs.studentBodies.length === 10) {
+      refs.resetTimeoutId = window.setTimeout(() => {
+        clearStudentBodies(refs)
+        refs.resetTimeoutId = null
+      }, pileResetDelayMs)
+    }
+
     previousStateRef.current = { cycle, studentCount }
-  }, [cycle, studentCount])
+  }, [cycle, isCycleComplete, studentCount])
 
   return (
     <section
