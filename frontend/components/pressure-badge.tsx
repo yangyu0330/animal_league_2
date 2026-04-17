@@ -18,7 +18,7 @@ const levelLabels: Record<PressureLevel, string> = {
 const levelColors: Record<PressureLevel, string> = {
   0: 'bg-pressure-0 text-green-800',
   1: 'bg-pressure-1 text-yellow-800',
-  2: 'bg-pressure-2 text-orange-800',
+  2: 'bg-pressure-2 text-yellow-800',
   3: 'bg-pressure-3 text-orange-900',
   4: 'bg-pressure-4 text-orange-950',
   5: 'bg-pressure-5 text-red-800',
