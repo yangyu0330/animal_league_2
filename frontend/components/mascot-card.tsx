@@ -28,6 +28,7 @@ function getCategoryIcon(category: DepartmentCategory): string {
 }
 
 const professorSprite = '/characters/professor-base.png'
+const professorBackgroundSprite = '/characters/professor-bg-classroom.png'
 
 const studentSprites = [
   '/characters/student-01.png',
@@ -231,11 +232,20 @@ export function MascotCard({ category, pressureLevel, totalClicks, stackCount }:
         <div className="mt-3 rounded-lg border border-white/10 bg-black p-2">
           <div className="relative mx-auto aspect-square w-full max-w-[270px] overflow-hidden rounded-md bg-black">
             <Image
+              src={professorBackgroundSprite}
+              alt="교수님 배경"
+              fill
+              sizes="270px"
+              className="absolute inset-0 z-0 object-cover object-left"
+              style={{ imageRendering: 'pixelated' }}
+              priority
+            />
+            <Image
               src={professorSprite}
               alt="교수님"
               width={768}
               height={768}
-              className="absolute left-1/2 top-4 h-[200px] w-[200px] -translate-x-1/2 object-contain"
+              className="absolute left-1/2 top-4 z-10 h-[200px] w-[200px] -translate-x-1/2 object-contain"
               style={{ imageRendering: 'pixelated' }}
               priority
             />
