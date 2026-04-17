@@ -28,6 +28,14 @@ export function calculateStackCount(totalClicks: number): number {
   return Math.floor(Math.max(totalClicks, 0) / 1000)
 }
 
+export function calculateCurrentStudentCount(totalClicks: number): number {
+  const safeClicks = Math.max(totalClicks, 0)
+  const remainderClicks = safeClicks % 1000
+  const isCycleComplete = safeClicks > 0 && remainderClicks === 0
+
+  return isCycleComplete ? 10 : Math.floor(remainderClicks / 100)
+}
+
 export function calculatePressureLevel(totalClicks: number): PressureLevel {
   if (totalClicks < LEVEL_1_MIN) return 0
   if (totalClicks < LEVEL_2_MIN) return 1

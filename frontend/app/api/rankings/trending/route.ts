@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { getKstDayStartIso } from '@/lib/time'
 
-interface DailyStatRow {
+interface ClickEventDepartmentRow {
   department_id: string
-  accepted_clicks: number
 }
 
 interface SchoolRelation {
@@ -22,34 +22,50 @@ function resolveSchoolName(school: SchoolRelation | SchoolRelation[] | null | un
   return school.name ?? ''
 }
 
-function todayDateKey(): string {
-  return new Date().toISOString().slice(0, 10)
-}
-
 export async function GET() {
   try {
     const supabase = await createClient()
-    const dailyQuery = await supabase
-      .from('department_daily_stat')
-      .select('department_id, accepted_clicks')
-      .eq('date', todayDateKey())
-      .order('accepted_clicks', { ascending: false })
-      .limit(5)
+    const clickCounts = new Map<string, number>()
+    const startOfKstDay = getKstDayStartIso()
+    const pageSize = 1000
+    let from = 0
 
-    if (dailyQuery.error) {
-      console.error('[GET /api/rankings/trending] daily stat query failed', dailyQuery.error)
-      return NextResponse.json(
-        {
-          code: 'INTERNAL_ERROR',
-          error: 'INTERNAL_ERROR',
-          message: 'An unexpected server error occurred.',
-        },
-        { status: 500 },
-      )
+    while (true) {
+      const to = from + pageSize - 1
+      const todayClicksQuery = await supabase
+        .from('click_event')
+        .select('department_id')
+        .eq('accepted', true)
+        .gte('created_at', startOfKstDay)
+        .order('created_at', { ascending: false })
+        .range(from, to)
+
+      if (todayClicksQuery.error) {
+        console.error('[GET /api/rankings/trending] click_event query failed', todayClicksQuery.error)
+        return NextResponse.json(
+          {
+            code: 'INTERNAL_ERROR',
+            error: 'INTERNAL_ERROR',
+            message: 'An unexpected server error occurred.',
+          },
+          { status: 500 },
+        )
+      }
+
+      const rows = (todayClicksQuery.data ?? []) as ClickEventDepartmentRow[]
+      for (const row of rows) {
+        clickCounts.set(row.department_id, (clickCounts.get(row.department_id) ?? 0) + 1)
+      }
+
+      if (rows.length < pageSize) break
+      from += pageSize
     }
 
-    const dailyRows = (dailyQuery.data ?? []) as DailyStatRow[]
-    const departmentIds = dailyRows.map((row) => row.department_id)
+    const rankedCounts = Array.from(clickCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+
+    const departmentIds = rankedCounts.map(([departmentId]) => departmentId)
     if (departmentIds.length === 0) {
       return NextResponse.json({
         items: [],
@@ -85,13 +101,13 @@ export async function GET() {
     )
 
     return NextResponse.json({
-      items: dailyRows.map((row) => {
-        const department = departmentMap.get(row.department_id)
+      items: rankedCounts.map(([departmentId, todayClicks]) => {
+        const department = departmentMap.get(departmentId)
         return {
-          departmentId: row.department_id,
+          departmentId,
           departmentName: department?.name ?? 'Unknown Department',
           schoolName: department?.schoolName ?? '',
-          todayClicks: Number(row.accepted_clicks ?? 0),
+          todayClicks,
         }
       }),
       generatedAt: new Date().toISOString(),

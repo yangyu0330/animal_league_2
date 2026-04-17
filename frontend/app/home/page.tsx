@@ -13,6 +13,7 @@ import { TrendingCard } from '@/components/trending-card'
 import { getDepartmentById } from '@/lib/api/departments'
 import { getRankings, getTrendingDepartments } from '@/lib/api/rankings'
 import { ApiError } from '@/lib/api/client'
+import { calculateCurrentStudentCount } from '@/lib/domain'
 import { useAppStore } from '@/lib/store'
 import type { Department, RankingItem, TrendingItem } from '@/lib/types'
 
@@ -136,8 +137,10 @@ export default function HomePage() {
                   <p className="number-display text-sm font-bold text-foreground">{myDepartment.totalClicks.toLocaleString()}</p>
                 </div>
                 <div>
-                  <p className="text-[11px] text-muted-foreground">학생 스택</p>
-                  <p className="number-display text-sm font-bold text-foreground">{myDepartment.stackCount}</p>
+                  <p className="text-[11px] text-muted-foreground">현재 학생</p>
+                  <p className="number-display text-sm font-bold text-foreground">
+                    {calculateCurrentStudentCount(myDepartment.totalClicks)}
+                  </p>
                 </div>
                 <div>
                   <p className="text-[11px] text-muted-foreground">오늘 클릭</p>

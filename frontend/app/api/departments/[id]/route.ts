@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { calculatePressureLevel, calculateStackCount } from '@/lib/domain'
 import { createClient } from '@/lib/supabase/server'
+import { getKstDayStartIso } from '@/lib/time'
 import type { PressureLevel } from '@/lib/types'
 
 interface SchoolRelation {
@@ -23,10 +24,6 @@ function resolveSchoolName(school: SchoolRelation | SchoolRelation[] | null | un
   if (!school) return ''
   if (Array.isArray(school)) return school[0]?.name ?? ''
   return school.name ?? ''
-}
-
-function todayDateKey(): string {
-  return new Date().toISOString().slice(0, 10)
 }
 
 export async function GET(
@@ -78,27 +75,15 @@ export async function GET(
         : computedPressure
 
     let todayClicks = 0
-    const dailyQuery = await supabase
-      .from('department_daily_stat')
-      .select('accepted_clicks')
+    const countQuery = await supabase
+      .from('click_event')
+      .select('id', { count: 'exact', head: true })
       .eq('department_id', id)
-      .eq('date', todayDateKey())
-      .maybeSingle()
+      .eq('accepted', true)
+      .gte('created_at', getKstDayStartIso())
 
-    if (!dailyQuery.error && dailyQuery.data) {
-      todayClicks = Number(dailyQuery.data.accepted_clicks ?? 0)
-    } else {
-      const startOfDay = `${todayDateKey()}T00:00:00.000Z`
-      const countQuery = await supabase
-        .from('click_event')
-        .select('id', { count: 'exact', head: true })
-        .eq('department_id', id)
-        .eq('accepted', true)
-        .gte('created_at', startOfDay)
-
-      if (!countQuery.error) {
-        todayClicks = Number(countQuery.count ?? 0)
-      }
+    if (!countQuery.error) {
+      todayClicks = Number(countQuery.count ?? 0)
     }
 
     return NextResponse.json({

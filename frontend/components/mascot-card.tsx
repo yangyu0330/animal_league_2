@@ -3,28 +3,14 @@
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 import Matter from 'matter-js'
+import { calculateCurrentStudentCount } from '@/lib/domain'
 import type { DepartmentCategory, PressureLevel } from '@/lib/types'
 
 interface MascotCardProps {
   category: DepartmentCategory
   pressureLevel: PressureLevel
   totalClicks: number
-  stackCount: number
-}
-
-const categoryIcons: Partial<Record<DepartmentCategory, string>> = {
-  공학: '기어',
-  자연과학: '실험',
-  인문: '서가',
-  사회과학: '네트워크',
-  '경영/경제': '보드',
-  '예술/체육': '무대',
-  교육: '클래스',
-  '보건/의학': '모니터',
-}
-
-function getCategoryIcon(category: DepartmentCategory): string {
-  return categoryIcons[category] ?? 'stack'
+  todayClicks: number
 }
 
 const professorSprite = '/characters/professor-base.png'
@@ -74,7 +60,7 @@ const pileResetDelayMs = 900
 function buildStudentBody(index: number): Matter.Body {
   const sprite = studentSprites[index % studentSprites.length]
   const spawnX = stageSize * 0.5 + (-22 + Math.random() * 44)
-  const spawnY = -studentBodySize - 24
+  const spawnY = studentBodySize * 0.5 + 6
   const body = Matter.Bodies.rectangle(spawnX, spawnY, studentBodySize, studentBodySize, {
     restitution: 0.9,
     friction: 0.16,
@@ -101,6 +87,12 @@ function buildStudentBody(index: number): Matter.Body {
 
 function createStaticBodies() {
   const wallThickness = 32
+  const topWall = Matter.Bodies.rectangle(stageSize * 0.5, -10, stageSize + wallThickness, 30, {
+    isStatic: true,
+    restitution: 0.9,
+    friction: 0.08,
+    render: { fillStyle: 'transparent' },
+  })
   const floor = Matter.Bodies.rectangle(stageSize * 0.5, stageSize + 10, stageSize + wallThickness, 30, {
     isStatic: true,
     restitution: 0.82,
@@ -120,7 +112,7 @@ function createStaticBodies() {
     render: { fillStyle: 'transparent' },
   })
 
-  return [floor, leftWall, rightWall]
+  return [topWall, floor, leftWall, rightWall]
 }
 
 function clearStudentBodies(refs: PhysicsRefs) {
@@ -129,12 +121,12 @@ function clearStudentBodies(refs: PhysicsRefs) {
   refs.studentBodies = []
 }
 
-export function MascotCard({ category, pressureLevel, totalClicks, stackCount }: MascotCardProps) {
+export function MascotCard({ category, pressureLevel, totalClicks, todayClicks }: MascotCardProps) {
   const safeClicks = Math.max(totalClicks, 0)
   const remainderClicks = safeClicks % 1000
   const isCycleComplete = safeClicks > 0 && remainderClicks === 0
   const cycle = isCycleComplete ? Math.floor((safeClicks - 1) / 1000) : Math.floor(safeClicks / 1000)
-  const studentCount = isCycleComplete ? 10 : Math.floor(remainderClicks / 100)
+  const studentCount = calculateCurrentStudentCount(safeClicks)
   const physicsRootRef = useRef<HTMLDivElement | null>(null)
   const physicsRefsRef = useRef<PhysicsRefs | null>(null)
   const previousStateRef = useRef<{ cycle: number; studentCount: number }>({ cycle, studentCount: 0 })
@@ -221,7 +213,7 @@ export function MascotCard({ category, pressureLevel, totalClicks, stackCount }:
       className={`relative min-h-[320px] rounded-2xl border border-border bg-gradient-to-b ${pressureBackgrounds[pressureLevel]} p-4`}
     >
       <div className="absolute right-4 top-4 rounded-full bg-card/70 px-2 py-1 text-[11px] font-semibold text-muted-foreground">
-        {getCategoryIcon(category)}
+        {pressureLevel}단계
       </div>
 
       <div className="flex h-full flex-col">
@@ -264,8 +256,8 @@ export function MascotCard({ category, pressureLevel, totalClicks, stackCount }:
             <p className="number-display text-lg font-bold text-foreground">{studentCount}</p>
           </div>
           <div>
-            <p className="text-[11px] text-muted-foreground">누적 단계</p>
-            <p className="number-display text-lg font-bold text-foreground">{stackCount}</p>
+            <p className="text-[11px] text-muted-foreground">오늘 클릭</p>
+            <p className="number-display text-lg font-bold text-foreground">{todayClicks.toLocaleString()}</p>
           </div>
         </div>
 

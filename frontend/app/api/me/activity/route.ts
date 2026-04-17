@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { getKstDayStartIso } from '@/lib/time'
 
 interface ClickEventRow {
   id: string
@@ -24,12 +25,6 @@ function resolveSchoolName(school: SchoolRelation | SchoolRelation[] | null | un
   if (!school) return ''
   if (Array.isArray(school)) return school[0]?.name ?? ''
   return school.name ?? ''
-}
-
-function todayStartIso(): string {
-  const date = new Date()
-  date.setUTCHours(0, 0, 0, 0)
-  return date.toISOString()
 }
 
 export async function GET(request: Request) {
@@ -109,7 +104,7 @@ export async function GET(request: Request) {
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user.id)
       .eq('accepted', true)
-      .gte('created_at', todayStartIso())
+      .gte('created_at', getKstDayStartIso())
 
     if (todayCountQuery.error) {
       console.error('[GET /api/me/activity] today count query failed', todayCountQuery.error)
