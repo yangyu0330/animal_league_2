@@ -16,6 +16,7 @@ export default function ActivityPage() {
   const router = useRouter()
   const { userState, user, authLoaded } = useAppStore()
   const [todayCount, setTodayCount] = useState(0)
+  const [maxCombo, setMaxCombo] = useState(0)
   const [items, setItems] = useState<ClickActivity[]>([])
 
   useEffect(() => {
@@ -36,6 +37,7 @@ export default function ActivityPage() {
       try {
         const response = await getMyActivity(20)
         setTodayCount(response.todayCount)
+        setMaxCombo(response.maxCombo)
         setItems(response.items)
       } catch (error) {
         if (error instanceof ApiError && error.code === 'UNAUTHORIZED') {
@@ -88,6 +90,11 @@ export default function ActivityPage() {
         <section className="mb-5 rounded-2xl border border-border bg-card p-4">
           <p className="text-sm text-muted-foreground">오늘 클릭 수</p>
           <p className="number-display mt-1 text-3xl font-bold text-primary">{todayCount}</p>
+        </section>
+
+        <section className="mb-5 rounded-2xl border border-border bg-card p-4">
+          <p className="text-sm text-muted-foreground">Max Combo</p>
+          <p className="number-display mt-1 text-3xl font-bold text-primary">x{maxCombo}</p>
         </section>
 
         {items.length === 0 ? (

@@ -11,11 +11,11 @@ import { RankingCard } from '@/components/ranking-card'
 import { SchoolSelector } from '@/components/school-selector'
 import { TrendingCard } from '@/components/trending-card'
 import { getDepartmentById } from '@/lib/api/departments'
-import { getRankings, getTrendingDepartments } from '@/lib/api/rankings'
+import { getComboRankings, getRankings, getTrendingDepartments } from '@/lib/api/rankings'
 import { ApiError } from '@/lib/api/client'
 import { calculateCurrentStudentCount } from '@/lib/domain'
 import { useAppStore } from '@/lib/store'
-import type { Department, RankingItem, TrendingItem } from '@/lib/types'
+import type { ComboRankingItem, Department, RankingItem, TrendingItem } from '@/lib/types'
 
 export default function HomePage() {
   const router = useRouter()
@@ -27,6 +27,7 @@ export default function HomePage() {
   const [nationalRankings, setNationalRankings] = useState<RankingItem[]>([])
   const [schoolRankings, setSchoolRankings] = useState<RankingItem[]>([])
   const [trending, setTrending] = useState<TrendingItem[]>([])
+  const [comboRankings, setComboRankings] = useState<ComboRankingItem[]>([])
 
   useEffect(() => {
     if (!authLoaded) return
@@ -78,15 +79,17 @@ export default function HomePage() {
   useEffect(() => {
     async function load() {
       try {
-        const [nationalResponse, schoolResponse, trendingItems] = await Promise.all([
+        const [nationalResponse, schoolResponse, trendingItems, comboResponse] = await Promise.all([
           getRankings({ scope: 'national' }),
           schoolFilter ? getRankings({ scope: 'school', schoolId: schoolFilter }) : Promise.resolve(null),
           getTrendingDepartments(),
+          getComboRankings(),
         ])
 
         setNationalRankings(nationalResponse.items.slice(0, 10))
         setSchoolRankings(schoolResponse?.items.slice(0, 5) ?? [])
         setTrending(trendingItems)
+        setComboRankings(comboResponse.items.slice(0, 5))
       } catch (error) {
         const message = error instanceof ApiError ? '랭킹을 불러오지 못했습니다.' : '네트워크 상태를 확인해 주세요.'
         toast.error(message)
@@ -190,6 +193,39 @@ export default function HomePage() {
           {nationalRankings.map((item) => (
             <RankingCard key={item.departmentId} item={item} />
           ))}
+        </section>
+
+        <section className="mb-3">
+          <h2 className="text-base font-semibold text-foreground">Max Combo TOP 5</h2>
+        </section>
+        <section className="space-y-2">
+          {comboRankings.map((item) => (
+            <div
+              key={item.userId}
+              className="flex min-h-[72px] items-center gap-3 rounded-2xl border border-border bg-card px-3 py-2"
+            >
+              <div className="w-8 flex-shrink-0 text-center">
+                <span className={`number-display text-xl font-bold ${item.rank <= 3 ? 'text-primary' : 'text-muted-foreground'}`}>
+                  {item.rank}
+                </span>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-semibold text-foreground">{item.nickname}</p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {[item.schoolName, item.departmentName].filter(Boolean).join(' / ') || 'School/Department not set'}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="number-display text-base font-bold text-primary">x{item.maxCombo}</p>
+                <p className="text-[11px] text-muted-foreground">Max Combo</p>
+              </div>
+            </div>
+          ))}
+          {comboRankings.length === 0 ? (
+            <div className="rounded-xl border border-border bg-card p-4 text-sm text-muted-foreground">
+              No combo records yet.
+            </div>
+          ) : null}
         </section>
       </div>
     </AppShell>

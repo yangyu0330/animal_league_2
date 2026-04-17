@@ -61,6 +61,20 @@ export interface TrendingItem {
   todayClicks: number
 }
 
+export interface ComboRankingItem {
+  rank: number
+  userId: string
+  nickname: string
+  schoolName: string
+  departmentName: string
+  maxCombo: number
+}
+
+export interface ComboRankingResponse {
+  items: ComboRankingItem[]
+  generatedAt: string
+}
+
 export interface ClickActivity {
   id: string
   departmentId: string
@@ -126,5 +140,6 @@ export interface ClickDepartmentResponse {
 
 export interface MyActivityResponse {
   todayCount: number
+  maxCombo: number
   items: ClickActivity[]
 }

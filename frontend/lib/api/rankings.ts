@@ -1,5 +1,5 @@
 import { fetchJson } from '@/lib/api/client'
-import type { RankingResponse, TrendingItem } from '@/lib/types'
+import type { ComboRankingResponse, RankingResponse, TrendingItem } from '@/lib/types'
 
 interface TrendingResponse {
   items: TrendingItem[]
@@ -19,4 +19,8 @@ export async function getRankings(params: {
 export async function getTrendingDepartments(): Promise<TrendingItem[]> {
   const response = await fetchJson<TrendingResponse>('/api/rankings/trending')
   return response.items
+}
+
+export async function getComboRankings(): Promise<ComboRankingResponse> {
+  return fetchJson<ComboRankingResponse>('/api/rankings/combos')
 }

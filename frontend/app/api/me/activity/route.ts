@@ -21,6 +21,10 @@ interface DepartmentRow {
   school?: SchoolRelation | SchoolRelation[] | null
 }
 
+interface AppUserComboRow {
+  max_combo?: number | null
+}
+
 function resolveSchoolName(school: SchoolRelation | SchoolRelation[] | null | undefined): string {
   if (!school) return ''
   if (Array.isArray(school)) return school[0]?.name ?? ''
@@ -45,6 +49,29 @@ export async function GET(request: Request) {
         { status: 401 },
       )
     }
+
+    const comboQuery = await supabase
+      .from('app_user')
+      .select('max_combo')
+      .eq('id', user.id)
+      .maybeSingle()
+
+    if (comboQuery.error && comboQuery.error.code !== '42703') {
+      console.error('[GET /api/me/activity] app_user max_combo query failed', comboQuery.error)
+      return NextResponse.json(
+        {
+          code: 'INTERNAL_ERROR',
+          error: 'INTERNAL_ERROR',
+          message: 'An unexpected server error occurred.',
+        },
+        { status: 500 },
+      )
+    }
+
+    const maxCombo =
+      comboQuery.error?.code === '42703'
+        ? 0
+        : Number((comboQuery.data as AppUserComboRow | null)?.max_combo ?? 0)
 
     const eventsQuery = await supabase
       .from('click_event')
@@ -120,6 +147,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       todayCount: Number(todayCountQuery.count ?? 0),
+      maxCombo,
       items: events.map((event) => {
         const department = departmentMap.get(event.department_id)
         return {
