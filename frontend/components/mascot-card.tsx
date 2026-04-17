@@ -78,6 +78,7 @@ const speechDurationMs = 900
 const studentDropDurationMs = 680
 const stageUpDurationMs = 820
 const shakeDurationMs = 420
+const comboFadeDurationMs = 260
 
 const defaultEffects: MascotEffects = {
   fxTick: 0,
@@ -104,11 +105,11 @@ function buildStudentBody(index: number): Matter.Body {
   const spawnX = stageSize * 0.5 + (-22 + Math.random() * 44)
   const spawnY = studentBodySize * 0.5 + 6
   const body = Matter.Bodies.rectangle(spawnX, spawnY, studentBodySize, studentBodySize, {
-    restitution: 0.9,
-    friction: 0.16,
+    restitution: 0.98,
+    friction: 0.04,
     frictionStatic: 0.001,
-    frictionAir: 0.004,
-    density: 0.0016,
+    frictionAir: 0.0013,
+    density: 0.0028,
     render: {
       sprite: {
         texture: sprite,
@@ -119,10 +120,14 @@ function buildStudentBody(index: number): Matter.Body {
   })
 
   Matter.Body.setVelocity(body, {
-    x: -8 + Math.random() * 16,
-    y: 11 + Math.random() * 4,
+    x: -16 + Math.random() * 32,
+    y: 16 + Math.random() * 9,
   })
-  Matter.Body.setAngularVelocity(body, -0.45 + Math.random() * 0.9)
+  Matter.Body.setAngularVelocity(body, -1.1 + Math.random() * 2.2)
+  Matter.Body.applyForce(body, body.position, {
+    x: -0.014 + Math.random() * 0.028,
+    y: 0.01 + Math.random() * 0.014,
+  })
 
   return body
 }
@@ -190,6 +195,7 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
   const studentDropTimeoutRef = useRef<number | null>(null)
   const stageUpTimeoutRef = useRef<number | null>(null)
   const shakeTimeoutRef = useRef<number | null>(null)
+  const comboFadeTimeoutRef = useRef<number | null>(null)
   const [speechText, setSpeechText] = useState<string | null>(null)
   const [speechKey, setSpeechKey] = useState(0)
   const [studentDropActive, setStudentDropActive] = useState(false)
@@ -198,6 +204,9 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
   const [stageUpKey, setStageUpKey] = useState(0)
   const [stageFlashActive, setStageFlashActive] = useState(false)
   const [impactShakeClass, setImpactShakeClass] = useState('')
+  const [comboVisible, setComboVisible] = useState(false)
+  const [comboFading, setComboFading] = useState(false)
+  const [comboValuePulseKey, setComboValuePulseKey] = useState(0)
   const comboSubLabel = getComboSubLabel(activeEffects.comboCount)
   const comboIntensityClass = activeEffects.comboCount >= 10 ? 'combo-jitter-strong' : ''
 
@@ -207,8 +216,35 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
       if (studentDropTimeoutRef.current !== null) window.clearTimeout(studentDropTimeoutRef.current)
       if (stageUpTimeoutRef.current !== null) window.clearTimeout(stageUpTimeoutRef.current)
       if (shakeTimeoutRef.current !== null) window.clearTimeout(shakeTimeoutRef.current)
+      if (comboFadeTimeoutRef.current !== null) window.clearTimeout(comboFadeTimeoutRef.current)
     }
   }, [])
+
+  useEffect(() => {
+    const isComboRunning = activeEffects.comboActive && activeEffects.comboCount > 0
+    if (isComboRunning) {
+      if (comboFadeTimeoutRef.current !== null) {
+        window.clearTimeout(comboFadeTimeoutRef.current)
+        comboFadeTimeoutRef.current = null
+      }
+      if (!comboVisible) {
+        setComboVisible(true)
+      }
+      if (comboFading) {
+        setComboFading(false)
+      }
+      setComboValuePulseKey((value) => value + 1)
+      return
+    }
+
+    if (!comboVisible || comboFading) return
+    setComboFading(true)
+    comboFadeTimeoutRef.current = window.setTimeout(() => {
+      setComboVisible(false)
+      setComboFading(false)
+      comboFadeTimeoutRef.current = null
+    }, comboFadeDurationMs)
+  }, [activeEffects.comboActive, activeEffects.comboCount, comboFading, comboVisible])
 
   useEffect(() => {
     const root = physicsRootRef.current
@@ -394,13 +430,18 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
             <div ref={physicsRootRef} className="h-full w-full" />
           </div>
           <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
-            {activeEffects.comboActive && activeEffects.comboCount > 0 ? (
+            {comboVisible && activeEffects.comboCount > 0 ? (
               <div className={`absolute left-2 top-2 z-40 ${comboIntensityClass} combo-jitter`}>
                 <div
-                  key={`combo-${activeEffects.fxTick}`}
-                  className="combo-pop rounded-[6px] border border-black/70 bg-[#ffe08a]/90 px-2 py-1 text-[10px] font-black text-[#5d1304]"
+                  className={`combo-pop rounded-[6px] border border-black/70 bg-[#ffe08a]/90 px-2 py-1 text-[10px] font-black text-[#5d1304] ${
+                    comboFading ? 'combo-fade-out' : ''
+                  }`}
                 >
-                  <p className="pixel-outline leading-none">COMBO x{activeEffects.comboCount}</p>
+                  <p className="pixel-outline leading-none">
+                    <span key={`combo-value-${comboValuePulseKey}`} className="combo-value-pop inline-block">
+                      COMBO x{activeEffects.comboCount}
+                    </span>
+                  </p>
                   <p className="pixel-outline mt-0.5 leading-none text-[9px] text-[#b53008]">{comboSubLabel}</p>
                 </div>
               </div>
@@ -409,9 +450,10 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
             {speechText ? (
               <div
                 key={`speech-${speechKey}`}
-                className="speech-pop absolute right-2 top-2 z-40 max-w-[136px] rounded-[6px] border border-black/70 bg-[#fff6df]/95 px-2 py-1 text-[10px] font-bold text-[#2c120a]"
+                className="speech-pop speech-bubble absolute left-1/2 top-2 z-40 w-max max-w-[220px] -translate-x-1/2 rounded-[8px] border border-black/75 bg-[#fff6df] px-3 py-2 text-center text-[12px] font-black text-[#2c120a]"
               >
                 <p className="pixel-outline leading-tight">{speechText}</p>
+                <div className="speech-tail absolute left-1/2 top-full h-0 w-0 -translate-x-1/2 border-l-[10px] border-r-[10px] border-t-[10px] border-l-transparent border-r-transparent border-t-[#fff6df]" />
               </div>
             ) : null}
 

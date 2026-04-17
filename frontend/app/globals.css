@@ -157,6 +157,14 @@
     animation: combo-pop 260ms steps(2, end);
   }
 
+  .combo-fade-out {
+    animation: combo-fade-out 260ms linear forwards;
+  }
+
+  .combo-value-pop {
+    animation: combo-value-pop 200ms steps(2, end);
+  }
+
   .combo-jitter {
     animation: combo-jitter 360ms steps(2, end) infinite;
   }
@@ -167,6 +175,16 @@
 
   .speech-pop {
     animation: speech-pop 180ms steps(2, end);
+  }
+
+  .speech-bubble {
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.2),
+      0 4px 0 rgba(0, 0, 0, 0.36);
+  }
+
+  .speech-tail {
+    filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.36));
   }
 
   .impact-shake {
@@ -234,6 +252,29 @@
   100% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+@keyframes combo-fade-out {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+@keyframes combo-value-pop {
+  0% {
+    transform: scale(0.92);
+  }
+  45% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
