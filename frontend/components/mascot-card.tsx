@@ -77,7 +77,6 @@ const pileResetDelayMs = 900
 const speechDurationMs = 900
 const studentDropDurationMs = 680
 const stageUpDurationMs = 820
-const shakeDurationMs = 420
 const comboFadeDurationMs = 260
 
 const defaultEffects: MascotEffects = {
@@ -194,7 +193,6 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
   const speechTimeoutRef = useRef<number | null>(null)
   const studentDropTimeoutRef = useRef<number | null>(null)
   const stageUpTimeoutRef = useRef<number | null>(null)
-  const shakeTimeoutRef = useRef<number | null>(null)
   const comboFadeTimeoutRef = useRef<number | null>(null)
   const [speechText, setSpeechText] = useState<string | null>(null)
   const [speechKey, setSpeechKey] = useState(0)
@@ -203,19 +201,24 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
   const [stageUpActive, setStageUpActive] = useState(false)
   const [stageUpKey, setStageUpKey] = useState(0)
   const [stageFlashActive, setStageFlashActive] = useState(false)
-  const [impactShakeClass, setImpactShakeClass] = useState('')
   const [comboVisible, setComboVisible] = useState(false)
   const [comboFading, setComboFading] = useState(false)
   const [comboValuePulseKey, setComboValuePulseKey] = useState(0)
   const comboSubLabel = getComboSubLabel(activeEffects.comboCount)
   const comboIntensityClass = activeEffects.comboCount >= 10 ? 'combo-jitter-strong' : ''
+  const shakeClass = activeEffects.comboActive
+    ? activeEffects.comboCount >= 10
+      ? 'impact-shake-loop-strong'
+      : activeEffects.comboCount >= 2
+        ? 'impact-shake-loop'
+        : 'impact-shake'
+    : ''
 
   useEffect(() => {
     return () => {
       if (speechTimeoutRef.current !== null) window.clearTimeout(speechTimeoutRef.current)
       if (studentDropTimeoutRef.current !== null) window.clearTimeout(studentDropTimeoutRef.current)
       if (stageUpTimeoutRef.current !== null) window.clearTimeout(stageUpTimeoutRef.current)
-      if (shakeTimeoutRef.current !== null) window.clearTimeout(shakeTimeoutRef.current)
       if (comboFadeTimeoutRef.current !== null) window.clearTimeout(comboFadeTimeoutRef.current)
     }
   }, [])
@@ -329,16 +332,6 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
     const stageUpChanged = next.stageUpTick !== prev.stageUpTick
     const studentDropChanged = next.studentDropTick !== prev.studentDropTick
     const speechChanged = next.speechTick !== prev.speechTick
-    const fxChanged = next.fxTick !== prev.fxTick
-
-    if (fxChanged) {
-      setImpactShakeClass(next.comboCount >= 10 ? 'impact-shake-strong' : 'impact-shake')
-      if (shakeTimeoutRef.current !== null) window.clearTimeout(shakeTimeoutRef.current)
-      shakeTimeoutRef.current = window.setTimeout(() => {
-        setImpactShakeClass('')
-        shakeTimeoutRef.current = null
-      }, shakeDurationMs)
-    }
 
     if (stageUpChanged) {
       setStageUpActive(true)
@@ -406,7 +399,7 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
         </div>
 
         <div
-          className={`relative mx-auto mt-3 aspect-square w-full max-w-[270px] overflow-hidden rounded-lg bg-[#d8cab9] ${impactShakeClass}`}
+          className={`relative mx-auto mt-3 aspect-square w-full max-w-[270px] overflow-hidden rounded-lg bg-[#d8cab9] ${shakeClass}`}
         >
           <Image
             src={professorBackgroundSprite}

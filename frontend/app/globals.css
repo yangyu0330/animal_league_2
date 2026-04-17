@@ -195,6 +195,14 @@
     animation: impact-shake-strong 420ms steps(2, end);
   }
 
+  .impact-shake-loop {
+    animation: impact-shake 230ms steps(2, end) infinite;
+  }
+
+  .impact-shake-loop-strong {
+    animation: impact-shake-strong 180ms steps(2, end) infinite;
+  }
+
   .speedline-sweep {
     background:
       repeating-linear-gradient(
