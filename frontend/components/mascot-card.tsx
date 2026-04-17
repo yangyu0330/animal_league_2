@@ -73,8 +73,9 @@ const pileResetDelayMs = 900
 
 function buildStudentBody(index: number): Matter.Body {
   const sprite = studentSprites[index % studentSprites.length]
-  const spawnX = 48 + Math.random() * (stageSize - 96)
-  const body = Matter.Bodies.rectangle(spawnX, -studentBodySize, studentBodySize, studentBodySize, {
+  const spawnX = stageSize * 0.5 + (-22 + Math.random() * 44)
+  const spawnY = -studentBodySize - 24
+  const body = Matter.Bodies.rectangle(spawnX, spawnY, studentBodySize, studentBodySize, {
     restitution: 0.9,
     friction: 0.16,
     frictionStatic: 0.001,
@@ -90,10 +91,10 @@ function buildStudentBody(index: number): Matter.Body {
   })
 
   Matter.Body.setVelocity(body, {
-    x: -5 + Math.random() * 10,
-    y: 7 + Math.random() * 5,
+    x: -8 + Math.random() * 16,
+    y: 11 + Math.random() * 4,
   })
-  Matter.Body.setAngularVelocity(body, -0.28 + Math.random() * 0.56)
+  Matter.Body.setAngularVelocity(body, -0.45 + Math.random() * 0.9)
 
   return body
 }
