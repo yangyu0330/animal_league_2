@@ -1,16 +1,26 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Matter from 'matter-js'
 import { calculateCurrentStudentCount } from '@/lib/domain'
 import type { DepartmentCategory, PressureLevel } from '@/lib/types'
+
+type MascotEffects = {
+  fxTick: number
+  comboCount: number
+  comboActive: boolean
+  studentDropTick: number
+  stageUpTick: number
+  speechTick: number
+}
 
 interface MascotCardProps {
   category: DepartmentCategory
   pressureLevel: PressureLevel
   totalClicks: number
   todayClicks: number
+  effects?: MascotEffects
 }
 
 const professorBackgroundSprite = '/characters/professor-bg-classroom.png'
@@ -64,6 +74,24 @@ type PhysicsRefs = {
 const stageSize = 270
 const studentBodySize = 42
 const pileResetDelayMs = 900
+const speechDurationMs = 900
+const studentDropDurationMs = 680
+const stageUpDurationMs = 820
+const shakeDurationMs = 420
+
+const defaultEffects: MascotEffects = {
+  fxTick: 0,
+  comboCount: 0,
+  comboActive: false,
+  studentDropTick: 0,
+  stageUpTick: 0,
+  speechTick: 0,
+}
+
+const baseSpeechLines = ['더 눌러!', '압박 간다!', '멈추지 마!']
+const highComboSpeechLines = ['속도 미쳤다!', '이건 너무 세다!', '이거 실화냐!']
+const studentDropSpeechLines = ['학생 추가!', '난입 시작!', '한 명 더 왔다!']
+const stageUpSpeechLines = ['단계 상승!', '분위기 바뀐다!', '이제 진짜 시작!']
 
 function getProfessorSpriteByClicks(totalClicks: number): string {
   const safeClicks = Math.max(totalClicks, 0)
@@ -135,8 +163,20 @@ function clearStudentBodies(refs: PhysicsRefs) {
   refs.studentBodies = []
 }
 
-export function MascotCard({ category, pressureLevel, totalClicks, todayClicks }: MascotCardProps) {
+function pickSpeechLine(lines: string[], seed: number) {
+  return lines[Math.abs(seed) % lines.length]
+}
+
+function getComboSubLabel(comboCount: number) {
+  if (comboCount >= 20) return 'OVERHEAT!'
+  if (comboCount >= 10) return 'CRITICAL!'
+  if (comboCount >= 5) return 'NICE COMBO!'
+  return 'HIT!'
+}
+
+export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, effects }: MascotCardProps) {
   const safeClicks = Math.max(totalClicks, 0)
+  const activeEffects = effects ?? defaultEffects
   const professorSprite = getProfessorSpriteByClicks(safeClicks)
   const remainderClicks = safeClicks % 1000
   const isCycleComplete = safeClicks > 0 && remainderClicks === 0
@@ -145,6 +185,30 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks }
   const physicsRootRef = useRef<HTMLDivElement | null>(null)
   const physicsRefsRef = useRef<PhysicsRefs | null>(null)
   const previousStateRef = useRef<{ cycle: number; studentCount: number }>({ cycle, studentCount: 0 })
+  const previousEffectsRef = useRef<MascotEffects>(activeEffects)
+  const speechTimeoutRef = useRef<number | null>(null)
+  const studentDropTimeoutRef = useRef<number | null>(null)
+  const stageUpTimeoutRef = useRef<number | null>(null)
+  const shakeTimeoutRef = useRef<number | null>(null)
+  const [speechText, setSpeechText] = useState<string | null>(null)
+  const [speechKey, setSpeechKey] = useState(0)
+  const [studentDropActive, setStudentDropActive] = useState(false)
+  const [studentDropKey, setStudentDropKey] = useState(0)
+  const [stageUpActive, setStageUpActive] = useState(false)
+  const [stageUpKey, setStageUpKey] = useState(0)
+  const [stageFlashActive, setStageFlashActive] = useState(false)
+  const [impactShakeClass, setImpactShakeClass] = useState('')
+  const comboSubLabel = getComboSubLabel(activeEffects.comboCount)
+  const comboIntensityClass = activeEffects.comboCount >= 10 ? 'combo-jitter-strong' : ''
+
+  useEffect(() => {
+    return () => {
+      if (speechTimeoutRef.current !== null) window.clearTimeout(speechTimeoutRef.current)
+      if (studentDropTimeoutRef.current !== null) window.clearTimeout(studentDropTimeoutRef.current)
+      if (stageUpTimeoutRef.current !== null) window.clearTimeout(stageUpTimeoutRef.current)
+      if (shakeTimeoutRef.current !== null) window.clearTimeout(shakeTimeoutRef.current)
+    }
+  }, [])
 
   useEffect(() => {
     const root = physicsRootRef.current
@@ -223,6 +287,74 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks }
     previousStateRef.current = { cycle, studentCount }
   }, [cycle, isCycleComplete, studentCount])
 
+  useEffect(() => {
+    const prev = previousEffectsRef.current
+    const next = activeEffects
+    const stageUpChanged = next.stageUpTick !== prev.stageUpTick
+    const studentDropChanged = next.studentDropTick !== prev.studentDropTick
+    const speechChanged = next.speechTick !== prev.speechTick
+    const fxChanged = next.fxTick !== prev.fxTick
+
+    if (fxChanged) {
+      setImpactShakeClass(next.comboCount >= 10 ? 'impact-shake-strong' : 'impact-shake')
+      if (shakeTimeoutRef.current !== null) window.clearTimeout(shakeTimeoutRef.current)
+      shakeTimeoutRef.current = window.setTimeout(() => {
+        setImpactShakeClass('')
+        shakeTimeoutRef.current = null
+      }, shakeDurationMs)
+    }
+
+    if (stageUpChanged) {
+      setStageUpActive(true)
+      setStageFlashActive(true)
+      setStageUpKey((value) => value + 1)
+      if (stageUpTimeoutRef.current !== null) window.clearTimeout(stageUpTimeoutRef.current)
+      stageUpTimeoutRef.current = window.setTimeout(() => {
+        setStageUpActive(false)
+        setStageFlashActive(false)
+        stageUpTimeoutRef.current = null
+      }, stageUpDurationMs)
+
+      const stageSpeech = pickSpeechLine(stageUpSpeechLines, next.stageUpTick)
+      setSpeechText(stageSpeech)
+      setSpeechKey((value) => value + 1)
+      if (speechTimeoutRef.current !== null) window.clearTimeout(speechTimeoutRef.current)
+      speechTimeoutRef.current = window.setTimeout(() => {
+        setSpeechText(null)
+        speechTimeoutRef.current = null
+      }, speechDurationMs)
+    } else if (studentDropChanged) {
+      setStudentDropActive(true)
+      setStudentDropKey((value) => value + 1)
+      if (studentDropTimeoutRef.current !== null) window.clearTimeout(studentDropTimeoutRef.current)
+      studentDropTimeoutRef.current = window.setTimeout(() => {
+        setStudentDropActive(false)
+        studentDropTimeoutRef.current = null
+      }, studentDropDurationMs)
+
+      const dropSpeech = pickSpeechLine(studentDropSpeechLines, next.studentDropTick)
+      setSpeechText(dropSpeech)
+      setSpeechKey((value) => value + 1)
+      if (speechTimeoutRef.current !== null) window.clearTimeout(speechTimeoutRef.current)
+      speechTimeoutRef.current = window.setTimeout(() => {
+        setSpeechText(null)
+        speechTimeoutRef.current = null
+      }, speechDurationMs)
+    } else if (speechChanged) {
+      const lines = next.comboCount >= 10 ? highComboSpeechLines : baseSpeechLines
+      const text = pickSpeechLine(lines, next.speechTick)
+      setSpeechText(text)
+      setSpeechKey((value) => value + 1)
+      if (speechTimeoutRef.current !== null) window.clearTimeout(speechTimeoutRef.current)
+      speechTimeoutRef.current = window.setTimeout(() => {
+        setSpeechText(null)
+        speechTimeoutRef.current = null
+      }, speechDurationMs)
+    }
+
+    previousEffectsRef.current = next
+  }, [activeEffects])
+
   return (
     <section
       className={`relative min-h-[320px] rounded-2xl border border-border bg-gradient-to-b ${pressureBackgrounds[pressureLevel]} p-4`}
@@ -237,7 +369,9 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks }
           <p className="text-sm font-semibold text-foreground">{category}</p>
         </div>
 
-        <div className="relative mx-auto mt-3 aspect-square w-full max-w-[270px] overflow-hidden rounded-lg bg-[#d8cab9]">
+        <div
+          className={`relative mx-auto mt-3 aspect-square w-full max-w-[270px] overflow-hidden rounded-lg bg-[#d8cab9] ${impactShakeClass}`}
+        >
           <Image
             src={professorBackgroundSprite}
             alt="교수님 배경"
@@ -258,6 +392,51 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks }
           />
           <div className="absolute inset-0 z-20">
             <div ref={physicsRootRef} className="h-full w-full" />
+          </div>
+          <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
+            {activeEffects.comboActive && activeEffects.comboCount > 0 ? (
+              <div className={`absolute left-2 top-2 z-40 ${comboIntensityClass} combo-jitter`}>
+                <div
+                  key={`combo-${activeEffects.fxTick}`}
+                  className="combo-pop rounded-[6px] border border-black/70 bg-[#ffe08a]/90 px-2 py-1 text-[10px] font-black text-[#5d1304]"
+                >
+                  <p className="pixel-outline leading-none">COMBO x{activeEffects.comboCount}</p>
+                  <p className="pixel-outline mt-0.5 leading-none text-[9px] text-[#b53008]">{comboSubLabel}</p>
+                </div>
+              </div>
+            ) : null}
+
+            {speechText ? (
+              <div
+                key={`speech-${speechKey}`}
+                className="speech-pop absolute right-2 top-2 z-40 max-w-[136px] rounded-[6px] border border-black/70 bg-[#fff6df]/95 px-2 py-1 text-[10px] font-bold text-[#2c120a]"
+              >
+                <p className="pixel-outline leading-tight">{speechText}</p>
+              </div>
+            ) : null}
+
+            {studentDropActive ? (
+              <>
+                <div key={`speed-${studentDropKey}`} className="speedline-sweep absolute inset-0 z-30" />
+                <div
+                  key={`drop-${studentDropKey}`}
+                  className="event-banner absolute left-1/2 top-6 z-40 -translate-x-1/2 rounded-[6px] border border-black/70 bg-[#ffbf58]/90 px-2 py-1 text-[10px] font-black text-[#5a1200]"
+                >
+                  <p className="pixel-outline leading-none">STUDENT DROP!</p>
+                </div>
+              </>
+            ) : null}
+
+            {stageUpActive ? (
+              <div
+                key={`stage-${stageUpKey}`}
+                className="event-banner absolute left-1/2 top-1/2 z-40 -translate-x-1/2 -translate-y-1/2 rounded-[6px] border border-black/80 bg-[#ff7b2e]/95 px-3 py-1.5 text-xs font-black text-[#fff4d6]"
+              >
+                <p className="pixel-outline leading-none">STAGE UP!</p>
+              </div>
+            ) : null}
+
+            {stageFlashActive ? <div key={`flash-${stageUpKey}`} className="stage-flash absolute inset-0 z-[35]" /> : null}
           </div>
         </div>
 

@@ -22,9 +22,17 @@ export default function DepartmentDetailPage() {
   const [department, setDepartment] = useState<Department | null>(null)
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
   const [isShareRef, setIsShareRef] = useState(false)
+  const [fxTick, setFxTick] = useState(0)
+  const [comboCount, setComboCount] = useState(0)
+  const [comboActive, setComboActive] = useState(false)
+  const [studentDropTick, setStudentDropTick] = useState(0)
+  const [stageUpTick, setStageUpTick] = useState(0)
+  const [speechTick, setSpeechTick] = useState(0)
   const pendingBoostsRef = useRef(0)
   const optimisticBoostsRef = useRef(0)
   const isFlushingBoostsRef = useRef(false)
+  const localTotalClicksRef = useRef(0)
+  const comboResetTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
     const paramsFromUrl = new URLSearchParams(window.location.search)
@@ -64,7 +72,46 @@ export default function DepartmentDetailPage() {
 
   const canBoost = user?.selectedDepartmentId === department?.id
 
+  useEffect(() => {
+    if (!department) return
+    localTotalClicksRef.current = department.totalClicks
+  }, [department])
+
+  useEffect(() => {
+    return () => {
+      if (comboResetTimerRef.current !== null) {
+        window.clearTimeout(comboResetTimerRef.current)
+      }
+    }
+  }, [])
+
+  const triggerClickEffects = useCallback((previousClicks: number, nextClicks: number) => {
+    const crossedHundredBoundary = Math.floor(previousClicks / 100) < Math.floor(nextClicks / 100)
+    const crossedThousandBoundary = Math.floor(previousClicks / 1000) < Math.floor(nextClicks / 1000)
+
+    setFxTick((value) => value + 1)
+    setSpeechTick((value) => value + 1)
+    setComboCount((value) => value + 1)
+    setComboActive(true)
+
+    if (crossedThousandBoundary) {
+      setStageUpTick((value) => value + 1)
+    } else if (crossedHundredBoundary) {
+      setStudentDropTick((value) => value + 1)
+    }
+
+    if (comboResetTimerRef.current !== null) {
+      window.clearTimeout(comboResetTimerRef.current)
+    }
+    comboResetTimerRef.current = window.setTimeout(() => {
+      setComboCount(0)
+      setComboActive(false)
+      comboResetTimerRef.current = null
+    }, 2000)
+  }, [])
+
   const rollbackOptimisticBoost = useCallback((departmentId: string) => {
+    localTotalClicksRef.current = Math.max(localTotalClicksRef.current - 1, 0)
     optimisticBoostsRef.current = Math.max(optimisticBoostsRef.current - 1, 0)
     setDepartment((prev) => {
       if (!prev || prev.id !== departmentId) return prev
@@ -143,6 +190,10 @@ export default function DepartmentDetailPage() {
   const handleBoost = useCallback(() => {
     if (!department || !canBoost) return
     setStatusMessage(null)
+    const previousClicks = localTotalClicksRef.current
+    const nextClicks = previousClicks + 1
+    localTotalClicksRef.current = nextClicks
+    triggerClickEffects(previousClicks, nextClicks)
     pendingBoostsRef.current += 1
     optimisticBoostsRef.current += 1
     setDepartment((prev) => {
@@ -157,7 +208,7 @@ export default function DepartmentDetailPage() {
       }
     })
     void flushBoostQueue(department.id)
-  }, [canBoost, department, flushBoostQueue])
+  }, [canBoost, department, flushBoostQueue, triggerClickEffects])
 
   const handleShare = useCallback(async () => {
     const shareUrl = `${window.location.origin}/departments/${id}?ref=share`
@@ -249,6 +300,14 @@ export default function DepartmentDetailPage() {
           pressureLevel={department.pressureLevel}
           totalClicks={department.totalClicks}
           todayClicks={department.todayClicks}
+          effects={{
+            fxTick,
+            comboCount,
+            comboActive,
+            studentDropTick,
+            stageUpTick,
+            speechTick,
+          }}
         />
 
         {statusMessage ? <p className="rounded-lg bg-muted px-3 py-2 text-xs text-muted-foreground">{statusMessage}</p> : null}
