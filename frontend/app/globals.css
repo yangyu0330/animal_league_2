@@ -47,6 +47,8 @@
   --pressure-2: #ffc078;
   --pressure-3: #ff922b;
   --pressure-4: #e03131;
+  --pressure-5: #c92a2a;
+  --pressure-6: #7f1d1d;
   
   /* Radius */
   --radius: 1rem;
@@ -105,6 +107,8 @@
   --color-pressure-2: var(--pressure-2);
   --color-pressure-3: var(--pressure-3);
   --color-pressure-4: var(--pressure-4);
+  --color-pressure-5: var(--pressure-5);
+  --color-pressure-6: var(--pressure-6);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

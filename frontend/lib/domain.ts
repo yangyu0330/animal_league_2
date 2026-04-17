@@ -4,6 +4,8 @@ const LEVEL_1_MIN = 1000
 const LEVEL_2_MIN = 5000
 const LEVEL_3_MIN = 10000
 const LEVEL_4_MIN = 25000
+const LEVEL_5_MIN = 50000
+const LEVEL_6_MIN = 100000
 
 const SYNONYM_MAP: Record<string, string> = {
   컴퓨터공학부: '컴퓨터공학과',
@@ -41,7 +43,9 @@ export function calculatePressureLevel(totalClicks: number): PressureLevel {
   if (totalClicks < LEVEL_2_MIN) return 1
   if (totalClicks < LEVEL_3_MIN) return 2
   if (totalClicks < LEVEL_4_MIN) return 3
-  return 4
+  if (totalClicks < LEVEL_5_MIN) return 4
+  if (totalClicks < LEVEL_6_MIN) return 5
+  return 6
 }
 
 export function normalizeDepartmentName(rawName: string): string {

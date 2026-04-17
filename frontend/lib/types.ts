@@ -1,6 +1,6 @@
 export type UserState = 'GUEST' | 'AUTH_NO_SCHOOL' | 'ACTIVE_USER'
 
-export type PressureLevel = 0 | 1 | 2 | 3 | 4
+export type PressureLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
 export type DepartmentCategory =
   | '공학'

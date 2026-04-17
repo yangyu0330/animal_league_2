@@ -11,6 +11,8 @@ const levelLabels: Record<PressureLevel, string> = {
   2: '2단계',
   3: '3단계',
   4: '4단계',
+  5: '5단계',
+  6: '6단계',
 }
 
 const levelColors: Record<PressureLevel, string> = {
@@ -18,7 +20,9 @@ const levelColors: Record<PressureLevel, string> = {
   1: 'bg-pressure-1 text-yellow-800',
   2: 'bg-pressure-2 text-orange-800',
   3: 'bg-pressure-3 text-orange-900',
-  4: 'bg-pressure-4 text-white',
+  4: 'bg-pressure-4 text-orange-950',
+  5: 'bg-pressure-5 text-red-800',
+  6: 'bg-pressure-6 text-red-900',
 }
 
 const sizeClasses = {

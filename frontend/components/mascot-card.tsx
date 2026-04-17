@@ -24,15 +24,15 @@ interface MascotCardProps {
 }
 
 const professorBackgroundSprite = '/characters/professor-bg-classroom.png'
-const professorStageSprites = [
-  '/characters/professor-stage-01.png',
-  '/characters/professor-stage-02.png',
-  '/characters/professor-stage-03.png',
-  '/characters/professor-stage-04.png',
-  '/characters/professor-stage-05.png',
-  '/characters/professor-stage-06.png',
-  '/characters/professor-stage-07.png',
-]
+const professorStageSprites: Record<PressureLevel, string> = {
+  0: '/characters/professor-stage-01.png',
+  1: '/characters/professor-stage-02.png',
+  2: '/characters/professor-stage-03.png',
+  3: '/characters/professor-stage-04.png',
+  4: '/characters/professor-stage-05.png',
+  5: '/characters/professor-stage-06.png',
+  6: '/characters/professor-stage-07.png',
+}
 
 const studentSprites = [
   '/characters/student-01.png',
@@ -53,14 +53,18 @@ const pressureBackgrounds: Record<PressureLevel, string> = {
   2: 'from-pressure-2/55 to-pressure-2/25',
   3: 'from-pressure-3/60 to-pressure-3/30',
   4: 'from-pressure-4/65 to-pressure-4/35',
+  5: 'from-pressure-5/70 to-pressure-5/40',
+  6: 'from-pressure-6/80 to-pressure-6/50',
 }
 
 const pressureFaces: Record<PressureLevel, string> = {
   0: '^_^',
-  1: '-_-',
-  2: 'T_T',
+  1: 'o_o',
+  2: '-_-',
   3: ';_;',
-  4: 'x_x',
+  4: '>_<',
+  5: 'x_x',
+  6: 'T_T',
 }
 
 type PhysicsRefs = {
@@ -93,10 +97,8 @@ const highComboSpeechLines = ['속도 미쳤다!', '이건 너무 세다!', '이
 const studentDropSpeechLines = ['학생 추가!', '난입 시작!', '한 명 더 왔다!']
 const stageUpSpeechLines = ['단계 상승!', '분위기 바뀐다!', '이제 진짜 시작!']
 
-function getProfessorSpriteByClicks(totalClicks: number): string {
-  const safeClicks = Math.max(totalClicks, 0)
-  const stageIndex = Math.min(Math.floor(safeClicks / 1000), professorStageSprites.length - 1)
-  return professorStageSprites[stageIndex]
+function getProfessorSpriteByLevel(pressureLevel: PressureLevel): string {
+  return professorStageSprites[pressureLevel]
 }
 
 function buildStudentBody(index: number): Matter.Body {
@@ -181,7 +183,7 @@ function getComboSubLabel(comboCount: number) {
 export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, effects }: MascotCardProps) {
   const safeClicks = Math.max(totalClicks, 0)
   const activeEffects = effects ?? defaultEffects
-  const professorSprite = getProfessorSpriteByClicks(safeClicks)
+  const professorSprite = getProfessorSpriteByLevel(pressureLevel)
   const remainderClicks = safeClicks % 1000
   const isCycleComplete = safeClicks > 0 && remainderClicks === 0
   const cycle = isCycleComplete ? Math.floor((safeClicks - 1) / 1000) : Math.floor(safeClicks / 1000)

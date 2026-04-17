@@ -68,7 +68,7 @@ export async function GET(request: Request) {
       const totalClicks = Number(row.total_clicks ?? 0)
       const pressureFromDb = row.pressure_level
       const pressureLevel =
-        typeof pressureFromDb === 'number' && pressureFromDb >= 0 && pressureFromDb <= 4
+        typeof pressureFromDb === 'number' && pressureFromDb >= 0 && pressureFromDb <= 6
           ? (pressureFromDb as PressureLevel)
           : calculatePressureLevel(totalClicks)
 
