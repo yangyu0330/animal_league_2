@@ -13,8 +13,16 @@ interface MascotCardProps {
   todayClicks: number
 }
 
-const professorSprite = '/characters/professor-base.png'
 const professorBackgroundSprite = '/characters/professor-bg-classroom.png'
+const professorStageSprites = [
+  '/characters/professor-stage-01.png',
+  '/characters/professor-stage-02.png',
+  '/characters/professor-stage-03.png',
+  '/characters/professor-stage-04.png',
+  '/characters/professor-stage-05.png',
+  '/characters/professor-stage-06.png',
+  '/characters/professor-stage-07.png',
+]
 
 const studentSprites = [
   '/characters/student-01.png',
@@ -56,6 +64,12 @@ type PhysicsRefs = {
 const stageSize = 270
 const studentBodySize = 42
 const pileResetDelayMs = 900
+
+function getProfessorSpriteByClicks(totalClicks: number): string {
+  const safeClicks = Math.max(totalClicks, 0)
+  const stageIndex = Math.min(Math.floor(safeClicks / 1000), professorStageSprites.length - 1)
+  return professorStageSprites[stageIndex]
+}
 
 function buildStudentBody(index: number): Matter.Body {
   const sprite = studentSprites[index % studentSprites.length]
@@ -123,6 +137,7 @@ function clearStudentBodies(refs: PhysicsRefs) {
 
 export function MascotCard({ category, pressureLevel, totalClicks, todayClicks }: MascotCardProps) {
   const safeClicks = Math.max(totalClicks, 0)
+  const professorSprite = getProfessorSpriteByClicks(safeClicks)
   const remainderClicks = safeClicks % 1000
   const isCycleComplete = safeClicks > 0 && remainderClicks === 0
   const cycle = isCycleComplete ? Math.floor((safeClicks - 1) / 1000) : Math.floor(safeClicks / 1000)
