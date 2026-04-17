@@ -35,7 +35,7 @@ export function calculateCurrentStudentCount(totalClicks: number): number {
   const remainderClicks = safeClicks % 1000
   const isCycleComplete = safeClicks > 0 && remainderClicks === 0
 
-  return isCycleComplete ? 10 : Math.floor(remainderClicks / 100)
+  return isCycleComplete ? 10 : Math.floor(remainderClicks / 50)
 }
 
 export function calculatePressureLevel(totalClicks: number): PressureLevel {
