@@ -230,29 +230,27 @@ export function MascotCard({ category, pressureLevel, totalClicks, stackCount }:
           <p className="text-sm font-semibold text-foreground">{category}</p>
         </div>
 
-        <div className="mt-3 rounded-lg border border-white/10 bg-black p-2">
-          <div className="relative mx-auto aspect-square w-full max-w-[270px] overflow-hidden rounded-md bg-black">
-            <Image
-              src={professorBackgroundSprite}
-              alt="교수님 배경"
-              fill
-              sizes="270px"
-              className="absolute inset-0 z-0 object-cover object-left"
-              style={{ imageRendering: 'pixelated' }}
-              priority
-            />
-            <Image
-              src={professorSprite}
-              alt="교수님"
-              width={768}
-              height={768}
-              className="absolute left-1/2 top-4 z-10 h-[200px] w-[200px] -translate-x-1/2 object-contain"
-              style={{ imageRendering: 'pixelated' }}
-              priority
-            />
-            <div className="absolute inset-0 z-20">
-              <div ref={physicsRootRef} className="h-full w-full" />
-            </div>
+        <div className="relative mx-auto mt-3 aspect-square w-full max-w-[270px] overflow-hidden rounded-lg bg-[#d8cab9]">
+          <Image
+            src={professorBackgroundSprite}
+            alt="교수님 배경"
+            fill
+            sizes="270px"
+            className="absolute inset-0 z-0 object-cover object-left"
+            style={{ imageRendering: 'pixelated' }}
+            priority
+          />
+          <Image
+            src={professorSprite}
+            alt="교수님"
+            width={768}
+            height={768}
+            className="absolute left-1/2 top-4 z-10 h-[200px] w-[200px] -translate-x-1/2 object-contain"
+            style={{ imageRendering: 'pixelated' }}
+            priority
+          />
+          <div className="absolute inset-0 z-20">
+            <div ref={physicsRootRef} className="h-full w-full" />
           </div>
         </div>
 
