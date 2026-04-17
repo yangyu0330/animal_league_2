@@ -398,48 +398,72 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
           <p className="text-sm font-semibold text-foreground">{category}</p>
         </div>
 
-        <div
-          className={`relative mx-auto mt-3 aspect-square w-full max-w-[270px] overflow-hidden rounded-lg bg-[#d8cab9] ${shakeClass}`}
-        >
-          <Image
-            src={professorBackgroundSprite}
-            alt="교수님 배경"
-            fill
-            sizes="270px"
-            className="absolute inset-0 z-0 object-cover object-left"
-            style={{ imageRendering: 'pixelated' }}
-            priority
-          />
-          <Image
-            src={professorSprite}
-            alt="교수님"
-            width={768}
-            height={768}
-            className="absolute left-1/2 top-4 z-10 h-[200px] w-[200px] -translate-x-1/2 object-contain"
-            style={{ imageRendering: 'pixelated' }}
-            priority
-          />
-          <div className="absolute inset-0 z-20">
-            <div ref={physicsRootRef} className="h-full w-full" />
-          </div>
-          <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
-            {comboVisible && activeEffects.comboCount > 0 ? (
-              <div className={`absolute left-2 top-2 z-40 ${comboIntensityClass} combo-jitter`}>
-                <div
-                  className={`combo-pop rounded-[6px] border border-black/70 bg-[#ffe08a]/90 px-2 py-1 text-[10px] font-black text-[#5d1304] ${
-                    comboFading ? 'combo-fade-out' : ''
-                  }`}
-                >
-                  <p className="pixel-outline leading-none">
-                    <span key={`combo-value-${comboValuePulseKey}`} className="combo-value-pop inline-block">
-                      COMBO x{activeEffects.comboCount}
-                    </span>
-                  </p>
-                  <p className="pixel-outline mt-0.5 leading-none text-[9px] text-[#b53008]">{comboSubLabel}</p>
+        <div className="relative mx-auto mt-3 aspect-square w-full max-w-[270px]">
+          <div className={`relative h-full w-full overflow-hidden rounded-lg bg-[#d8cab9] ${shakeClass}`}>
+            <Image
+              src={professorBackgroundSprite}
+              alt="교수님 배경"
+              fill
+              sizes="270px"
+              className="absolute inset-0 z-0 object-cover object-left"
+              style={{ imageRendering: 'pixelated' }}
+              priority
+            />
+            <Image
+              src={professorSprite}
+              alt="교수님"
+              width={768}
+              height={768}
+              className="absolute left-1/2 top-4 z-10 h-[200px] w-[200px] -translate-x-1/2 object-contain"
+              style={{ imageRendering: 'pixelated' }}
+              priority
+            />
+            <div className="absolute inset-0 z-20">
+              <div ref={physicsRootRef} className="h-full w-full" />
+            </div>
+            <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
+              {comboVisible && activeEffects.comboCount > 0 ? (
+                <div className={`absolute left-2 top-2 z-40 ${comboIntensityClass} combo-jitter`}>
+                  <div
+                    className={`combo-pop rounded-[6px] border border-black/70 bg-[#ffe08a]/90 px-2 py-1 text-[10px] font-black text-[#5d1304] ${
+                      comboFading ? 'combo-fade-out' : ''
+                    }`}
+                  >
+                    <p className="pixel-outline leading-none">
+                      <span key={`combo-value-${comboValuePulseKey}`} className="combo-value-pop inline-block">
+                        COMBO x{activeEffects.comboCount}
+                      </span>
+                    </p>
+                    <p className="pixel-outline mt-0.5 leading-none text-[9px] text-[#b53008]">{comboSubLabel}</p>
+                  </div>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
 
+              {studentDropActive ? (
+                <>
+                  <div key={`speed-${studentDropKey}`} className="speedline-sweep absolute inset-0 z-30" />
+                  <div
+                    key={`drop-${studentDropKey}`}
+                    className="event-banner absolute left-1/2 top-6 z-40 -translate-x-1/2 rounded-[6px] border border-black/70 bg-[#ffbf58]/90 px-2 py-1 text-[10px] font-black text-[#5a1200]"
+                  >
+                    <p className="pixel-outline leading-none">STUDENT DROP!</p>
+                  </div>
+                </>
+              ) : null}
+
+              {stageUpActive ? (
+                <div
+                  key={`stage-${stageUpKey}`}
+                  className="event-banner absolute left-1/2 top-1/2 z-40 -translate-x-1/2 -translate-y-1/2 rounded-[6px] border border-black/80 bg-[#ff7b2e]/95 px-3 py-1.5 text-xs font-black text-[#fff4d6]"
+                >
+                  <p className="pixel-outline leading-none">STAGE UP!</p>
+                </div>
+              ) : null}
+
+              {stageFlashActive ? <div key={`flash-${stageUpKey}`} className="stage-flash absolute inset-0 z-[35]" /> : null}
+            </div>
+          </div>
+          <div className="pointer-events-none absolute inset-0 z-50 overflow-hidden">
             {speechText ? (
               <div
                 key={`speech-${speechKey}`}
@@ -449,29 +473,6 @@ export function MascotCard({ category, pressureLevel, totalClicks, todayClicks, 
                 <div className="speech-tail absolute left-1/2 top-full h-0 w-0 -translate-x-1/2 border-l-[10px] border-r-[10px] border-t-[10px] border-l-transparent border-r-transparent border-t-[#fff6df]" />
               </div>
             ) : null}
-
-            {studentDropActive ? (
-              <>
-                <div key={`speed-${studentDropKey}`} className="speedline-sweep absolute inset-0 z-30" />
-                <div
-                  key={`drop-${studentDropKey}`}
-                  className="event-banner absolute left-1/2 top-6 z-40 -translate-x-1/2 rounded-[6px] border border-black/70 bg-[#ffbf58]/90 px-2 py-1 text-[10px] font-black text-[#5a1200]"
-                >
-                  <p className="pixel-outline leading-none">STUDENT DROP!</p>
-                </div>
-              </>
-            ) : null}
-
-            {stageUpActive ? (
-              <div
-                key={`stage-${stageUpKey}`}
-                className="event-banner absolute left-1/2 top-1/2 z-40 -translate-x-1/2 -translate-y-1/2 rounded-[6px] border border-black/80 bg-[#ff7b2e]/95 px-3 py-1.5 text-xs font-black text-[#fff4d6]"
-              >
-                <p className="pixel-outline leading-none">STAGE UP!</p>
-              </div>
-            ) : null}
-
-            {stageFlashActive ? <div key={`flash-${stageUpKey}`} className="stage-flash absolute inset-0 z-[35]" /> : null}
           </div>
         </div>
 
