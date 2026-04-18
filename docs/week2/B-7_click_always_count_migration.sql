@@ -60,20 +60,20 @@ declare
   next_pressure_level integer;
 begin
   -- Atomic increment + pressure sync in one update.
-  update public.department
+  update public.department as d
   set
-    total_clicks = total_clicks + 1,
+    total_clicks = d.total_clicks + 1,
     pressure_level = case
-      when total_clicks + 1 < 500 then 0
-      when total_clicks + 1 < 1000 then 1
-      when total_clicks + 1 < 1500 then 2
-      when total_clicks + 1 < 2000 then 3
-      when total_clicks + 1 < 2500 then 4
-      when total_clicks + 1 < 3000 then 5
+      when d.total_clicks + 1 < 500 then 0
+      when d.total_clicks + 1 < 1000 then 1
+      when d.total_clicks + 1 < 1500 then 2
+      when d.total_clicks + 1 < 2000 then 3
+      when d.total_clicks + 1 < 2500 then 4
+      when d.total_clicks + 1 < 3000 then 5
       else 6
     end
-  where id = p_department_id
-  returning total_clicks, pressure_level
+  where d.id = p_department_id
+  returning d.total_clicks, d.pressure_level
   into next_total_clicks, next_pressure_level;
 
   if next_total_clicks is null then
