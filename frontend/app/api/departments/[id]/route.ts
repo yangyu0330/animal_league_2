@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
 import { calculatePressureLevel, calculateStackCount } from '@/lib/domain'
 import { createClient } from '@/lib/supabase/server'
 import { getKstDayStartIso } from '@/lib/time'
-import type { PressureLevel } from '@/lib/types'
 
 interface SchoolRelation {
   name?: string
@@ -16,7 +15,6 @@ interface DepartmentRow {
   category: string
   template_id: string
   total_clicks: number
-  pressure_level: number | null
   school?: SchoolRelation | SchoolRelation[] | null
 }
 
@@ -37,7 +35,7 @@ export async function GET(
     const departmentQuery = await supabase
       .from('department')
       .select(
-        'id, school_id, name, normalized_name, category, template_id, total_clicks, pressure_level, school:school(name)',
+        'id, school_id, name, normalized_name, category, template_id, total_clicks, school:school(name)',
       )
       .eq('id', id)
       .maybeSingle()
@@ -67,12 +65,6 @@ export async function GET(
 
     const department = departmentQuery.data as DepartmentRow
     const totalClicks = Number(department.total_clicks ?? 0)
-    const pressureFromDb = department.pressure_level
-    const computedPressure = calculatePressureLevel(totalClicks)
-    const pressureLevel =
-      typeof pressureFromDb === 'number' && pressureFromDb >= 0 && pressureFromDb <= 4
-        ? (pressureFromDb as PressureLevel)
-        : computedPressure
 
     let todayClicks = 0
     const countQuery = await supabase
@@ -94,7 +86,7 @@ export async function GET(
       templateId: department.template_id,
       totalClicks,
       stackCount: calculateStackCount(totalClicks),
-      pressureLevel,
+      pressureLevel: calculatePressureLevel(totalClicks),
       todayClicks,
       schoolId: department.school_id,
       normalizedName: department.normalized_name,

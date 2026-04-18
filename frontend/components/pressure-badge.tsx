@@ -16,13 +16,13 @@ const levelLabels: Record<PressureLevel, string> = {
 }
 
 const levelColors: Record<PressureLevel, string> = {
-  0: 'bg-pressure-0 text-green-800',
-  1: 'bg-pressure-1 text-yellow-800',
-  2: 'bg-pressure-2 text-yellow-800',
-  3: 'bg-pressure-3 text-orange-900',
-  4: 'bg-pressure-4 text-orange-950',
-  5: 'bg-pressure-5 text-red-800',
-  6: 'bg-pressure-6 text-red-900',
+  0: 'bg-pressure-0 text-green-900',
+  1: 'bg-pressure-1 text-yellow-900',
+  2: 'bg-pressure-2 text-yellow-900',
+  3: 'bg-pressure-3 text-orange-950',
+  4: 'bg-pressure-4 text-white',
+  5: 'bg-pressure-5 text-white',
+  6: 'bg-pressure-6 text-white',
 }
 
 const sizeClasses = {
@@ -33,8 +33,8 @@ const sizeClasses = {
 
 export function PressureBadge({ level, size = 'md' }: PressureBadgeProps) {
   return (
-    <span 
-      className={`inline-flex items-center font-semibold rounded-full ${levelColors[level]} ${sizeClasses[size]}`}
+    <span
+      className={`inline-flex items-center rounded-full font-semibold ${levelColors[level]} ${sizeClasses[size]}`}
     >
       {levelLabels[level]}
     </span>

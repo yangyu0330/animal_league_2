@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import { calculatePressureLevel, calculateStackCount } from '@/lib/domain'
 import { createClient } from '@/lib/supabase/server'
-import type { PressureLevel } from '@/lib/types'
 
 interface SchoolRelation {
   name?: string
@@ -12,7 +11,6 @@ interface DepartmentSearchRow {
   name: string
   category: string
   total_clicks: number
-  pressure_level: number | null
   school?: SchoolRelation | SchoolRelation[] | null
 }
 
@@ -34,7 +32,7 @@ export async function GET(request: Request) {
 
     let query = supabase
       .from('department')
-      .select('id, name, category, total_clicks, pressure_level, school:school(name)')
+      .select('id, name, category, total_clicks, school:school(name)')
       .order('total_clicks', { ascending: false })
       .limit(limit)
 
@@ -62,12 +60,6 @@ export async function GET(request: Request) {
 
     const items = ((data ?? []) as DepartmentSearchRow[]).map((row) => {
       const totalClicks = Number(row.total_clicks ?? 0)
-      const computedPressure = calculatePressureLevel(totalClicks)
-      const pressureFromDb = row.pressure_level
-      const pressureLevel =
-        typeof pressureFromDb === 'number' && pressureFromDb >= 0 && pressureFromDb <= 4
-          ? (pressureFromDb as PressureLevel)
-          : computedPressure
 
       return {
         departmentId: row.id,
@@ -76,7 +68,7 @@ export async function GET(request: Request) {
         category: row.category,
         totalClicks,
         stackCount: calculateStackCount(totalClicks),
-        pressureLevel,
+        pressureLevel: calculatePressureLevel(totalClicks),
       }
     })
 
