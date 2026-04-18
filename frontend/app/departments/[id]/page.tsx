@@ -143,10 +143,22 @@ export default function DepartmentDetailPage() {
               refSource: isShareRef ? 'share' : 'direct',
             })
 
+            if (!response.accepted) {
+              rollbackOptimisticBoost(departmentId)
+              if (!showedFailureToast) {
+                const deniedMessage = 'Click was received but not counted. Please try again.'
+                toast.message(deniedMessage)
+                setStatusMessage(deniedMessage)
+                showedFailureToast = true
+              }
+              continue
+            }
+
             optimisticBoostsRef.current = Math.max(optimisticBoostsRef.current - 1, 0)
             setDepartment((prev) => {
               if (!prev || prev.id !== departmentId) return prev
               const totalClicks = response.newTotalClicks + optimisticBoostsRef.current
+              localTotalClicksRef.current = totalClicks
               return {
                 ...prev,
                 totalClicks,
@@ -166,6 +178,23 @@ export default function DepartmentDetailPage() {
                 toast.message('짧은 시간에 클릭이 너무 많아 일부가 제외되었어요.')
                 showedFailureToast = true
               }
+            } else if (error instanceof ApiError && error.code === 'UNAUTHORIZED') {
+              if (!showedFailureToast) {
+                const loginMessage = 'Login is required. Please sign in again.'
+                toast.error(loginMessage)
+                setStatusMessage(loginMessage)
+                showedFailureToast = true
+              }
+              pendingBoostsRef.current = 0
+              router.replace('/')
+            } else if (error instanceof ApiError && error.code === 'FORBIDDEN') {
+              if (!showedFailureToast) {
+                const forbiddenMessage = 'Only your selected department can be boosted.'
+                toast.message(forbiddenMessage)
+                setStatusMessage(forbiddenMessage)
+                showedFailureToast = true
+              }
+              pendingBoostsRef.current = 0
             } else if (error instanceof ApiError && error.code === 'NOT_FOUND') {
               toast.error('학과를 찾을 수 없습니다.')
               router.replace('/home')
