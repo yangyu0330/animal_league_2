@@ -18,6 +18,18 @@ function buildError(code: string, message: string, status: number) {
   return NextResponse.json({ code, error: code, message }, { status })
 }
 
+function buildRpcDebugMessage(rawMessage: string, rawCode?: string, rawDetails?: string) {
+  const pieces = [
+    rawCode ? `code=${rawCode}` : null,
+    rawMessage ? `message=${rawMessage}` : null,
+    rawDetails ? `details=${rawDetails}` : null,
+  ].filter(Boolean)
+
+  const joined = pieces.join(' | ')
+  const maxLength = 400
+  return joined.length > maxLength ? joined.slice(0, maxLength) : joined
+}
+
 function parsePayload(body: unknown): ClickPayload | null {
   if (!body || typeof body !== 'object') return null
   const payload = body as Partial<ClickPayload>
@@ -76,7 +88,12 @@ export async function POST(
 
   if (profileQuery.error) {
     console.error('[POST /api/departments/:id/click] app_user lookup failed', profileQuery.error)
-    return buildError('INTERNAL_ERROR', 'An unexpected server error occurred.', 500)
+    const debugMessage = buildRpcDebugMessage(
+      profileQuery.error.message ?? '',
+      profileQuery.error.code ?? undefined,
+      profileQuery.error.details ?? undefined,
+    )
+    return buildError('INTERNAL_ERROR', debugMessage || 'An unexpected server error occurred.', 500)
   }
 
   if (!profileQuery.data?.selected_department_id || profileQuery.data.selected_department_id !== id) {
@@ -113,7 +130,12 @@ export async function POST(
     }
 
     console.error('[POST /api/departments/:id/click] record click failed', clickResult.error)
-    return buildError('INTERNAL_ERROR', 'An unexpected server error occurred.', 500)
+    const debugMessage = buildRpcDebugMessage(
+      rawMessage,
+      clickResult.error.code ?? undefined,
+      clickResult.error.details ?? undefined,
+    )
+    return buildError('INTERNAL_ERROR', debugMessage || 'An unexpected server error occurred.', 500)
   }
 
   const result = clickResult.data as RecordClickRow
