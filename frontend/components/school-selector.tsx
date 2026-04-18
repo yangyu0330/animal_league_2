@@ -55,7 +55,7 @@ export function SchoolSelector({
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="h-10 gap-2 rounded-xl border-border bg-card">
           <span className="max-w-[120px] truncate">
-            {selectedSchool ? selectedSchool.name : valueLabel ?? '?꾧뎅'}
+            {selectedSchool ? selectedSchool.name : valueLabel ?? '전국'}
           </span>
           <ChevronDown className="h-4 w-4 flex-shrink-0" />
         </Button>
@@ -63,7 +63,7 @@ export function SchoolSelector({
       <DropdownMenuContent align="start" className="max-h-[300px] w-56 overflow-y-auto">
         {showAllOption && (
           <DropdownMenuItem onClick={() => onChange(null, null)}>
-            <span className="flex-1">?꾧뎅</span>
+            <span className="flex-1">전국</span>
             {!value && <Check className="h-4 w-4" />}
           </DropdownMenuItem>
         )}

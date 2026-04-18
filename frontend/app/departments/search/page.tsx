@@ -85,7 +85,7 @@ export default function DepartmentSearchPage() {
             <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="학과 검색"
+              placeholder="학과 검색 (예: 컴퓨터공학과)"
               className="h-11 rounded-xl pl-9"
             />
           </div>

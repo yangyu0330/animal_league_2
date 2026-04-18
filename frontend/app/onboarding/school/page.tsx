@@ -84,7 +84,7 @@ export default function SchoolOnboardingPage() {
       } catch {
         if (!cancelled) {
           setSchoolResults([])
-          toast.error('?숆탳 紐⑸줉??遺덈윭?ㅼ? 紐삵뻽?듬땲??')
+          toast.error('학교 목록을 불러오지 못했습니다.')
         }
       } finally {
         if (!cancelled) {
@@ -220,7 +220,7 @@ export default function SchoolOnboardingPage() {
           <Input
             value={schoolQuery}
             onChange={(event) => setSchoolQuery(event.target.value)}
-            placeholder="학교 검색"
+            placeholder="학교 검색 (예: 멋사대, 발사대, 딱밤대)"
             className="h-12 rounded-xl pl-9"
           />
         </div>
@@ -243,7 +243,7 @@ export default function SchoolOnboardingPage() {
           ))}
           {!isSchoolLoading && schoolResults.length === 0 ? (
             <p className="rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground">
-              ?숆탳 寃??寃곌낵媛 ?녿굹??
+              학교 검색 결과가 없나요?
             </p>
           ) : null}
         </section>
@@ -276,7 +276,7 @@ export default function SchoolOnboardingPage() {
                 <Input
                   value={departmentQuery}
                   onChange={(event) => setDepartmentQuery(event.target.value)}
-                  placeholder="학과 검색"
+                  placeholder="학과 검색 (예: 컴퓨터공학과)"
                   className="h-12 rounded-xl pl-9"
                 />
               </div>
