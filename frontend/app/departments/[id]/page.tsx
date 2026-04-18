@@ -195,6 +195,14 @@ export default function DepartmentDetailPage() {
                 showedFailureToast = true
               }
               pendingBoostsRef.current = 0
+            } else if (error instanceof ApiError && error.code === 'MIGRATION_REQUIRED') {
+              if (!showedFailureToast) {
+                const migrationMessage = error.message || 'Server migration is required.'
+                toast.error(migrationMessage)
+                setStatusMessage(migrationMessage)
+                showedFailureToast = true
+              }
+              pendingBoostsRef.current = 0
             } else if (error instanceof ApiError && error.code === 'NOT_FOUND') {
               toast.error('학과를 찾을 수 없습니다.')
               router.replace('/home')

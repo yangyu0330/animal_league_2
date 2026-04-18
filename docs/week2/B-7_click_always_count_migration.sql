@@ -4,6 +4,14 @@
 -- 2) Update department totals atomically in DB to avoid lost updates under rapid clicks.
 -- 3) Keep combo tracking behavior for max-combo rankings.
 
+alter table public.app_user
+  add column if not exists max_combo integer not null default 0,
+  add column if not exists current_combo integer not null default 0,
+  add column if not exists combo_last_clicked_at timestamptz null;
+
+create index if not exists idx_app_user_max_combo_desc
+  on public.app_user (max_combo desc, id asc);
+
 do $$
 declare
   constraint_row record;

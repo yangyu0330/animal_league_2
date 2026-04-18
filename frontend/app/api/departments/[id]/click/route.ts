@@ -94,9 +94,24 @@ export async function POST(
     .single()
 
   if (clickResult.error) {
-    if (clickResult.error.message.includes('DEPARTMENT_NOT_FOUND')) {
+    const rawMessage = clickResult.error.message ?? ''
+    if (rawMessage.includes('DEPARTMENT_NOT_FOUND')) {
       return buildError('NOT_FOUND', 'Department not found.', 404)
     }
+
+    // Helpful migration diagnostics for common DB mismatch cases.
+    if (
+      rawMessage.includes('current_combo') ||
+      rawMessage.includes('max_combo') ||
+      rawMessage.includes('combo_last_clicked_at')
+    ) {
+      return buildError('MIGRATION_REQUIRED', 'Run combo migration before click migration.', 500)
+    }
+
+    if (rawMessage.includes('violates check constraint') && rawMessage.includes('pressure_level')) {
+      return buildError('MIGRATION_REQUIRED', 'Pressure-level constraint mismatch. Re-run click migration.', 500)
+    }
+
     console.error('[POST /api/departments/:id/click] record click failed', clickResult.error)
     return buildError('INTERNAL_ERROR', 'An unexpected server error occurred.', 500)
   }
