@@ -68,6 +68,8 @@ export interface ComboRankingItem {
   schoolName: string
   departmentName: string
   maxCombo: number
+  selectedTitleKey: string | null
+  selectedTitleLabel: string | null
 }
 
 export interface ComboRankingResponse {
@@ -75,15 +77,58 @@ export interface ComboRankingResponse {
   generatedAt: string
 }
 
-export interface ClickActivity {
-  id: string
-  departmentId: string
-  departmentName: string
+export interface TitleRankingItem {
+  rank: number
+  userId: string
+  nickname: string
   schoolName: string
-  createdAt: string
-  accepted: boolean
-  refSource: 'direct' | 'share'
-  reason?: string
+  departmentName: string
+  titleCount: number
+  selectedTitleKey: string | null
+  selectedTitleLabel: string | null
+}
+
+export interface TitleRankingResponse {
+  scope: 'national' | 'school'
+  items: TitleRankingItem[]
+  generatedAt: string
+}
+
+export type MissionUnit = 'click' | 'combo' | 'rank' | 'level'
+
+export interface MissionProgress {
+  missionKey: string
+  titleKey: string
+  titleLabel: string
+  category: 'personal' | 'team'
+  description: string
+  currentValue: number
+  targetValue: number
+  unit: MissionUnit
+  progressRatio: number
+  completed: boolean
+  claimed: boolean
+  claimable: boolean
+  blockedReason?: string
+}
+
+export interface ActivitySelectedDepartmentSummary {
+  id: string
+  name: string
+  schoolName: string
+  totalClicks: number
+  stackCount: number
+  pressureLevel: PressureLevel
+  todayClicks: number
+}
+
+export interface SchoolWarSummary {
+  rank: number
+  totalDepartments: number
+  rivalDepartmentName: string | null
+  rivalClicks: number | null
+  clicksToNextRank: number
+  clicksToFirst: number
 }
 
 export interface User {
@@ -94,6 +139,7 @@ export interface User {
   selectedSchoolName: string | null
   selectedDepartmentId: string | null
   selectedDepartmentName: string | null
+  selectedTitleKey: string | null
 }
 
 export interface SearchDepartmentsParams {
@@ -141,5 +187,12 @@ export interface ClickDepartmentResponse {
 export interface MyActivityResponse {
   todayCount: number
   maxCombo: number
-  items: ClickActivity[]
+  selectedTitleKey: string | null
+  earnedTitleKeys: string[]
+  myDepartmentContributionClicks: number
+  schoolTotalClicks: number
+  selectedDepartment: ActivitySelectedDepartmentSummary | null
+  schoolWar: SchoolWarSummary | null
+  personalMissions: MissionProgress[]
+  teamMissions: MissionProgress[]
 }

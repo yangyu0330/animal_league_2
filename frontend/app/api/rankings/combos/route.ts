@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { getTitleLabel } from '@/lib/title-missions'
 import { createClient } from '@/lib/supabase/server'
 
 interface AppUserComboRankingRow {
@@ -7,6 +8,7 @@ interface AppUserComboRankingRow {
   max_combo: number | null
   selected_school_id?: string | null
   selected_department_id?: string | null
+  selected_title_key?: string | null
 }
 
 interface SchoolRow {
@@ -26,20 +28,32 @@ function buildEmptyResponse() {
   })
 }
 
+async function fetchComboRankingRows(supabase: Awaited<ReturnType<typeof createClient>>) {
+  const queryWithTitle = await supabase
+    .from('app_user')
+    .select('id, nickname, max_combo, selected_school_id, selected_department_id, selected_title_key')
+    .gt('max_combo', 0)
+    .order('max_combo', { ascending: false })
+    .order('id', { ascending: true })
+    .limit(5)
+
+  if (queryWithTitle.error?.code !== '42703') {
+    return queryWithTitle
+  }
+
+  return supabase
+    .from('app_user')
+    .select('id, nickname, max_combo, selected_school_id, selected_department_id')
+    .gt('max_combo', 0)
+    .order('max_combo', { ascending: false })
+    .order('id', { ascending: true })
+    .limit(5)
+}
+
 export async function GET() {
   try {
     const supabase = await createClient()
-    const rankingQuery = await supabase
-      .from('app_user')
-      .select('id, nickname, max_combo, selected_school_id, selected_department_id')
-      .gt('max_combo', 0)
-      .order('max_combo', { ascending: false })
-      .order('id', { ascending: true })
-      .limit(5)
-
-    if (rankingQuery.error?.code === '42703') {
-      return buildEmptyResponse()
-    }
+    const rankingQuery = await fetchComboRankingRows(supabase)
 
     if (rankingQuery.error) {
       console.error('[GET /api/rankings/combos] app_user query failed', rankingQuery.error)
@@ -73,10 +87,7 @@ export async function GET() {
     const departmentMap = new Map<string, string>()
 
     if (schoolIds.length > 0) {
-      const schoolsQuery = await supabase
-        .from('school')
-        .select('id, name')
-        .in('id', schoolIds)
+      const schoolsQuery = await supabase.from('school').select('id, name').in('id', schoolIds)
 
       if (schoolsQuery.error) {
         console.error('[GET /api/rankings/combos] school query failed', schoolsQuery.error)
@@ -96,10 +107,7 @@ export async function GET() {
     }
 
     if (departmentIds.length > 0) {
-      const departmentsQuery = await supabase
-        .from('department')
-        .select('id, name')
-        .in('id', departmentIds)
+      const departmentsQuery = await supabase.from('department').select('id, name').in('id', departmentIds)
 
       if (departmentsQuery.error) {
         console.error('[GET /api/rankings/combos] department query failed', departmentsQuery.error)
@@ -124,10 +132,10 @@ export async function GET() {
         userId: row.id,
         nickname: row.nickname?.trim() || 'user',
         schoolName: row.selected_school_id ? schoolMap.get(row.selected_school_id) ?? '' : '',
-        departmentName: row.selected_department_id
-          ? departmentMap.get(row.selected_department_id) ?? ''
-          : '',
+        departmentName: row.selected_department_id ? departmentMap.get(row.selected_department_id) ?? '' : '',
         maxCombo: Number(row.max_combo ?? 0),
+        selectedTitleKey: row.selected_title_key ?? null,
+        selectedTitleLabel: getTitleLabel(row.selected_title_key ?? null),
       })),
       generatedAt: new Date().toISOString(),
     })

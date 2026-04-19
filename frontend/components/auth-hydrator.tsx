@@ -60,6 +60,7 @@ export function AuthHydrator() {
           selectedSchoolName: null,
           selectedDepartmentId: null,
           selectedDepartmentName: null,
+          selectedTitleKey: null,
         })
       } finally {
         if (!cancelled) {

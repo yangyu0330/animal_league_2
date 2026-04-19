@@ -1,0 +1,2197 @@
+[
+  {
+    "status": 200,
+    "url": "/home",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0v_.kk9g.i79l.css",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/media/0c89a48fa5027cee-s.p.0rd3rjvnnhw7n.woff2",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/02~plccr8xq~c.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0f.1dvksnw.u8.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/turbopack-16qj1nuf0iz~4.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0h_.98g2sde_3.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0dc6jegzlm78n.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16581hi5y6bxg.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0hrq8qduwtzsy.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0jprs_fd_n1y2.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/09y9ct7i4hwg1.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/17j~~.mbb~gzz.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0ojvnnprnnf1v.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16jimhjiezltg.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 404,
+    "url": "/_vercel/insights/script.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/trending",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings?scope=national",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=wyhzh",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=1x09p",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=wyhzh",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1a2iz",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=19kud",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1kz6f",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0zg-onano-3-d.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0xxxj0dki8of1.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=wyhzh",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=k04yq",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=a2ras",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=ach1w",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16_lvacjudzja.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=13qsy",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/combos",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/64bad6ef-41bb-472a-b652-8b6c57fd70ee?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/2d8c6305-b184-4d46-8f6f-acc37e7fbc10?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4e98b7f0-54d3-427f-91f5-e4241f6ad899?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/schools?limit=200",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings?scope=school&schoolId=22953b95-3148-4f10-be94-4c8a49b23e44",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=w0kkq",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/77af8a0e-f1ae-417a-a46b-1088efbfbfaf?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4d43feab-29bc-4780-a7dc-36d6a3ca7e8f?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/64bad6ef-41bb-472a-b652-8b6c57fd70ee?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/2d8c6305-b184-4d46-8f6f-acc37e7fbc10?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4d43feab-29bc-4780-a7dc-36d6a3ca7e8f?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4e98b7f0-54d3-427f-91f5-e4241f6ad899?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/trending",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings?scope=national",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/77af8a0e-f1ae-417a-a46b-1088efbfbfaf?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/combos",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/da05273d-5d0a-4a3f-8b8b-d93dbc5839e5?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/a1aedd72-e25e-447a-bd15-3e21bd01ef27?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/079a6221-ba27-4b0e-8903-72942a475019?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/c3caca8a-c9ec-47d3-829c-37cfce3545dd?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/da05273d-5d0a-4a3f-8b8b-d93dbc5839e5?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/079a6221-ba27-4b0e-8903-72942a475019?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/c3caca8a-c9ec-47d3-829c-37cfce3545dd?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/a1aedd72-e25e-447a-bd15-3e21bd01ef27?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/media/0c89a48fa5027cee-s.p.0rd3rjvnnhw7n.woff2",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0v_.kk9g.i79l.css",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/02~plccr8xq~c.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0f.1dvksnw.u8.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/turbopack-16qj1nuf0iz~4.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0h_.98g2sde_3.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0dc6jegzlm78n.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16581hi5y6bxg.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0hrq8qduwtzsy.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0jprs_fd_n1y2.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16_lvacjudzja.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/09y9ct7i4hwg1.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16jimhjiezltg.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0ojvnnprnnf1v.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 404,
+    "url": "/_vercel/insights/script.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/search?q=&schoolId=22953b95-3148-4f10-be94-4c8a49b23e44&limit=20",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/search?q=&limit=20",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/9e775ef5-a4bc-4639-aa93-d1d9c9885c1f?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/e6654de4-26f6-430c-82a1-9a3f144228c5?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/6a0e3853-3f38-4f46-833d-bbd308fa7102?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/d9bf20f6-e913-40ec-8e5f-6629f4b40a2f?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/8f8e5bbe-fdc2-47c5-8951-39e2a2fd5ea5?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/e70428d5-dc1a-47e6-a734-fc723464dc07?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/64bad6ef-41bb-472a-b652-8b6c57fd70ee?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/2d8c6305-b184-4d46-8f6f-acc37e7fbc10?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4e98b7f0-54d3-427f-91f5-e4241f6ad899?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4d43feab-29bc-4780-a7dc-36d6a3ca7e8f?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=p29ei",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/77af8a0e-f1ae-417a-a46b-1088efbfbfaf?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=9yd5f",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1yvld",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1m33l",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0xxxj0dki8of1.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0zg-onano-3-d.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=y8wc7",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1iwrw",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1qpx8",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1ruha",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=y8wc7",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=1fa2z",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=vulox",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/17j~~.mbb~gzz.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/schools?limit=200",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/9e775ef5-a4bc-4639-aa93-d1d9c9885c1f?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/6a0e3853-3f38-4f46-833d-bbd308fa7102?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/e6654de4-26f6-430c-82a1-9a3f144228c5?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=y8wc7",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/e70428d5-dc1a-47e6-a734-fc723464dc07?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/d9bf20f6-e913-40ec-8e5f-6629f4b40a2f?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/8f8e5bbe-fdc2-47c5-8951-39e2a2fd5ea5?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/64bad6ef-41bb-472a-b652-8b6c57fd70ee?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4e98b7f0-54d3-427f-91f5-e4241f6ad899?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/2d8c6305-b184-4d46-8f6f-acc37e7fbc10?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4d43feab-29bc-4780-a7dc-36d6a3ca7e8f?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/77af8a0e-f1ae-417a-a46b-1088efbfbfaf?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/media/0c89a48fa5027cee-s.p.0rd3rjvnnhw7n.woff2",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0v_.kk9g.i79l.css",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/02~plccr8xq~c.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0f.1dvksnw.u8.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0dc6jegzlm78n.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0hrq8qduwtzsy.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/turbopack-16qj1nuf0iz~4.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0h_.98g2sde_3.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16581hi5y6bxg.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/09y9ct7i4hwg1.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0jprs_fd_n1y2.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0xxxj0dki8of1.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0zg-onano-3-d.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 404,
+    "url": "/_vercel/insights/script.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1eylb",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=1eylb",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/onboarding/school?mode=edit&next=%2Fme%2Factivity&_rsc=1eylb",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1yo21",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1n2d3",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=865xe",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=18sia",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1yo21",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1izfa",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=2qpia",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=fx3d8",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=1yo21",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1eb7h",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16_lvacjudzja.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16jimhjiezltg.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0ojvnnprnnf1v.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=2bb13",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=mjueh",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/17j~~.mbb~gzz.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/onboarding/school?mode=edit&next=%2Fme%2Factivity&_rsc=1yo21",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/onboarding/school?mode=edit&next=%2Fme%2Factivity&_rsc=1bvqw",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/onboarding/school?mode=edit&next=%2Fme%2Factivity&_rsc=1ynqy",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/onboarding/school?mode=edit&next=%2Fme%2Factivity&_rsc=2ij86",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/onboarding/school?_rsc=1eylb",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0kuenww~-0-nu.js",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/api/me/activity?limit=20",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=1eylb",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=1usm7",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/onboarding/school?mode=edit&next=%2Fme%2Factivity",
+    "page": "https://animal-league-2.vercel.app/me/activity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/media/0c89a48fa5027cee-s.p.0rd3rjvnnhw7n.woff2",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0v_.kk9g.i79l.css",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/02~plccr8xq~c.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0f.1dvksnw.u8.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0dc6jegzlm78n.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0hrq8qduwtzsy.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/turbopack-16qj1nuf0iz~4.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0h_.98g2sde_3.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16581hi5y6bxg.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/09y9ct7i4hwg1.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0jprs_fd_n1y2.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0kuenww~-0-nu.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0zg-onano-3-d.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 404,
+    "url": "/_vercel/insights/script.js",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/api/schools?limit=30",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/search?q=%EC%A0%95%EB%B3%B4%EB%B3%B4%ED%98%B8%ED%95%99%EC%A0%84%EA%B3%B5&schoolId=22953b95-3148-4f10-be94-4c8a49b23e44&limit=20",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search",
+    "page": "https://animal-league-2.vercel.app/onboarding/school?mode=edit&next=%2Fme%2Factivity"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/media/0c89a48fa5027cee-s.p.0rd3rjvnnhw7n.woff2",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0v_.kk9g.i79l.css",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/02~plccr8xq~c.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0f.1dvksnw.u8.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0dc6jegzlm78n.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0hrq8qduwtzsy.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/turbopack-16qj1nuf0iz~4.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0h_.98g2sde_3.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16581hi5y6bxg.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/09y9ct7i4hwg1.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0jprs_fd_n1y2.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16_lvacjudzja.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16jimhjiezltg.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0ojvnnprnnf1v.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 404,
+    "url": "/_vercel/insights/script.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/search?q=&limit=20",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/search?q=&schoolId=22953b95-3148-4f10-be94-4c8a49b23e44&limit=20",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/fb4f3370-076b-4c1b-ba5c-d5c99b2b9a56?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/6cc8ad8d-ba37-4839-bc16-7be245b072e2?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/7ce074cb-4485-4496-af35-2a453d5419ef?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/c292d64e-682a-43db-bb2e-1bc9c1390eb7?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/2b1359e3-3bec-411b-938b-898f468c3cf5?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/schools?limit=200",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ae70cbd1-15fc-41cd-9aae-238f97287527?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4619fc57-e558-42e9-922b-c0b0a0b35a41?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/a1aedd72-e25e-447a-bd15-3e21bd01ef27?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/c3caca8a-c9ec-47d3-829c-37cfce3545dd?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/da05273d-5d0a-4a3f-8b8b-d93dbc5839e5?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/079a6221-ba27-4b0e-8903-72942a475019?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=p29ei",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=y8wc7",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=9yd5f",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1m33l",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1yvld",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0xxxj0dki8of1.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0zg-onano-3-d.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=y8wc7",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1iwrw",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1qpx8",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=y8wc7",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=1fa2z",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1ruha",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=vulox",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/17j~~.mbb~gzz.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/fb4f3370-076b-4c1b-ba5c-d5c99b2b9a56?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/6cc8ad8d-ba37-4839-bc16-7be245b072e2?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/c292d64e-682a-43db-bb2e-1bc9c1390eb7?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/7ce074cb-4485-4496-af35-2a453d5419ef?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/2b1359e3-3bec-411b-938b-898f468c3cf5?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4619fc57-e558-42e9-922b-c0b0a0b35a41?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ae70cbd1-15fc-41cd-9aae-238f97287527?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/a1aedd72-e25e-447a-bd15-3e21bd01ef27?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/c3caca8a-c9ec-47d3-829c-37cfce3545dd?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/079a6221-ba27-4b0e-8903-72942a475019?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/da05273d-5d0a-4a3f-8b8b-d93dbc5839e5?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/search?q=%3F%3F%3F&schoolId=22953b95-3148-4f10-be94-4c8a49b23e44&limit=20",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/new?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/new?_rsc=sm4ht",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/new?_rsc=5m3n3",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/new?_rsc=y8wc7",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0i.fi~_z9467a.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/search?q=zzzz%3F%3F%3F%3F&schoolId=22953b95-3148-4f10-be94-4c8a49b23e44&limit=20",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/media/0c89a48fa5027cee-s.p.0rd3rjvnnhw7n.woff2",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0v_.kk9g.i79l.css",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/02~plccr8xq~c.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0f.1dvksnw.u8.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0dc6jegzlm78n.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0hrq8qduwtzsy.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0h_.98g2sde_3.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/turbopack-16qj1nuf0iz~4.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16581hi5y6bxg.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0jprs_fd_n1y2.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/17j~~.mbb~gzz.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/09y9ct7i4hwg1.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16jimhjiezltg.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0ojvnnprnnf1v.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 404,
+    "url": "/_vercel/insights/script.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings?scope=national",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings?scope=national",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/combos",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/combos",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings?scope=school&schoolId=22953b95-3148-4f10-be94-4c8a49b23e44",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/trending",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/trending",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/a1aedd72-e25e-447a-bd15-3e21bd01ef27?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/c3caca8a-c9ec-47d3-829c-37cfce3545dd?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/079a6221-ba27-4b0e-8903-72942a475019?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1x09p",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=wyhzh",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1a2iz",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=19kud",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1kz6f",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0xxxj0dki8of1.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0zg-onano-3-d.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=wyhzh",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=k04yq",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=a2ras",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=ach1w",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16_lvacjudzja.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=wyhzh",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=w0kkq",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=13qsy",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4e98b7f0-54d3-427f-91f5-e4241f6ad899?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/da05273d-5d0a-4a3f-8b8b-d93dbc5839e5?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/schools?limit=200",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/a1aedd72-e25e-447a-bd15-3e21bd01ef27?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/c3caca8a-c9ec-47d3-829c-37cfce3545dd?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/079a6221-ba27-4b0e-8903-72942a475019?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/da05273d-5d0a-4a3f-8b8b-d93dbc5839e5?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4e98b7f0-54d3-427f-91f5-e4241f6ad899?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/media/0c89a48fa5027cee-s.p.0rd3rjvnnhw7n.woff2",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0v_.kk9g.i79l.css",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/02~plccr8xq~c.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0f.1dvksnw.u8.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0dc6jegzlm78n.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0hrq8qduwtzsy.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/turbopack-16qj1nuf0iz~4.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0h_.98g2sde_3.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16581hi5y6bxg.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/09y9ct7i4hwg1.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0jprs_fd_n1y2.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16_lvacjudzja.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16jimhjiezltg.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0ojvnnprnnf1v.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 404,
+    "url": "/_vercel/insights/script.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/search?q=&schoolId=22953b95-3148-4f10-be94-4c8a49b23e44&limit=20",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/search?q=&limit=20",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/6a0e3853-3f38-4f46-833d-bbd308fa7102?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/d9bf20f6-e913-40ec-8e5f-6629f4b40a2f?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/9e775ef5-a4bc-4639-aa93-d1d9c9885c1f?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/e6654de4-26f6-430c-82a1-9a3f144228c5?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/8f8e5bbe-fdc2-47c5-8951-39e2a2fd5ea5?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/api/schools?limit=200",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/e70428d5-dc1a-47e6-a734-fc723464dc07?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/64bad6ef-41bb-472a-b652-8b6c57fd70ee?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/2d8c6305-b184-4d46-8f6f-acc37e7fbc10?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4e98b7f0-54d3-427f-91f5-e4241f6ad899?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4d43feab-29bc-4780-a7dc-36d6a3ca7e8f?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=y8wc7",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=p29ei",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=9yd5f",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1yvld",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1m33l",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0xxxj0dki8of1.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0zg-onano-3-d.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=y8wc7",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/77af8a0e-f1ae-417a-a46b-1088efbfbfaf?_rsc=vo6zd",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1iwrw",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1qpx8",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=y8wc7",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=1ruha",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=1fa2z",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=vulox",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/17j~~.mbb~gzz.js",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/e6654de4-26f6-430c-82a1-9a3f144228c5?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/9e775ef5-a4bc-4639-aa93-d1d9c9885c1f?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/6a0e3853-3f38-4f46-833d-bbd308fa7102?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/d9bf20f6-e913-40ec-8e5f-6629f4b40a2f?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/8f8e5bbe-fdc2-47c5-8951-39e2a2fd5ea5?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/e70428d5-dc1a-47e6-a734-fc723464dc07?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/64bad6ef-41bb-472a-b652-8b6c57fd70ee?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/2d8c6305-b184-4d46-8f6f-acc37e7fbc10?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4e98b7f0-54d3-427f-91f5-e4241f6ad899?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4d43feab-29bc-4780-a7dc-36d6a3ca7e8f?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/departments/77af8a0e-f1ae-417a-a46b-1088efbfbfaf?_rsc=1amxg",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/home",
+    "page": "https://animal-league-2.vercel.app/departments/search"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/media/0c89a48fa5027cee-s.p.0rd3rjvnnhw7n.woff2",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0v_.kk9g.i79l.css",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/02~plccr8xq~c.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0f.1dvksnw.u8.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0dc6jegzlm78n.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0hrq8qduwtzsy.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/turbopack-16qj1nuf0iz~4.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0h_.98g2sde_3.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16581hi5y6bxg.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/09y9ct7i4hwg1.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0jprs_fd_n1y2.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/17j~~.mbb~gzz.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16jimhjiezltg.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0ojvnnprnnf1v.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 404,
+    "url": "/_vercel/insights/script.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings?scope=national",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/trending",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/trending",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings?scope=school&schoolId=22953b95-3148-4f10-be94-4c8a49b23e44",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings?scope=national",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/combos",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/rankings/combos",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/2d8c6305-b184-4d46-8f6f-acc37e7fbc10?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4e98b7f0-54d3-427f-91f5-e4241f6ad899?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4d43feab-29bc-4780-a7dc-36d6a3ca7e8f?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/77af8a0e-f1ae-417a-a46b-1088efbfbfaf?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=wyhzh",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1x09p",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1a2iz",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=19kud",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/me/activity?_rsc=1kz6f",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0xxxj0dki8of1.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/0zg-onano-3-d.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=wyhzh",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=a2ras",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=k04yq",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/search?_rsc=ach1w",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/_next/static/chunks/16_lvacjudzja.js",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=wyhzh",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=w0kkq",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/home?_rsc=13qsy",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=3hd5j",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/schools?limit=200",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/2d8c6305-b184-4d46-8f6f-acc37e7fbc10?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4d43feab-29bc-4780-a7dc-36d6a3ca7e8f?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/4e98b7f0-54d3-427f-91f5-e4241f6ad899?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/api/me",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/77af8a0e-f1ae-417a-a46b-1088efbfbfaf?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  },
+  {
+    "status": 200,
+    "url": "/departments/ab69e1bc-b5a4-4c41-9927-e62b9826f49f?_rsc=dt7rl",
+    "page": "https://animal-league-2.vercel.app/home"
+  }
+]

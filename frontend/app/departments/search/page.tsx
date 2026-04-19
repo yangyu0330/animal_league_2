@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Plus, Search } from 'lucide-react'
@@ -19,6 +19,7 @@ export default function DepartmentSearchPage() {
   const { userState, user, authLoaded } = useAppStore()
   const [query, setQuery] = useState('')
   const [schoolFilter, setSchoolFilter] = useState<string | null>(null)
+  const [schoolName, setSchoolName] = useState<string | null>(null)
   const [results, setResults] = useState<SearchDepartmentsResponse['items']>([])
 
   useEffect(() => {
@@ -34,19 +35,35 @@ export default function DepartmentSearchPage() {
 
   useEffect(() => {
     if (!user?.selectedSchoolId) return
-    setSchoolFilter(user.selectedSchoolId)
-  }, [user?.selectedSchoolId])
+    setSchoolFilter((prev) => prev ?? user.selectedSchoolId)
+    setSchoolName((prev) => prev ?? user.selectedSchoolName ?? null)
+  }, [user?.selectedSchoolId, user?.selectedSchoolName])
+
+  const effectiveSchoolId = useMemo(
+    () => schoolFilter ?? user?.selectedSchoolId ?? null,
+    [schoolFilter, user?.selectedSchoolId],
+  )
 
   useEffect(() => {
+    if (!authLoaded || userState !== 'ACTIVE_USER') return
+    if (!effectiveSchoolId) {
+      setResults([])
+      return
+    }
+
+    let cancelled = false
+
     async function load() {
       try {
         const response = await searchDepartments({
           q: query,
-          schoolId: schoolFilter ?? undefined,
+          schoolId: effectiveSchoolId ?? undefined,
           limit: 20,
         })
+        if (cancelled) return
         setResults(response.items)
       } catch (error) {
+        if (cancelled) return
         if (error instanceof ApiError && error.code === 'UNAUTHORIZED') {
           router.replace('/')
           return
@@ -56,7 +73,11 @@ export default function DepartmentSearchPage() {
     }
 
     void load()
-  }, [query, router, schoolFilter])
+
+    return () => {
+      cancelled = true
+    }
+  }, [authLoaded, effectiveSchoolId, query, router, userState])
 
   if (!authLoaded || userState !== 'ACTIVE_USER') return null
 
@@ -65,7 +86,12 @@ export default function DepartmentSearchPage() {
       <div className="min-h-screen">
         <header className="sticky top-0 z-10 border-b border-border bg-background px-4 py-4">
           <div className="mb-3 flex items-center gap-3">
-            <button type="button" onClick={() => router.back()} className="rounded-lg p-2 -ml-2 hover:bg-muted" aria-label="뒤로가기">
+            <button
+              type="button"
+              onClick={() => router.back()}
+              className="-ml-2 rounded-lg p-2 hover:bg-muted"
+              aria-label="뒤로가기"
+            >
               <ArrowLeft className="h-5 w-5" />
             </button>
             <h1 className="text-lg font-bold text-foreground">학과 검색</h1>
@@ -73,9 +99,12 @@ export default function DepartmentSearchPage() {
 
           <div className="mb-2">
             <SchoolSelector
-              value={schoolFilter}
-              valueLabel={user?.selectedSchoolName ?? null}
-              onChange={(id, _name) => setSchoolFilter(id)}
+              value={effectiveSchoolId}
+              valueLabel={schoolName ?? user?.selectedSchoolName ?? null}
+              onChange={(id, name) => {
+                setSchoolFilter(id)
+                setSchoolName(name)
+              }}
               showAllOption={false}
             />
           </div>
@@ -92,7 +121,7 @@ export default function DepartmentSearchPage() {
         </header>
 
         <main className="px-4 py-4">
-          <p className="mb-3 text-xs text-muted-foreground">결과 {results.length}건</p>
+          <p className="mb-3 text-xs text-muted-foreground">검색 결과 {results.length}건</p>
           {results.length > 0 ? (
             <div className="space-y-2">
               {results.map((department) => (
@@ -106,7 +135,9 @@ export default function DepartmentSearchPage() {
                     <p className="truncate text-xs text-muted-foreground">{department.schoolName}</p>
                   </div>
                   <div className="text-right">
-                    <p className="number-display text-sm font-semibold text-foreground">{department.totalClicks.toLocaleString()}</p>
+                    <p className="number-display text-sm font-semibold text-foreground">
+                      {department.totalClicks.toLocaleString()}
+                    </p>
                     <p className="number-display text-[11px] text-muted-foreground">스택 {department.stackCount}</p>
                   </div>
                   <PressureBadge level={department.pressureLevel} size="sm" />
@@ -115,7 +146,7 @@ export default function DepartmentSearchPage() {
             </div>
           ) : (
             <div className="py-14 text-center">
-              <p className="text-muted-foreground">결과가 없나요?</p>
+              <p className="text-muted-foreground">검색 결과가 없습니다.</p>
               <Link
                 href="/departments/new"
                 className="mt-3 inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-card"

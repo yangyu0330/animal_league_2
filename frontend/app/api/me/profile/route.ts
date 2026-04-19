@@ -15,6 +15,7 @@ function resolveUserName(email: string, metadataName?: string, metadataFullName?
 interface SavedProfileRow {
   selected_school_id: string | null
   selected_department_id?: string | null
+  selected_title_key?: string | null
 }
 
 async function saveUserProfile(
@@ -44,7 +45,7 @@ async function saveUserProfile(
     .from('app_user')
     .update(updatePayload)
     .eq('id', input.userId)
-    .select('selected_school_id, selected_department_id')
+    .select('selected_school_id, selected_department_id, selected_title_key')
     .maybeSingle()
 
   if (updateResult.error) {
@@ -63,7 +64,7 @@ async function saveUserProfile(
       nickname: input.nickname,
       ...updatePayload,
     })
-    .select('selected_school_id, selected_department_id')
+    .select('selected_school_id, selected_department_id, selected_title_key')
     .maybeSingle()
 
   if (insertResult.error?.code !== '23505') {
@@ -74,7 +75,7 @@ async function saveUserProfile(
     .from('app_user')
     .update(updatePayload)
     .eq('id', input.userId)
-    .select('selected_school_id, selected_department_id')
+    .select('selected_school_id, selected_department_id, selected_title_key')
     .maybeSingle()
 }
 
@@ -188,6 +189,7 @@ export async function PATCH(request: Request) {
       selectedSchoolName: schoolQuery.data.name,
       selectedDepartmentId: savedProfile.selected_department_id ?? null,
       selectedDepartmentName: hasDepartmentField ? departmentName : null,
+      selectedTitleKey: savedProfile.selected_title_key ?? null,
     },
   })
 }

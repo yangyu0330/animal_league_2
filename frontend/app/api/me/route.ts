@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 interface AppUserProfileRow {
   selected_school_id?: string | null
   selected_department_id?: string | null
+  selected_title_key?: string | null
 }
 
 function getFallbackName(email: string, metadataName?: string, metadataFullName?: string) {
@@ -24,7 +25,7 @@ export async function GET() {
 
   const profileQuery = await supabase
     .from('app_user')
-    .select('selected_school_id, selected_department_id')
+    .select('selected_school_id, selected_department_id, selected_title_key')
     .eq('id', user.id)
     .maybeSingle()
 
@@ -35,6 +36,7 @@ export async function GET() {
   const appUser = profileQuery.data as AppUserProfileRow | null
   const rawSelectedSchoolId = appUser?.selected_school_id ?? null
   const rawSelectedDepartmentId = appUser?.selected_department_id ?? null
+  const selectedTitleKey = appUser?.selected_title_key ?? null
 
   let selectedSchoolId: string | null = null
   let selectedSchoolName: string | null = null
@@ -86,6 +88,7 @@ export async function GET() {
       selectedSchoolName,
       selectedDepartmentId,
       selectedDepartmentName,
+      selectedTitleKey,
     },
   })
 }

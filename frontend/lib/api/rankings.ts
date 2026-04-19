@@ -1,5 +1,10 @@
 import { fetchJson } from '@/lib/api/client'
-import type { ComboRankingResponse, RankingResponse, TrendingItem } from '@/lib/types'
+import type {
+  ComboRankingResponse,
+  RankingResponse,
+  TitleRankingResponse,
+  TrendingItem,
+} from '@/lib/types'
 
 interface TrendingResponse {
   items: TrendingItem[]
@@ -23,4 +28,14 @@ export async function getTrendingDepartments(): Promise<TrendingItem[]> {
 
 export async function getComboRankings(): Promise<ComboRankingResponse> {
   return fetchJson<ComboRankingResponse>('/api/rankings/combos')
+}
+
+export async function getTitleRankings(params: {
+  scope: 'national' | 'school'
+  schoolId?: string
+}): Promise<TitleRankingResponse> {
+  const search = new URLSearchParams()
+  search.set('scope', params.scope)
+  if (params.schoolId) search.set('schoolId', params.schoolId)
+  return fetchJson<TitleRankingResponse>(`/api/rankings/titles?${search.toString()}`)
 }

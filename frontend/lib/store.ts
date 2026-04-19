@@ -73,7 +73,7 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: 'department-pressure-state-v1',
-      version: 3,
+      version: 4,
       migrate: (persistedState) => {
         const state = persistedState as AppState
         const user = state?.user
@@ -82,6 +82,7 @@ export const useAppStore = create<AppState>()(
               ...user,
               selectedDepartmentId: user.selectedDepartmentId ?? null,
               selectedDepartmentName: user.selectedDepartmentName ?? null,
+              selectedTitleKey: user.selectedTitleKey ?? null,
             }
           : null
 
