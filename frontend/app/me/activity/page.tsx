@@ -160,7 +160,7 @@ export default function ActivityPage() {
           <>
             <section className="mb-5 grid grid-cols-2 gap-2">
               <div className="rounded-xl border border-border bg-card p-4">
-                <p className="text-sm text-muted-foreground">오늘 클릭 수</p>
+                <p className="text-sm text-muted-foreground">오늘 압박 수</p>
                 <p className="number-display mt-1 text-3xl font-bold text-primary">{activity.todayCount}</p>
               </div>
               <div className="rounded-xl border border-border bg-card p-4">
@@ -214,10 +214,10 @@ export default function ActivityPage() {
               <section className="mb-5 rounded-xl border border-border bg-card p-4">
                 <h2 className="text-base font-semibold text-foreground">팀 진행 현황</h2>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  내 학과 기여 클릭 {activity.myDepartmentContributionClicks.toLocaleString()}회
+                  내 학과 기여 압박 {activity.myDepartmentContributionClicks.toLocaleString()}회
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  학교 전체 클릭 {activity.schoolTotalClicks.toLocaleString()}회
+                  학교 전체 압박 {activity.schoolTotalClicks.toLocaleString()}회
                 </p>
                 {activity.schoolWar ? (
                   <p className="mt-1 text-sm text-muted-foreground">
@@ -380,7 +380,7 @@ function formatMissionProgress(mission: MissionProgress): string {
 function formatByUnit(unit: MissionUnit, value: string): string {
   switch (unit) {
     case 'click':
-      return `${value} 클릭`
+      return `${value} 압박`
     case 'combo':
       return `${value} 콤보`
     case 'rank':

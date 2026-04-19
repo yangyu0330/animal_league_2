@@ -30,37 +30,37 @@ export interface TitleMissionContext {
 
 const PERSONAL_CLICK_THRESHOLDS = [100, 300, 500, 1000, 2000, 5000, 10000, 15000, 20000]
 const PERSONAL_CLICK_LABELS = [
-  'Pressure Bronze',
-  'Pressure Silver',
-  'Pressure Gold',
-  'Pressure Platinum',
-  'Pressure Diamond',
-  'Pressure Master',
-  'Pressure Grandmaster',
-  'Pressure Challenger',
-  'Pressure Legend',
+  '압박 입문자',
+  '압박 훈련병',
+  '압박 해결사',
+  '압박 선봉장',
+  '압박 지휘관',
+  '압박 전술가',
+  '압박 돌격대장',
+  '압박 전설',
+  '압박 신화',
 ]
 
 const PERSONAL_COMBO_THRESHOLDS = [50, 100, 150, 300, 500, 1000, 1500, 3000, 5000]
 const PERSONAL_COMBO_LABELS = [
-  'Combo Bronze',
-  'Combo Silver',
-  'Combo Gold',
-  'Combo Platinum',
-  'Combo Diamond',
-  'Combo Master',
-  'Combo Grandmaster',
-  'Combo Challenger',
-  'Combo Legend',
+  '콤보 입문자',
+  '콤보 훈련병',
+  '콤보 해결사',
+  '콤보 선봉장',
+  '콤보 지휘관',
+  '콤보 전술가',
+  '콤보 돌격대장',
+  '콤보 전설',
+  '콤보 신화',
 ]
 
 const TEAM_MISSIONS: MissionDefinition[] = [
   {
     missionKey: 'team_rank_top_10',
     titleKey: 'team_rank_top_10',
-    titleLabel: 'War Vanguard I',
+    titleLabel: '전선 개척자 I',
     category: 'team',
-    description: 'Reach school top 10 with your selected department',
+    description: '선택 학과를 학교 내 TOP 10에 올리기',
     source: 'school_rank',
     targetValue: 10,
     unit: 'rank',
@@ -69,9 +69,9 @@ const TEAM_MISSIONS: MissionDefinition[] = [
   {
     missionKey: 'team_rank_top_3',
     titleKey: 'team_rank_top_3',
-    titleLabel: 'War Vanguard II',
+    titleLabel: '전선 개척자 II',
     category: 'team',
-    description: 'Reach school top 3 with your selected department',
+    description: '선택 학과를 학교 내 TOP 3에 올리기',
     source: 'school_rank',
     targetValue: 3,
     unit: 'rank',
@@ -80,9 +80,9 @@ const TEAM_MISSIONS: MissionDefinition[] = [
   {
     missionKey: 'team_rank_top_1',
     titleKey: 'team_rank_top_1',
-    titleLabel: 'War Vanguard III',
+    titleLabel: '전선 개척자 III',
     category: 'team',
-    description: 'Reach school rank #1 with your selected department',
+    description: '선택 학과를 학교 내 1위로 만들기',
     source: 'school_rank',
     targetValue: 1,
     unit: 'rank',
@@ -91,9 +91,9 @@ const TEAM_MISSIONS: MissionDefinition[] = [
   {
     missionKey: 'team_pressure_level_3',
     titleKey: 'team_pressure_level_3',
-    titleLabel: 'Alert Commander',
+    titleLabel: '경보 지휘관',
     category: 'team',
-    description: 'Push selected department to pressure level 3',
+    description: '선택 학과 압박 레벨 3 달성',
     source: 'pressure_level',
     targetValue: 3,
     unit: 'level',
@@ -102,9 +102,9 @@ const TEAM_MISSIONS: MissionDefinition[] = [
   {
     missionKey: 'team_pressure_level_6',
     titleKey: 'team_pressure_level_6',
-    titleLabel: 'Final Alarm Commander',
+    titleLabel: '최종 경보 지휘관',
     category: 'team',
-    description: 'Push selected department to pressure level 6',
+    description: '선택 학과 압박 레벨 6 달성',
     source: 'pressure_level',
     targetValue: 6,
     unit: 'level',
@@ -113,9 +113,9 @@ const TEAM_MISSIONS: MissionDefinition[] = [
   {
     missionKey: 'team_school_clicks_10000',
     titleKey: 'team_school_clicks_10000',
-    titleLabel: 'School Siege I',
+    titleLabel: '학교 공성 I',
     category: 'team',
-    description: 'School total clicks reaches 10,000',
+    description: '학교 전체 압박 수 10,000 달성',
     source: 'school_total_clicks',
     targetValue: 10000,
     unit: 'click',
@@ -124,9 +124,9 @@ const TEAM_MISSIONS: MissionDefinition[] = [
   {
     missionKey: 'team_school_clicks_20000',
     titleKey: 'team_school_clicks_20000',
-    titleLabel: 'School Siege II',
+    titleLabel: '학교 공성 II',
     category: 'team',
-    description: 'School total clicks reaches 20,000',
+    description: '학교 전체 압박 수 20,000 달성',
     source: 'school_total_clicks',
     targetValue: 20000,
     unit: 'click',
@@ -135,9 +135,9 @@ const TEAM_MISSIONS: MissionDefinition[] = [
   {
     missionKey: 'team_school_clicks_50000',
     titleKey: 'team_school_clicks_50000',
-    titleLabel: 'School Siege III',
+    titleLabel: '학교 공성 III',
     category: 'team',
-    description: 'School total clicks reaches 50,000',
+    description: '학교 전체 압박 수 50,000 달성',
     source: 'school_total_clicks',
     targetValue: 50000,
     unit: 'click',
@@ -146,9 +146,9 @@ const TEAM_MISSIONS: MissionDefinition[] = [
   {
     missionKey: 'team_school_clicks_100000',
     titleKey: 'team_school_clicks_100000',
-    titleLabel: 'School Siege IV',
+    titleLabel: '학교 공성 IV',
     category: 'team',
-    description: 'School total clicks reaches 100,000',
+    description: '학교 전체 압박 수 100,000 달성',
     source: 'school_total_clicks',
     targetValue: 100000,
     unit: 'click',
@@ -157,9 +157,9 @@ const TEAM_MISSIONS: MissionDefinition[] = [
   {
     missionKey: 'team_school_clicks_200000',
     titleKey: 'team_school_clicks_200000',
-    titleLabel: 'School Siege V',
+    titleLabel: '학교 공성 V',
     category: 'team',
-    description: 'School total clicks reaches 200,000',
+    description: '학교 전체 압박 수 200,000 달성',
     source: 'school_total_clicks',
     targetValue: 200000,
     unit: 'click',
@@ -173,7 +173,7 @@ const PERSONAL_MISSIONS: MissionDefinition[] = [
     titleKey: `personal_click_${targetValue}`,
     titleLabel: PERSONAL_CLICK_LABELS[index],
     category: 'personal' as const,
-    description: `Contribute ${targetValue.toLocaleString()} clicks to your selected department`,
+    description: `선택 학과에 압박 ${targetValue.toLocaleString()}회 기여`,
     source: 'department_clicks' as const,
     targetValue,
     unit: 'click' as const,
@@ -183,7 +183,7 @@ const PERSONAL_MISSIONS: MissionDefinition[] = [
     titleKey: `personal_combo_${targetValue}`,
     titleLabel: PERSONAL_COMBO_LABELS[index],
     category: 'personal' as const,
-    description: `Reach max combo x${targetValue.toLocaleString()}`,
+    description: `최대 콤보 x${targetValue.toLocaleString()} 달성`,
     source: 'max_combo' as const,
     targetValue,
     unit: 'combo' as const,
@@ -255,7 +255,7 @@ function buildMissionProgress(
     claimed,
     claimable,
     blockedReason: blockedByContribution
-      ? 'Contribute at least 1 accepted click to your selected department first.'
+      ? '먼저 선택 학과에 인정 압박 1회를 기록해 주세요.'
       : undefined,
   }
 }
