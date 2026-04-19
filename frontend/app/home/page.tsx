@@ -40,7 +40,6 @@ export default function HomePage() {
   const [trending, setTrending] = useState<TrendingItem[]>([])
   const [comboRankings, setComboRankings] = useState<ComboRankingItem[]>([])
   const [nationalTitleRankings, setNationalTitleRankings] = useState<TitleRankingItem[]>([])
-  const [schoolTitleRankings, setSchoolTitleRankings] = useState<TitleRankingItem[]>([])
 
   useEffect(() => {
     if (!authLoaded) return
@@ -99,14 +98,12 @@ export default function HomePage() {
           trendingItems,
           comboResponse,
           nationalTitleResponse,
-          schoolTitleResponse,
         ] = await Promise.all([
           getRankings({ scope: 'national' }),
           schoolFilter ? getRankings({ scope: 'school', schoolId: schoolFilter }) : Promise.resolve(null),
           getTrendingDepartments(),
           getComboRankings(),
           getTitleRankings({ scope: 'national' }),
-          schoolFilter ? getTitleRankings({ scope: 'school', schoolId: schoolFilter }) : Promise.resolve(null),
         ])
 
         setNationalRankings(nationalResponse.items.slice(0, 10))
@@ -114,7 +111,6 @@ export default function HomePage() {
         setTrending(trendingItems)
         setComboRankings(comboResponse.items.slice(0, 5))
         setNationalTitleRankings(nationalTitleResponse.items.slice(0, 5))
-        setSchoolTitleRankings(schoolTitleResponse?.items.slice(0, 5) ?? [])
       } catch (error) {
         const message =
           error instanceof ApiError ? '랭킹 데이터를 불러오지 못했습니다.' : '네트워크 상태를 확인해 주세요.'
@@ -264,28 +260,13 @@ export default function HomePage() {
         <section className="mb-3">
           <h2 className="text-base font-semibold text-foreground">전국 칭호 보유 TOP 5</h2>
         </section>
-        <section className="mb-7 space-y-2">
+        <section className="space-y-2">
           {nationalTitleRankings.map((item) => (
             <TitleCountCard key={item.userId} item={item} />
           ))}
           {nationalTitleRankings.length === 0 ? (
             <div className="rounded-xl border border-border bg-card p-4 text-sm text-muted-foreground">
               칭호 데이터가 아직 없습니다.
-            </div>
-          ) : null}
-        </section>
-
-        <section className="mb-3">
-          <h2 className="text-base font-semibold text-foreground">우리 학교 칭호 보유 TOP 5</h2>
-          {schoolFilter ? <p className="text-sm text-muted-foreground">{schoolName} 기준</p> : null}
-        </section>
-        <section className="space-y-2">
-          {schoolTitleRankings.map((item) => (
-            <TitleCountCard key={item.userId} item={item} />
-          ))}
-          {schoolTitleRankings.length === 0 ? (
-            <div className="rounded-xl border border-border bg-card p-4 text-sm text-muted-foreground">
-              학교 칭호 데이터가 아직 없습니다.
             </div>
           ) : null}
         </section>
